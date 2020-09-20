@@ -238,7 +238,7 @@ const Inferno = require("inferno"),
       validate(fields) {
         let valid = true;
         fields.some(f => {
-          const v = this.validateField(f, fields);
+          const v = this.validateField(f);
           if(!v.valid) {
             valid = false;
             return true;
@@ -246,8 +246,9 @@ const Inferno = require("inferno"),
         });
         return valid;
       },
-      validateField(field, fields) {
+      validateField(field) {
         const {rules = {}} = this.props,
+            fields = this.getFieldsMap(),
             {name, value} = field,
             fieldRules = rules[name];
 
@@ -296,26 +297,23 @@ const Inferno = require("inferno"),
         const {onChange} = this.props,
             {name, value} = fieldModel,
             {fields} = this.state,
-            {valid, message} = this.validateField(fieldModel, this.getFieldsMap());
-
-        let newFields = fields.map(f => {
-          if(f.name === name) {
-            return Object.assign({}, f, {
-              valid,
-              message,
+            {valid, message} = this.validateField(fieldModel, this.getFieldsMap()),
+            newFields = fields.map(f => {
+              if(f.name === name) {
+                return Object.assign({}, f, {
+                  valid,
+                  message,
+                  pristine: false,
+                  value
+                });
+              }
+              return f;
+            }),
+            newState = {
+              valid: valid ? this.validate(newFields) : false,
               pristine: false,
-              value
-            });
-          }
-          return f;
-        });
-        // console.log("New fields", newFields);
-
-        const newState = {
-          valid: valid ? this.validate(newFields) : false,
-          pristine: false,
-          fields: newFields
-        };
+              fields: newFields
+            };
         if(newState.valid) {
           newState.fields.forEach(f => {
             f.valid = true,
