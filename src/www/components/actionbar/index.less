@@ -1,0 +1,112 @@
+@actionbar-height: 63px;
+@actionbar-zindex: 110;
+
+.stage-view {
+  padding-top: @actionbar-height;
+
+  &.no-actionbar {
+    padding-top: 0;
+  }
+  /*
+  > .content {
+    padding: 20px;
+  }
+  */
+}
+
+.actionbar-container {
+  width: 100%;
+  min-height: @actionbar-height;
+  // overflow: hidden;
+
+  background-color: @toolbar-bg-color;
+  color: @toolbar-text-color;
+
+  // will only work if user-scalable=no in viewport meta tag
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: @actionbar-zindex;
+
+  padding: 0;
+  margin: 0;
+
+  will-change: transform;
+  /*
+  -webkit-transition: background-color 200ms ease, -webkit-transform 200ms ease;
+  transition: background-color 200ms ease, transform 200ms ease;
+  */
+  -webkit-transition: -webkit-transform 200ms ease;
+  transition: transform 200ms ease;
+  -webkit-transform: translate3d(0, -@actionbar-height, 0);
+  transform: translate3d(0, -@actionbar-height, 0);
+  // opacity: 0; // for android 2.3
+
+  &.show {
+    // opacity: 1; // for android 2.3
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  .actionbar {
+    padding: 0;
+    margin: 0;
+    // list-style-type: none;
+    overflow: hidden;
+    .no-select;
+    display: flex;
+    align-items: center;
+    height: @actionbar-height;
+  }
+
+  .spacer {
+    flex-grow: 1;
+  }
+
+  .action {
+    float: left;
+    display: block;
+    cursor: pointer;
+
+    // border-right: 1px solid lighten(@alt-bg-color, 9%);
+    min-width: 45px;
+    // height: @actionbar-height;
+    text-align: center;
+    position: relative;
+    user-select: none;
+    // transition: background-color 100ms ease;
+    // padding: 17px 0 14px;
+    // padding: 16px;
+
+    .border-box;
+
+    &.first {
+      padding-left: 10px;
+    }
+
+    &.active {
+      background-color: transparent;
+      color: @brand-color;
+    }
+
+    .icon, .text {
+      display: inline-block;
+      // font-size: 1em;
+      // font-weight: 300;
+    }
+
+    .icon {
+      margin-top: 1px;
+    }
+
+    .text {
+      text-transform: uppercase;
+      margin: 2px 5px;
+    }
+
+    .icon {
+      // font-size: 1.5em;
+    }
+  }
+
+}

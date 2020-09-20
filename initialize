@@ -1,0 +1,42 @@
+#!/bin/sh
+
+if [ "$1" = "clean" ] ; then
+   echo "Cleaning..."
+   rm -rf cordova-app
+   rm -rf dist
+   echo "Done!"
+   exit
+fi
+
+mkdir -p dist
+npx gulp build
+
+npx cordova create cordova-app naikus.github.io.stagestarter StageStarter --link-to=./dist
+
+# copy the existing config.xml (Note the app id and name in this file will take precedence over the
+# cordova 'create' command above)
+cp src/config.xml cordova-app
+
+# copy the resources directory (splash screen, app icon, etc.)
+# cp -r src/res cordova-app/
+
+cd cordova-app
+
+if [ "$1" != "browser" ] ; then
+  npx cordova plugin add cordova-plugin-inappbrowser
+  npx cordova plugin add cordova-plugin-statusbar
+  # npx cordova plugin add cordova-plugin-dialogs
+  # npx cordova plugin add cordova-plugin-vibration
+  npx cordova plugin add cordova-plugin-network-information
+  npx cordova plugin add cordova-plugin-whitelist
+fi
+
+
+# add the appropriate platform
+npx cordova platforms add $1
+npx cordova prepare
+
+
+# install local npm modules
+cd ..
+npm install

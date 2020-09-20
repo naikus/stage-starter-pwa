@@ -1,0 +1,273 @@
+// form controls
+@input-pad-default: 12px;
+@input-border-radius: 4px;
+
+a {
+  color: @link-color;
+}
+
+input,
+      button,
+      select,
+      textarea,
+      .button {
+   padding: @input-pad-default;
+   font-size: 1em;
+   border: 1px solid rgba(0,0,0,0.07);
+   border-radius: @input-border-radius;
+   display: block;
+   position: relative;
+   width: 100%;
+   margin: 0;
+   margin-bottom: 12px;
+   background-color: @input-bg-color;
+   color: @input-text-color;
+
+   // -webkit-appearance: caret;
+   .border-box;
+
+   &::-moz-focus-inner {
+      outline: 0;
+      border: 0;
+   }
+
+   &:focus {
+      border-bottom-color: @selected-bg-color-alt;
+      // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
+      outline: 0;
+   }
+
+   &[disabled], &.disabled {
+      background-color: desaturate(lighten(@bg-color, 5%), 5%) !important;
+   }
+
+   &.inline {
+      display: inline-block;
+      width: auto;
+   }
+}
+a.button {
+   text-decoration: none;
+}
+select {
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  background-color: @input-bg-color;
+  color: @input-text-color;
+  option {
+    background-color: @input-bg-color;
+    color: @input-text-color;
+  }
+}
+textarea {
+   min-height: 100px;
+}
+.button, input[type=button], button, input[type=reset], input[type=submit] {
+   background-color: @button-bg-color;
+   color: @button-text-color;
+   border: 1px solid rgba(0,0,0,0.07);
+   border-radius: @input-border-radius;
+   // text-transform: uppercase;
+   font-weight: 500;
+   // border-bottom-width: 1px;
+   cursor: pointer;
+   text-align: center;
+
+   .no-select;
+
+
+   &:hover {
+      background-color: darken(@button-bg-color, 5%);
+      color: @button-text-color;
+   }
+   &:focus {
+      // box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      border-color: rgba(0, 0, 0, 0.15);
+      outline: 0;
+   }
+
+   &.primary {
+     background-color: @primary-action-bg-color;
+     color: @primary-action-text-color;
+   }
+   &.primary:hover {
+     background-color: darken(@primary-action-bg-color, 5%);
+   }
+   &.primary:focus {
+     // box-shadow: 0 0 2px lighten(@primary-action-bg-color, 10%);
+     background-color: darken(@primary-action-bg-color, 5%);
+     outline: none;
+   }
+   &.primary:active, &.primary.active {
+     // border-color: darken(@primary-action-bg-color, 10%);
+     // box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
+     background-color: darken(@primary-action-bg-color, 8%);
+     color: @primary-action-text-color;
+   }
+
+   &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
+     box-shadow: none !important;
+     border-color: rgba(0,0,0,0.1) !important;
+     color: darken(@button-text-color, 45%) !important;
+     cursor: not-allowed;
+   }
+
+   /*
+   &.secondary {
+     background-color: @secondary-action-color;
+     color: @secondary-text-color;
+   }
+   &.secondary:hover {
+     background-color: darken(@secondary-action-color, 5%);
+   }
+   &.secondary:focus {
+     box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
+     outline: none;
+   }
+   &.secondary:active, &.secondary.active {
+     border-color: darken(@secondary-action-color, 15%);
+     box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
+     background-color: darken(@secondary-action-color, 5%);
+   }
+   */
+
+}
+label {
+  display: block;
+  padding: 3px 0;
+  // font-weight: bolder;
+
+  span {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+input[type=range] {
+  padding: 0;
+  -webkit-appearance: none;
+  // margin: 0;
+  background-color: transparent;
+  border: none;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: rgba(0,0,0,0.07);
+  }
+  &:-moz-focusring {
+    outline: 0;
+  }
+}
+
+.track-style {
+  -webkit-appearance: none;
+  background: rgba(0,0,0,0.2);
+  padding: 0;
+  height: 5px;
+  outline: none;
+}
+.thumb-style {
+  -webkit-appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background-color: @selected-bg-color;
+  margin-top: -0.6em;
+  border: none;
+}
+
+/* Three different definitions are required for each browser */
+input[type=range] {
+  &::-moz-range-track {
+    .track-style;
+  }
+
+  &::-moz-range-thumb {
+    .thumb-style;
+  }
+
+  &:focus::-moz-range-track {
+    outline: none;
+  }
+  &:focus::-moz-range-thumb {
+    border: 5px solid rgba(255,255,255,0.2);
+  }
+}
+
+input[type=range] {
+  &::-webkit-slider-runnable-track {
+    .track-style;
+  }
+
+  &:focus::-webkit-slider-thumb {
+    border: 5px solid rgba(255,255,255,0.2);
+  }
+  &::-webkit-slider-thumb {
+    .thumb-style;
+  }
+}
+
+input[type=range] {
+  &::-ms-track {
+    .track-style;
+  }
+  &::-ms-thumb {
+    .thumb-style;
+  }
+}
+
+.field-container {
+  padding: 10px 0;
+  .hint {
+    font-size: 0.85em;
+    font-weight: 100;
+    color: @input-hint-color;
+    margin: 4px 4px 4px 0;
+  }
+  label {
+    span {
+      display: block;
+    }
+  }
+  input, textarea, select, button {
+    margin-bottom: 5px;
+  }
+
+  &.checkbox, &.radio {
+    display: flex;
+    align-items: flex-start;
+    input {
+      width: auto;
+      height: auto;
+      margin-right: 10px;
+      order: 0;
+    }
+  }
+
+  .v-msg {
+    margin-bottom: 5px;
+  }
+
+  &.valid-false {
+    input, textarea, select {
+      border-bottom-color: @invalid-color;
+    }
+    .v-msg {
+      color: @invalid-color;
+    }
+  }
+  
+}
+
+.spin-button {
+  // transition: width 200ms ease, border-radius 200ms ease;
+  transition: background-color 500ms ease;
+  &.busy {
+  }
+  > .icon {
+    display: inline-block;
+    margin: 0;
+  }
+}
+
+

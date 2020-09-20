@@ -1,0 +1,50 @@
+{
+  "name": "stage-starter-inferno",
+  "version": "1.0.0",
+  "description": "A starter mobile app with stage.js and infernojs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "aniketn3@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "~7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "~7.11.0",
+    "@babel/plugin-transform-object-assign": "~7.8.3",
+    "@babel/preset-env": "~7.8.3",
+    "babel-plugin-iife-wrap": "~1.1.0",
+    "babel-plugin-inferno": "~6.1.1",
+    "babelify": "~10.0.0",
+    "browserify": "~16.5.2",
+    "browserify-shim": "~3.8.14",
+    "cordova": "~10.0.0",
+    "del": "~5.1.0",
+    "envify": "~4.1.0",
+    "eslint": "~5.1.0",
+    "eslint-config-google": "~0.9.1",
+    "eslint-plugin-promise": "~3.6.0",
+    "eslint-plugin-standard": "~3.0.1",
+    "gulp": "~4.0.2",
+    "gulp-babel": "~8.0.0",
+    "gulp-connect": "~5.7.0",
+    "gulp-less": "~4.0.1",
+    "gulp-sourcemaps": "~2.6.5",
+    "gulp-tap": "~2.0.0",
+    "gulp-terser": "~1.2.0",
+    "merge-stream": "~2.0.0",
+    "vinyl-buffer": "~1.0.1",
+    "vinyl-source-stream": "~2.0.0",
+    "workbox-sw": "~2.1.2",
+    "yargs": "~15.3.0"
+  },
+  "dependencies": {
+    "@naikus/stage": "git+https://github.com/naikus/stage.git",
+    "inferno": "~7.4.3",
+    "inferno-create-class": "~7.4.3",
+    "inferno-extras": "^7.4.3",
+    "store2": "~2.3.2",
+    "whatwg-fetch": "~2.0.2"
+  },
+  "browserify-shim": {}
+}

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="naikus.github.io.stagestarter" version="1.0.0"
+    ios-CFBundleVersion="1"
+    android-versionCode="1"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+  <name>StageStarter</name>
+  <description>A starter app for with stage and vidom</description>
+  <author email="aniketn3@gmail.com" href="https://github.com/naikus">Aniket Naik</author>
+
+  <content src="index.html" />
+  <!-- icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" / -->
+
+  <!-- ========================= Whitelist plugin configuration ================================ -->
+  <!-- plugin name="cordova-plugin-whitelist" spec="1" / -->
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="tel:*" />
+  <allow-intent href="sms:*" />
+  <allow-intent href="mailto:*" />
+  <allow-intent href="geo:*" />
+  <platform name="android">
+    <allow-intent href="market:*" />
+  </platform>
+  <platform name="ios">
+    <allow-intent href="itms:*" />
+    <allow-intent href="itms-apps:*" />
+  </platform>
+
+
+  <!-- ios only -->
+  <preference name="target-device" value="universal" />
+  <preference name="deployment-target" value="11.0" />
+
+  
+  <preference name="DisallowOverscroll" value="true" />
+  
+
+  <preference name="AllowInlineMediaPlayback" value="true" />
+  <preference name="BackupWebStorage" value="cloud" />
+  <!-- preference name="EnableViewportScale" value="false" / -->
+  <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+  <preference name="MediaPlaybackRequiresUserAction" value="false" />
+  <!-- preference name="SuppressesIncrementalRendering" value="false" / -->
+  <preference name="SuppressesLongPressGesture" value="false" />
+  <preference name="Suppresses3DTouchGesture" value="false" />
+  <preference name="GapBetweenPages" value="0" />
+  <preference name="PageLength" value="0" />
+  <preference name="PaginationBreakingMode" value="page" />
+  <preference name="PaginationMode" value="unpaginated" />
+  <feature name="LocalStorage">
+    <param name="ios-package" value="CDVLocalStorage" />
+  </feature>
+  <feature name="HandleOpenUrl">
+    <param name="ios-package" value="CDVHandleOpenURL" />
+    <param name="onload" value="true" />
+  </feature>
+  <feature name="IntentAndNavigationFilter">
+    <param name="ios-package" value="CDVIntentAndNavigationFilter" />
+    <param name="onload" value="true" />
+  </feature>
+  <feature name="GestureHandler">
+    <param name="ios-package" value="CDVGestureHandler" />
+    <param name="onload" value="true" />
+  </feature>
+  <feature name="InAppBrowser">
+    <param name="ios-package" value="CDVInAppBrowser" />
+  </feature>
+
+  <!-- preference name="Orientation" value="portrait" / -->
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" />
+    <param name="onload" value="true" />
+  </feature>
+  <preference name="StatusBarBackgroundColor" value="#2E3D4C" />
+  <preference name="StatusBarOverlaysWebView" value="false" />
+  <preference name="StatusBarStyle" value="blackopaque" />
+
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification" />
+  </feature>
+  <feature name="Vibration">
+    <param name="ios-package" value="CDVVibration" />
+  </feature>
+  <feature name="NetworkStatus">
+    <param name="ios-package" value="CDVConnection" />
+  </feature>
+
+  <!-- images are determined by width and height. The following are supported -->
+  <!-- preference name="SplashScreen" value="res/splash" />
+  <preference name="AutoHideSplashScreen" value="true" />
+  <preference name="SplashScreenDelay" value="1000" / -->
+
+
+  <!-- platform name="ios">
+    <splash height="480"  src="res/ios/splash/screen-iphone-portrait.png" width="320" />
+    <splash height="960"  src="res/ios/splash/screen-iphone-portrait-2x.png" width="640" />
+    <splash height="1024" src="res/ios/splash/screen-ipad-portrait.png" width="768" />
+    <splash height="2048" src="res/ios/splash/screen-ipad-portrait-2x.png" width="1536" />
+    <splash height="1136" src="res/ios/splash/screen-iphone-568h-2x.png" width="640" />
+    <splash height="1334" src="res/ios/splash/screen-iphone-portrait-667h.png" width="750" />
+    <splash height="2208" src="res/ios/splash/screen-iphone-portrait-736h.png" width="1242" />
+
+    iPhone 6 Plus
+    <icon src="res/ios/icons/icon-60@3x.png" width="180" height="180" />
+    <icon src="res/ios/icons/icon-60.png" width="60" height="60" />
+    <icon src="res/ios/icons/icon-60@2x.png" width="120" height="120" />
+    <icon src="res/ios/icons/icon-40.png" width="40" height="40" />
+    <icon src="res/ios/icons/icon-40@2x.png" width="80" height="80" />
+    <icon src="res/ios/icons/icon.png" width="57" height="57" />
+    <icon src="res/ios/icons/icon@2x.png" width="114" height="114" />
+    <icon src="res/ios/icons/icon-72.png" width="72" height="72" />
+    <icon src="res/ios/icons/icon-72@2x.png" width="144" height="144" />
+    <icon src="res/ios/icons/icon-small.png" width="29" height="29" />
+    <icon src="res/ios/icons/icon-small@2x.png" width="58" height="58" />
+    <icon src="res/ios/icons/icon-50.png" width="50" height="50" />
+    <icon src="res/ios/icons/icon-50@2x.png" width="100" height="100" />
+  </platform -->
+
+  <!-- hook src="../hooks/after_prepare.js" type="after_prepare" / -->
+</widget>

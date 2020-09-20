@@ -1,0 +1,205 @@
+@import "../../node_modules/@naikus/stage/src/stage.less";
+@import "font/icons/style.less";
+@import "less/common.less";
+@import "less/animations.less";
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif, sans;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  background-color: @bg-color;
+  color: @text-color;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 400;
+}
+
+/* In cordova apps this will show scrollbars whenever applicable */
+::-webkit-scrollbar {
+  width: auto;
+}
+::-webkit-scrollbar-thumb {
+  background: lighten(@alt-bg-color, 5%);
+  border-radius: 4px;
+}
+
+.stage-viewport {
+  background-color: @bg-color;
+}
+
+
+.button, button, input[type=button] {
+  text-transform: uppercase;
+}
+
+.alt-bg {
+  background-color: @alt-bg-color;
+  color: @alt-text-color;
+}
+
+.selected {
+  background-color: @selected-bg-color !important;
+  color: @selected-text-color !important;
+}
+
+.stage-view {
+  background-color: @bg-color;
+  color: @text-color;
+  // border: 3px solid rgba(0,0,0,0.15);
+
+  &.alt-bg {
+    .alt-bg;
+  }
+
+  h2 {
+    padding-bottom: 10px;
+    // border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  > .content {
+    padding: 20px 30px;
+
+    > .message {
+      margin: 5px 0;
+    }
+  }
+}
+
+@import "components/form/style.less";
+@import "components/tabs/style.less";
+.tab-panel {
+  padding: 15px;
+}
+@import "components/actionbar/index.less";
+.actionbar-container {
+  > div.actionbar {
+    /*
+    font-weight: bold;
+
+    width: 94%;
+    margin: 0 3%;
+    */
+    // border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+}
+@import "components/loading-indicator.less";
+@import "components/modal/style.less";
+
+
+/* ------------------------------------------- Sidebar ------------------------------------------ */
+.sidebar-container {
+  @easing-func: @bezier-func; //cubic-bezier(.55,0,.1,1);
+  @easing-duration: 400ms;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: @actionbar-zindex + 1;
+  display: none;
+
+
+  >.sidebar-pane {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.2);
+    opacity: 0;
+    -webkit-transition: opacity @easing-duration ease;
+    -moz-transition: opacity @easing-duration ease;
+    transition: opacity @easing-duration ease;
+    will-change: opacity;
+  }
+
+  > .sidebar {
+    .no-select;
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 275px;
+    height: 100%;
+    overflow-y: auto;
+    .translate(-101%);
+    .transition-transform(@easing-duration, @easing-func);
+    background-color: lighten(@bg-color, 8%);
+    color: darken(@text-color, 8%);
+    // border-right: 1px solid rgba(0,0,0,0.4);
+  }
+
+  &.visible {
+    display: block;
+  }
+
+  &.show {
+    >.sidebar-pane {
+      opacity: 1;
+    }
+    > .sidebar {
+      .transformNone;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+  }
+}
+.sidebar {
+  .branding {
+    min-height: 100px;
+    background-color: lighten(@bg-color, 5%);
+    // border-bottom: 4px solid darken(@brand-color, 15%);
+  }
+  .menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    > li {
+      text-transform: uppercase;
+      padding: 15px;
+      color: lighten(@text-color, 20%);
+      > .icon {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+
+/* -------------------------------------- Additional views ------------------------------------ */
+@import "views/about/style.less";
+@import "views/main/style.less";
+
+// settings
+.actionbar-container.settings {
+  // background-color: @alt-bg-color;
+  // color: @alt-text-color;
+}
+
+
+
+// /*
+.activable {
+  cursor: pointer;
+  -moz-transition: background-color 350ms ease, color 150ms ease;
+  -webkit-transition: background-color 350ms ease, color 150ms ease;
+  transition: background-color 350ms ease, color 150ms ease;
+
+  &.active {
+    background-color: @active-bg-color;
+    color: @active-text-color;
+  }
+}
+// */
+
+
+
+/* ---------------------------------------- Color Theme ----------------------------------------- */
+@import "less/color-theme.less";
