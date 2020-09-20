@@ -67,7 +67,6 @@ const {render, Fragment} = require("inferno"),
         });
       },
       sidebarAction(e) {
-        // console.log(e);
         const {onEmptyAction} = this.props;
         if(onEmptyAction) {
           onEmptyAction();

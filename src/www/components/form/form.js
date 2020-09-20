@@ -148,10 +148,10 @@ const Inferno = require("inferno"),
       },
 
       handleChange(e) {
-        const value = e.target.value, {name} = this.state, formContext = this.getFormContext();
+        const value = e.target.value, {name, label} = this.state, formContext = this.getFormContext();
         this.setState({value, pristine: false}, _ => {
           if(formContext) {
-            formContext.updateField({name, value, pristine: false});
+            formContext.updateField({name, label, value, pristine: false});
           }
         });
       },
@@ -180,8 +180,15 @@ const Inferno = require("inferno"),
         };
       },
       componentDidMount() {
-        const {mounted} = this.state;
+        const {mounted} = this.state, {onChange} = this.props;
         // console.debug("Form mounted", mounted, this.fieldModels);
+        this.setState({
+          fields: this.fieldModels || [],
+          valid: this.validate(this.fieldModels),
+          mounted: true
+        }, _ => onChange && onChange(this.getData()));
+        delete this.fieldModels;
+        /*
         if(!mounted) {
           this.setState({
             fields: this.fieldModels || [],
@@ -189,6 +196,7 @@ const Inferno = require("inferno"),
           });
           delete this.fieldModels;
         }
+        */
       },
       render() {
         const {className = "", children} = this.props;
@@ -268,14 +276,20 @@ const Inferno = require("inferno"),
         return result;
       },
       getData() {
-        const {fields, valid, pristine} = this.state;
+        const {fields, valid, pristine} = this.state,
+            [validation, data] = fields.reduce((acc, f) => {
+              const [vInfo, data] = acc,
+                  {name, value, valid, message, pristine} = f;
+              data[name] = value;
+              vInfo[name] = {valid, message, pristine};
+              return acc;
+            }, [{}, {}]);
+
         return {
           valid,
           pristine,
-          fields: fields.reduce((acc, f) => {
-            acc[f.name] = f.value;
-            return acc;
-          }, {})
+          validation,
+          data
         };
       },
       addField(fieldModel) {

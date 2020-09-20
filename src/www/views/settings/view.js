@@ -96,16 +96,17 @@ Stage.defineView({
           },
 
           handleFormChange(formModel) {
-            const {fields: newSettings, valid} = formModel;
+            const {data: newSettings, valid, validation} = formModel;
+            console.log(newSettings, validation);
             if(valid) {
-              console.log(newSettings);
+              console.log("Form valid");
               this.setState({
                 valid,
                 settings: newSettings
               });
             }else {
               console.log("Form invalid");
-              this.setState({valid});
+              this.setState({valid, setttings: newSettings});
             }
           },
           saveSettings() {
