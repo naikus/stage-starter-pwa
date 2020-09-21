@@ -70,25 +70,6 @@ const Inferno = require("inferno"),
 
     },
 
-    defaultFieldRender = (fieldModel, field, vInfo) => {
-      const {showLabel, hint, type, name, label} = field.props,
-          {valid = true, message} = vInfo,
-          messageContent = valid ? null : (<span class="v-msg hint">{message}</span>),
-          labelContent = !showLabel ? null : (
-            <div class="label">
-              <span class="title">{label}</span>
-              {hint ? <span class="hint">{hint}</span> : null}
-            </div>
-          );
-      return (
-        <label class={`field-container ${name} ${type} valid-${valid}`}>
-          {messageContent}
-          {field}
-          {labelContent}
-        </label>
-      );
-    },
-
     Field = createComponent({
       displayName: "Field",
       propTypes: {
@@ -117,8 +98,9 @@ const Inferno = require("inferno"),
         const formContext = this.getFormContext(),
             {props} = this,
             {value} = this.state,
-            {onInput, type, render} = props,
+            {onInput, type} = props,
             typeRenderer = fieldTypes[type];
+
         let newProps = props;
         if(formContext) {
           newProps = {
@@ -136,19 +118,13 @@ const Inferno = require("inferno"),
             }
           };
         }
-        const field = typeRenderer.call(this, newProps, formContext);
-        if(!render) {
-          return field;
-        }
-        return (
-          // render(this.state, field, formContext && )
-          // @TODO use render prop
-          field
-        );
+        return typeRenderer.call(this, newProps, formContext);
       },
 
       handleChange(e) {
-        const value = e.target.value, {name, label} = this.state, formContext = this.getFormContext();
+        const value = e.target.value, {name, label} = this.state,
+            formContext = this.getFormContext();
+
         this.setState({value, pristine: false}, _ => {
           if(formContext) {
             formContext.updateField({name, label, value, pristine: false});
@@ -217,7 +193,15 @@ const Inferno = require("inferno"),
                 addField: fieldModel => {
                   this.addField(fieldModel);
                 },
-                getFields: _ => this.getFieldsMap()
+                getValidationInfo: name => {
+                  const fm = this.state.fields[name];
+                  if(fm) {
+                    return {valid: fm.valid, message: fm.message};
+                  }
+                  return null;
+                },
+                getData: _ => this.getData(),
+                getFieldRender: _ => this.props.fieldRender
               }
             };
 

@@ -33,6 +33,25 @@ Stage.defineView({
           ]
         },
 
+        fieldRender = (fieldModel, field, vInfo) => {
+          const {showLabel, hint, type, name, label} = field.props,
+              {valid = true, message} = vInfo,
+              messageContent = valid ? null : (<span class="v-msg hint">{message}</span>),
+              labelContent = !showLabel ? null : (
+                <div class="label">
+                  <span class="title">{label}</span>
+                  {hint ? <span class="hint">{hint}</span> : null}
+                </div>
+              );
+          return (
+            <label class={`field-container ${name} ${type} valid-${valid}`}>
+              {messageContent}
+              {field}
+              {labelContent}
+            </label>
+          );
+        },
+
         Content = createComponent({
           getInitialState() {
             const settings = storage.get("settings") || {};
@@ -54,7 +73,9 @@ Stage.defineView({
                 <p className="message">
                   A sample form with validation
                 </p>
-                <Form rules={validationRules} onChange={this.handleFormChange.bind(this)}>
+                <Form rules={validationRules}
+                    onChange={this.handleFormChange.bind(this)}
+                    fieldRender={fieldRender}>
                   <Field type="text"
                       name="fullName"
                       value={fullName}
