@@ -234,13 +234,16 @@ input[type=range] {
   }
 
   &.checkbox, &.radio {
-    display: flex;
-    align-items: flex-start;
+    position: relative;
+    padding-left: 20px;
+
     input {
       width: auto;
       height: auto;
       margin-right: 10px;
-      order: 0;
+      position: absolute;
+      top: 12px;
+      left: 0;
     }
   }
 

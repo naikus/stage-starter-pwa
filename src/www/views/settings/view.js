@@ -33,9 +33,9 @@ Stage.defineView({
           ]
         },
 
-        fieldRender = (fieldModel, field, vInfo) => {
-          const {showLabel, hint, type, name, label} = field.props,
-              {valid = true, message} = vInfo,
+        fieldRender = (field, fieldModel) => {
+          const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
+              {valid = true, message, pristine = true} = fieldModel,
               messageContent = valid ? null : (<span class="v-msg hint">{message}</span>),
               labelContent = !showLabel ? null : (
                 <div class="label">
@@ -44,10 +44,10 @@ Stage.defineView({
                 </div>
               );
           return (
-            <label class={`field-container ${name} ${type} valid-${valid}`}>
-              {messageContent}
-              {field}
+            <label class={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
               {labelContent}
+              {field}
+              {messageContent}
             </label>
           );
         },
@@ -118,15 +118,15 @@ Stage.defineView({
 
           handleFormChange(formModel) {
             const {data: newSettings, valid, validation} = formModel;
-            console.log(newSettings, validation);
+            // console.log(newSettings, validation);
             if(valid) {
-              console.log("Form valid");
+              // console.log("Form valid");
               this.setState({
                 valid,
                 settings: newSettings
               });
             }else {
-              console.log("Form invalid");
+              // console.log("Form invalid");
               this.setState({valid, setttings: newSettings});
             }
           },

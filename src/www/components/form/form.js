@@ -118,6 +118,7 @@ const Inferno = require("inferno"),
             }
           };
         }
+        // console.log(newProps);
         return typeRenderer.call(this, newProps, formContext);
       },
 
@@ -175,10 +176,18 @@ const Inferno = require("inferno"),
         */
       },
       render() {
-        const {className = "", children} = this.props;
+        const {className = "", children, fieldRender} = this.props,
+            fieldMap = this.getFieldsMap(),
+            fields = (isArray(children) ? children : [children]).map(child => {
+              const {name, render = fieldRender} = child.props;
+              if(render) {
+                return render(child, fieldMap[name] || {}); // On first render fieldmodels can be null
+              }
+              return child;
+            });
         return (
           <form onSubmit={this.handleSubmit} className={`form ${className}`}>
-            {children}
+            {fields}
           </form>
         );
       },
