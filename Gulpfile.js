@@ -29,7 +29,12 @@ const gulp = require("gulp"),
         stream = stream
             .pipe(vbuffer())
             .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(terser())
+            .pipe(terser({
+              compress: {
+                dead_code: true,
+                drop_console: true
+              }
+            }))
             // .pipe(rename())
             .pipe(sourcemaps.write("./"))
             .on("error", errorHandler("Terser"));
