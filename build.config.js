@@ -27,12 +27,13 @@ module.exports = {
     {name: "@lib/api-client", path: "lib/api-client"},
 
     // Components
+    {name: "@components/actionbar", path: "components/actionbar"},
     {name: "@components/form", path: "components/form"},
-    {name: "@components/tabs", path: "components/tabs"},
+    {name: "@components/list", path: "components/list"},
     {name: "@components/modal", path: "components/modal"},
+    {name: "@components/tabs", path: "components/tabs"},
     {name: "@components/portal", path: "components/portal"},
-    {name: "@components/touchable", path: "components/touchable"},
-    {name: "@components/actionbar", path: "components/actionbar"}
+    {name: "@components/touchable", path: "components/touchable"}
 
     // Services
   ],

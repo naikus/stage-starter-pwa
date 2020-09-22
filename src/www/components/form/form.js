@@ -165,15 +165,6 @@ const Inferno = require("inferno"),
           mounted: true
         }, _ => onChange && onChange(this.getData()));
         delete this.fieldModels;
-        /*
-        if(!mounted) {
-          this.setState({
-            fields: this.fieldModels || [],
-            mounted: true
-          });
-          delete this.fieldModels;
-        }
-        */
       },
       render() {
         const {className = "", children, fieldRender} = this.props,
@@ -336,5 +327,5 @@ const Inferno = require("inferno"),
     });
 
 module.exports = {
-  Form, Field, registerFieldType
+  Form, Field
 };

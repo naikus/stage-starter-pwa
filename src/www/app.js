@@ -8,7 +8,6 @@ const {render, Fragment} = require("inferno"),
 
     Touchable = require("@components/touchable"),
     Activables = require("@lib/activables"),
-    {ActionBarContainer} = require("@components/actionbar"),
 
     Sidebar = createComponent({
       displayName: "Sidebar",
@@ -207,7 +206,7 @@ const {render, Fragment} = require("inferno"),
         return {
           pushView(viewId, options) {
             // @todo Check if view is allowed for the current user
-            console.log("[App]: Pusing view", viewId, options);
+            console.log("[App]: Pushing view", viewId, options);
             return stage.pushView(viewId, options);
           },
           popView(options) {

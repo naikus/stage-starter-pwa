@@ -1,6 +1,6 @@
 /* global location */
 const Stage = require("@naikus/stage"),
-    {render} = require("inferno"),
+    {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Touchable = require("@components/touchable"),
     {SpinButton, Form, Field, rb} = require("@components/form"),
@@ -143,6 +143,9 @@ Stage.defineView({
 
         renderContent = (viewOpts, done, context = {}) => {
           render(<Content options={viewOpts} />, viewUi, done, {});
+        },
+        handleTransitionOut = _ => {
+          render(null, viewUi);
         };
 
     let actionbar;
@@ -161,9 +164,7 @@ Stage.defineView({
         );
       },
       initialize(viewOpts) {
-        viewUi.addEventListener("transitionout", e => {
-          // unmount(viewUi);
-        });
+        viewUi.addEventListener("transitionout", handleTransitionOut);
       },
       activate(viewOpts, done) {
         const {fromView, viewAction} = viewOpts;

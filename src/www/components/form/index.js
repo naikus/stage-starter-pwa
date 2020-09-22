@@ -1,4 +1,4 @@
-const {Form, Field, registerFieldType} = require("./form"),
+const {Form, Field} = require("./form"),
     SpinButton = require("./spinbutton"),
     {Rules, rb} = require("./rule-builder");
 

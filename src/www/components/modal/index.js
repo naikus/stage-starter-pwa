@@ -2,6 +2,7 @@ const {createPortal} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Portal = require("@components/portal"),
     Modal = createComponent({
+        displayName: "Modal",
         getInitialState() {
           return {wasVisible: false};
         },

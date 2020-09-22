@@ -2,6 +2,7 @@ const Stage = require("@naikus/stage"),
     {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Touchable = require("@components/touchable"),
+    List = require("@components/list"),
     Modal = require("@components/modal"),
     {TabStrip, TabPanel} = require("@components/tabs"),
     {ActionBar, Action, Spacer} = require("@components/actionbar");
@@ -13,6 +14,11 @@ Stage.defineView({
     const setSidebarVisible = e => appContext.setNavVisible(true),
         showSettings = e => appContext.pushView("settings"/* , {transition: "slide"} */),
         showAbout = e => appContext.pushView("about", {transition: "slide-up"}),
+        items = [
+          {id: "0", name: "Learn Japanese"},
+          {id: "1", name: "Play guitar"},
+          {id: "2", name: "Practice LD"}
+        ],
         Content = createComponent({
           getInitialState() {
             return {};
@@ -30,9 +36,9 @@ Stage.defineView({
                     </Touchable>
                   </TabPanel>
                   <TabPanel key="tab2" icon="icon-clock" title="Tab Two">
-                    <Touchable action="tap" onAction={showSettings}>
-                      <span className="button activable inline">Settings</span>
-                    </Touchable>
+                    <List items={items} 
+                        selectedItem={items[1]}
+                        onItemSelected={item => console.log(item)} />
                   </TabPanel>
                 </TabStrip>
                 <Modal visible={showModal} className="hello">
@@ -50,13 +56,18 @@ Stage.defineView({
         },
         renderContent = (viewOpts, done, context = {}) => {
           render(<Content options={viewOpts} />, viewUi, done, {});
+        },
+        handleTransitionOut = _ => {
+          render(null, viewUi);
         };
 
     let modalVisible = false, actionbar;
 
     return {
       // Stage app lifecycle functions.
-      initialize(viewOpts) {},
+      initialize(viewOpts) {
+        viewUi.addEventListener("transitionout", handleTransitionOut);
+      },
       getActionBar() {
         return (
           <ActionBar className="main" ref={comp => actionbar = comp}>

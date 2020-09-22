@@ -12,15 +12,23 @@ Stage.defineView({
           render() {
             return (
               <div class="content text-center">
-                <p>Made using stage.js and vidom</p>
+                <p>
+                  Made using <a target="_blank" href="https://naikus.github.io/stage">stagejs</a> and <a target="_blank" href="https://infernojs.org">inferno</a>
+                </p>
                 <Touchable action="tap" onAction={goBack}>
                   <span class="button activable primary inline">OK</span>
                 </Touchable>
               </div>
             );
           }
-        });
+        }),
+        handleTransitionOut = _ => {
+          render(null, viewUi);
+        };
     return {
+      initialize(viewOpts) {
+        viewUi.addEventListener("transitionout", handleTransitionOut);
+      },
       activate(viewOpts, done) {
         render(<Content />, viewUi, done, {});
       }
