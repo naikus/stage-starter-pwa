@@ -71,11 +71,11 @@ Stage.defineView({
       getActionBar() {
         return (
           <ActionBar className="main" ref={comp => actionbar = comp}>
-            <Action className="first" text="Dashboard" />
+            <Action key="dashboard" className="first" text="Dashboard" />
             <Spacer />
-            <Action icon="icon-bell" handler={toggleModal} />
-            <Action icon="icon-settings" handler={showSettings} />
-            <Action icon="icon-help-circle" handler={showAbout} />
+            <Action key="modal" icon="icon-bell" handler={toggleModal} />
+            <Action key="settings" icon="icon-settings" handler={showSettings} />
+            <Action key="about" icon="icon-help-circle" handler={showAbout} />
           </ActionBar>
         );
       },

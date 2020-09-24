@@ -1,8 +1,10 @@
+/* global process */
 module.exports = {
   appnamespace: "starterapp",
   apiServerUrl: "",
   apiBasePath: "/api",
   // baseDir: "app",
+  appVersion: process.env.APP_VERSION,
 
   views: {
     "/main": {

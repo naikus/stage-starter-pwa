@@ -153,13 +153,13 @@ Stage.defineView({
     return {
       getActionBar() {
         // return <ActionBar ref={el => this.actionBar = el} />;
-        const back = previousView ? (<Action icon="icon-arrow-left" handler={goBack} />) : null;
+        const back = previousView ? (<Action key="back" icon="icon-arrow-left" handler={goBack} />) : null;
         return (
           <ActionBar className="settings" ref={comp => actionbar = comp}>
             {back}
-            <Action className={previousView ? "" : "first"} text="Settings" />
+            <Action key="title" className={previousView ? "" : "first"} text="Settings" />
             <Spacer />
-            <Action icon="icon-help-circle" handler={showAbout} />
+            <Action key="about" icon="icon-help-circle" handler={showAbout} />
           </ActionBar>
         );
       },

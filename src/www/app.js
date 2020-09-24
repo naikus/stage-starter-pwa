@@ -198,7 +198,7 @@ const {render, Fragment} = require("inferno"),
       defaultTransition: "lollipop",
       navItems: [
         {view: "main", title: "Home", icon: "icon-home"},
-        {view: "settings", title: "Settings", icon: "icon-settings", transition: "slide"},
+        {view: "settings", title: "Settings", icon: "icon-settings", transition: "lollipop"},
         {view: "about", title: "About", icon: "icon-help-circle", transition: "slide-up"}
       ],
       contextFactory(stage, stageOpts) {
@@ -286,7 +286,7 @@ const {render, Fragment} = require("inferno"),
       componentDidMount() {
       },
       render() {
-        const {startView = "sale"} = this.props,
+        const {startView = "settings", transition={defaultTransition}} = this.props,
             {ViewActionBar, loading, showMainNav, viewId} = this.state;
         // console.log("Render app");
         return (
@@ -294,7 +294,7 @@ const {render, Fragment} = require("inferno"),
             <StageComponent ref={comp => this.stageComponent = comp}
               viewConfig={Config.views}
               startView={startView}
-              transition={this.defaultTransition}
+              transition={transition}
               contextFactory={this.contextFactory.bind(this)}
               onViewLoadStart={this.onViewLoadStart.bind(this)}
               onViewLoadEnd={this.onViewLoadEnd.bind(this)}

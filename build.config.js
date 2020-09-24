@@ -1,6 +1,7 @@
 /* global module process require */
 const cliargs = require("yargs").argv,
-    builddir = cliargs.builddir || "./build";
+    builddir = cliargs.builddir || "./build",
+    pkg = require("./package.json");
 
 module.exports = {
   src_dir: "./src/www",
@@ -62,7 +63,8 @@ module.exports = {
         _: "purge",
         NODE_ENV: cliargs.node_env || process.env.NODE_ENV || "development",
         BRANDING: cliargs.branding || process.env.BRANDING || "default",
-        API_SERVER: cliargs.server || process.env.API_SERVER || "http://localhost"
+        API_SERVER: cliargs.server || process.env.API_SERVER || "http://localhost",
+        APP_VERSION: pkg.version
       }],
       "babelify",
       "browserify-shim"
