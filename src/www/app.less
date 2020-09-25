@@ -55,7 +55,7 @@ h1,h2,h3,h4,h5,h6 {
   }
 
   h2 {
-    padding-bottom: 10px;
+    padding-bottom: 16px;
     // border-bottom: 1px solid rgba(0,0,0,0.1);
     margin-top: 0;
     font-weight: bold;
@@ -63,10 +63,10 @@ h1,h2,h3,h4,h5,h6 {
   }
 
   > .content {
-    padding: 20px 30px;
+    padding: 16px 32px;
 
     > .message {
-      margin: 5px 0;
+      margin: 4px 0;
     }
   }
 }
@@ -75,7 +75,7 @@ h1,h2,h3,h4,h5,h6 {
 @import "components/form/style.less";
 @import "components/tabs/style.less";
 .tab-panel {
-  padding: 15px;
+  padding: 16px;
 }
 @import "components/actionbar/index.less";
 .actionbar-container {
@@ -113,7 +113,7 @@ h1,h2,h3,h4,h5,h6 {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.3);
     opacity: 0;
     -webkit-transition: opacity @easing-duration ease;
     -moz-transition: opacity @easing-duration ease;
@@ -128,13 +128,13 @@ h1,h2,h3,h4,h5,h6 {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 275px;
+    width: 320px;
     height: 100%;
     overflow-y: auto;
     .translate(-101%);
     .transition-transform(@easing-duration, @easing-func);
-    background-color: lighten(@bg-color, 8%);
-    color: darken(@text-color, 8%);
+    background-color: @alt-bg-color;
+    color: @alt-text-color;
     // border-right: 1px solid rgba(0,0,0,0.4);
   }
 
@@ -155,7 +155,7 @@ h1,h2,h3,h4,h5,h6 {
 .sidebar {
   .branding {
     min-height: 100px;
-    background-color: lighten(@bg-color, 5%);
+    background-color: lighten(@alt-bg-color, 2%);
     // border-bottom: 4px solid darken(@brand-color, 15%);
   }
   .menu {
@@ -164,10 +164,10 @@ h1,h2,h3,h4,h5,h6 {
     padding: 0;
     > li {
       text-transform: uppercase;
-      padding: 15px;
+      padding: 16px;
       color: lighten(@text-color, 20%);
       > .icon {
-        margin-right: 10px;
+        margin-right: 12px;
       }
     }
   }

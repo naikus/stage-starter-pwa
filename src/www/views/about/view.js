@@ -16,7 +16,7 @@ Stage.defineView({
                   Made using <a target="_blank" href="https://naikus.github.io/stage">stagejs</a> and <a target="_blank" href="https://infernojs.org">inferno</a>
                 </p>
                 <Touchable action="tap" onAction={goBack}>
-                  <span class="button activable primary inline">OK</span>
+                  <span class="button activable inline">OK</span>
                 </Touchable>
               </div>
             );
