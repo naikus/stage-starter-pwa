@@ -3,7 +3,7 @@
 if [ "$1" = "clean" ] ; then
    echo "Cleaning..."
    rm -rf cordova-app
-   rm -rf dist
+   rm -rf build
    echo "Done!"
    exit
 fi
@@ -18,7 +18,7 @@ npx cordova create cordova-app naikus.github.io.stagestarter StageStarter --link
 cp src/config.xml cordova-app
 
 # copy the resources directory (splash screen, app icon, etc.)
-# cp -r src/res cordova-app/
+cp -r src/res cordova-app/
 
 cd cordova-app
 

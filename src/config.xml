@@ -10,7 +10,7 @@
   <author email="aniketn3@gmail.com" href="https://github.com/naikus">Aniket Naik</author>
 
   <content src="index.html" />
-  <!-- icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" / -->
+  <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" />
 
   <!-- ========================= Whitelist plugin configuration ================================ -->
   <!-- plugin name="cordova-plugin-whitelist" spec="1" / -->
@@ -74,7 +74,7 @@
     <param name="ios-package" value="CDVStatusBar" />
     <param name="onload" value="true" />
   </feature>
-  <preference name="StatusBarBackgroundColor" value="#2E3D4C" />
+  <preference name="StatusBarBackgroundColor" value="#191919" />
   <preference name="StatusBarOverlaysWebView" value="false" />
   <preference name="StatusBarStyle" value="blackopaque" />
 
