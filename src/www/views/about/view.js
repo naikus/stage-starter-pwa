@@ -10,13 +10,19 @@ Stage.defineView({
     const goBack = _ => appContext.popView(),
         Content = createComponent({
           render() {
+            const {appName, appVersion} = appContext.getConfig();
             return (
-              <div class="content text-center">
+              <div className="content text-center">
+                <h3>
+                  {appName} ({appVersion})
+                </h3>
                 <p>
                   Made using <a target="_blank" href="https://naikus.github.io/stage">stagejs</a> and <a target="_blank" href="https://infernojs.org">inferno</a>
                 </p>
                 <Touchable action="tap" onAction={goBack}>
-                  <span class="button activable inline">OK</span>
+                  <span className="button activable inline">
+                    <i className="icon-arrow-left"></i> Back
+                  </span>
                 </Touchable>
               </div>
             );

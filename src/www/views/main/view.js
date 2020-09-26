@@ -3,7 +3,7 @@ const Stage = require("@naikus/stage"),
     {createClass: createComponent} = require("inferno-create-class"),
     Touchable = require("@components/touchable"),
     List = require("@components/list"),
-    Modal = require("@components/modal"),
+    Overlay = require("@components/overlay"),
     {TabStrip, TabPanel} = require("@components/tabs"),
     {ActionBar, Action, Spacer} = require("@components/actionbar");
 
@@ -12,8 +12,9 @@ Stage.defineView({
   template: `<div class="stage-view main"></div>`,
   factory(appContext, viewUi) {
     const setSidebarVisible = e => appContext.setNavVisible(true),
-        showSettings = e => appContext.pushView("settings"/* , {transition: "slide"} */),
+        showSettings = e => appContext.pushView("settings", {transition: "slide"}),
         showAbout = e => appContext.pushView("about", {transition: "slide-up"}),
+        config = appContext.getConfig(),
         items = [
           {id: "0", name: "Learn Japanese"},
           {id: "1", name: "Play guitar"},
@@ -41,11 +42,11 @@ Stage.defineView({
                         onItemSelected={item => console.log(item)} />
                   </TabPanel>
                 </TabStrip>
-                <Modal visible={showModal} className="hello">
+                <Overlay visible={showModal} className="modal hello">
                   <div className="hello-world" onClick={toggleModal}>
                     Hello World!!!
                   </div>
-                </Modal>
+                </Overlay>
               </Fragment>
             );
           }
@@ -71,7 +72,8 @@ Stage.defineView({
       getActionBar() {
         return (
           <ActionBar className="main" ref={comp => actionbar = comp}>
-            <Action key="dashboard" className="first" text="Dashboard" />
+            <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
+            <Action key="dashboard" text="Dashboard" />
             <Spacer />
             <Action key="modal" icon="icon-bell" handler={toggleModal} />
             <Action key="settings" icon="icon-settings" handler={showSettings} />

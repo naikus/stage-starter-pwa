@@ -4,7 +4,7 @@ const {render, Fragment} = require("inferno"),
     Stage = require("@naikus/stage"),
     Config = require("./config"),
     // Router = require("simple-router").default,
-    Storage = require("store2").namespace(Config.appnamespace),
+    Storage = require("store2").namespace(Config.appNamespace),
 
     Touchable = require("@components/touchable"),
     Activables = require("@lib/activables"),
@@ -330,8 +330,14 @@ function run() {
   const settings = Storage.get("settings"),
       startView = settings ? "main" : "settings";
 
+  // set document title
+  document.title = Config.appName;
+  // set favicon
+  const favElem = document.getElementById("favicon");
+  favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.svg`);
+
   render(
-    <App startView={startView} transition="slide" />,
+    <App startView={startView} transition="lollipop" />,
     document.getElementById("shell")
   );
 }

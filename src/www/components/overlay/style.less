@@ -1,0 +1,129 @@
+@overlay-padding: 16px;
+@overlay-border-radius: 8px;
+@overlay-transform: 150%;
+
+.overlay-container {
+  @bezier-func: cubic-bezier(0.19, 1, 0.22, 1);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  z-index: 999;
+  background: rgba(0,0,0,0.5);
+
+  visibility: hidden;
+  opacity: 0;
+  // transition: opacity 400ms ease-in-out;
+  animation-fill-mode: forwards;
+  animation-duration: 400ms;
+  animation-timing-function: ease-in-out;
+  animation-name: overlay_close;
+
+
+
+  > .overlay {
+    min-height: 200px;
+    padding: @overlay-padding;
+    background: @base-color;
+    color: @text-color;
+    // border: 1px solid rgba(0,0,0,0.04);
+    // border-radius: @overlay-border-radius;
+    // text-align: center;
+    
+    transform: translate3d(0, -@overlay-transform, 0);
+    // transition: transform 400ms @bezier-func 150ms;
+    animation-fill-mode: forwards;
+    animation-duration: 500ms;
+    animation-timing-function: @bezier-func;
+    animation-name: overlay_content_close;
+    // animation: overlay_content_close 400ms @bezier-func 0 1 normal forwards running;
+
+    &.bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translate3d(0, @overlay-transform, 0);
+      animation-name: overlay_bottom_content_close;
+    }
+
+    &.modal {
+      min-width: 50%;
+      margin: 8% auto;
+      border-radius: @overlay-border-radius;
+    }
+  }
+
+  &.__visible {
+    animation-name: overlay_open;
+    > .overlay {
+      animation-name: overlay_content_open;
+
+      &.bottom  {
+        animation-name: overlay_bottom_content_open;
+      }
+    }
+  }
+}
+
+@keyframes overlay_close {
+  0% {
+    visibility: visible;
+    opacity: 1;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+@keyframes overlay_open {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes overlay_content_close {
+  0% {
+    transform: none;
+  }
+  100% {
+    transform: translate3d(0, -@overlay-transform, 0);
+  }
+}
+@keyframes overlay_content_open {
+  0% {
+    transform: translate3d(0, -@overlay-transform, 0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+
+
+@keyframes overlay_bottom_content_close {
+  0% {
+    transform: none;
+  }
+  100% {
+    transform: translate3d(0, @overlay-transform, 0);
+  }
+}
+@keyframes overlay_bottom_content_open {
+  0% {
+    transform: translate3d(0, @overlay-transform, 0);
+  }
+  100% {
+    transform: none;
+  }
+}

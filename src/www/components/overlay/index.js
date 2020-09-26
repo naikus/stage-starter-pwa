@@ -1,8 +1,8 @@
 const {createPortal} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Portal = require("@components/portal"),
-    Modal = createComponent({
-        displayName: "Modal",
+    overlay = createComponent({
+        displayName: "Overlay",
         getInitialState() {
           return {wasVisible: false};
         },
@@ -13,8 +13,8 @@ const {createPortal} = require("inferno"),
           if(visible || wasVisible) {
             return (
               <Portal target={target}>
-                <div class={`modal-container ${visible ? "__visible": ""}`}>
-                  <div class={`modal ${clazz}`}>
+                <div className={`overlay-container ${visible ? "__visible": ""}`}>
+                  <div className={`overlay ${clazz}`}>
                     {children}
                   </div>
                 </div>
@@ -33,15 +33,15 @@ const {createPortal} = require("inferno"),
           }
         },
         componentDidMount() {
-          // console.log("Modal Mounted");
+          // console.log("overlay Mounted");
           if(this.props.visible) {
             this.forceUpdate();
           }
         },
         componentWillUnmount() {
-          // console.log("Modal unmounting");
+          // console.log("overlay unmounting");
         }
       },
     );
 
-module.exports = Modal;
+module.exports = overlay;

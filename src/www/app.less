@@ -90,7 +90,7 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 @import "components/loading-indicator.less";
-@import "components/modal/style.less";
+@import "components/overlay/style.less";
 
 
 /* ------------------------------------------- Sidebar ------------------------------------------ */
@@ -128,7 +128,7 @@ h1,h2,h3,h4,h5,h6 {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 320px;
+    width: 280px;
     height: 100%;
     overflow-y: auto;
     .translate(-101%);
@@ -148,7 +148,7 @@ h1,h2,h3,h4,h5,h6 {
     }
     > .sidebar {
       .transformNone;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      // box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
   }
 }
@@ -202,5 +202,7 @@ h1,h2,h3,h4,h5,h6 {
 
 
 
-/* ---------------------------------------- Color Theme ----------------------------------------- */
-@import "less/color-theme.less";
+/* ---------------------------------------- Branding ----------------------------------------- */
+// Branding related passed as globalVar through gulp build
+@import "branding/@{branding}/less/index.less";
+// @import "less/color-theme.less";
