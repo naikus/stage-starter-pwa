@@ -76,26 +76,24 @@ gulp.task("clean", cb => {
 });
 
 
-
+// Assets are defined in build.config.js
 gulp.task("copy:assets", () => {
   const src = config.src_dir,
       dist = config.build_dir;
   return gulp.src(config.assets, {base: src, cwd: src}).pipe(gulp.dest(dist));
-  /*
-  return mergeStream(
-    gulp.src(config.assets, {base: src, cwd: src}).pipe(gulp.dest(dist))
-    gulp.src([
-      src + "/*.{html, css, png, jpg}"
-    ]).pipe(gulp.dest(dist))
-  );
-  */
 });
 
 
 
 gulp.task("build:less", () => {
+  const branding = cliargs.branding || process.env.BRANDING || "default";
+  console.log(`Using ${branding} branding`);
   return gulp.src(config.src_dir + "/app.less")
-      .pipe(less())
+      .pipe(less({
+        globalVars: {
+          branding: branding
+        }
+      }))
       .pipe(gulp.dest(config.build_dir + "/css"));
 });
 

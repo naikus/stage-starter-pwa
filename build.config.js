@@ -17,6 +17,8 @@ module.exports = {
     "views/**/*",
     "!views/**/*.js",
     "!views/**/*.less",
+    "branding/**/*",
+    "!branding/**/*.less",
     "!less"
   ],
 
@@ -31,7 +33,7 @@ module.exports = {
     {name: "@components/actionbar", path: "components/actionbar"},
     {name: "@components/form", path: "components/form"},
     {name: "@components/list", path: "components/list"},
-    {name: "@components/modal", path: "components/modal"},
+    {name: "@components/overlay", path: "components/overlay"},
     {name: "@components/tabs", path: "components/tabs"},
     {name: "@components/portal", path: "components/portal"},
     {name: "@components/touchable", path: "components/touchable"}
