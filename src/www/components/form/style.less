@@ -1,6 +1,6 @@
 // form controls
-@input-padding: 16px;
-@input-border-radius: 8px;
+@input-padding: 12px;
+@input-border-radius: 4px;
 
 a {
   color: @link-color;
@@ -143,8 +143,27 @@ label {
   }
 }
 
-input[type=range] {
+
+
+
+.track-style {
+  -webkit-appearance: none;
+  background: @input-bg-color;
   padding: 0;
+  height: 5px;
+  outline: none;
+}
+.thumb-style {
+  -webkit-appearance: none;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 50%;
+  background-color: @primary-action-bg-color;
+  margin-top: -0.6em;
+  border: none;
+}
+input[type=range] {
+  padding: @input-padding 0;
   -webkit-appearance: none;
   // margin: 0;
   background-color: transparent;
@@ -158,24 +177,6 @@ input[type=range] {
     outline: 0;
   }
 }
-
-.track-style {
-  -webkit-appearance: none;
-  background: rgba(0,0,0,0.2);
-  padding: 0;
-  height: 5px;
-  outline: none;
-}
-.thumb-style {
-  -webkit-appearance: none;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 50%;
-  background-color: @selected-bg-color;
-  margin-top: -0.6em;
-  border: none;
-}
-
 /* Three different definitions are required for each browser */
 input[type=range] {
   &::-moz-range-track {
@@ -193,7 +194,6 @@ input[type=range] {
     border: 5px solid rgba(255,255,255,0.2);
   }
 }
-
 input[type=range] {
   &::-webkit-slider-runnable-track {
     .track-style;
@@ -206,7 +206,6 @@ input[type=range] {
     .thumb-style;
   }
 }
-
 input[type=range] {
   &::-ms-track {
     .track-style;
@@ -215,6 +214,9 @@ input[type=range] {
     .thumb-style;
   }
 }
+
+
+
 
 .field-container {
   padding: 10px 0;

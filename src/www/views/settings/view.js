@@ -62,12 +62,13 @@ Stage.defineView({
                 fullName: settings.fullName,
                 city: settings.city || "Pune",
                 address: settings.address,
-                agreeToTerms: true
+                agreeToTerms: true,
+                range: settings.range || 30
               }
             };
           },
           render() {
-            const {settings: {fullName, city, address, agreeToTerms}, valid, busy} = this.state;
+            const {settings: {fullName, city, address, agreeToTerms, range}, valid, busy} = this.state;
             return (
               <div className="content">
                 <p className="message">
@@ -97,6 +98,13 @@ Stage.defineView({
                       value={address}
                       label="Address"
                       data-hint="Your street address" />
+
+                  <Field type="range" name="range"
+                      min={0}
+                      max={100}
+                      data-hint="Between 0 and 100"
+                      value={range}
+                      label="Select Range" />
 
                   <Field name="agreeToTerms"
                       type="checkbox"

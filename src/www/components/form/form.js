@@ -5,6 +5,12 @@ const Inferno = require("inferno"),
     isArray = that => objToString.call(that).slice(8, -1) === "Array",
 
     fieldTypes = {
+      input(props, context) {
+        return (
+          <input type={props.type} {...props} />
+        );
+      },
+      /*
       text(props, context) {
         return (
           <input type="text" {...props} />
@@ -20,6 +26,22 @@ const Inferno = require("inferno"),
           <input type="file" {...props} />
         );
       },
+      range(props, context) {
+        return (
+          <input type="range" {...props} />
+        );
+      },
+      number(props, context) {
+        return (
+          <input type="number" {...props} />
+        );
+      },
+      date(props, context) {
+        return (
+          <input type="date" {...props} />
+        );
+      },
+      */
       checkbox(props, context) {
         return (
           <input type="checkbox" {...props} checked={props.value === true} onInput={e => {
@@ -99,7 +121,7 @@ const Inferno = require("inferno"),
             {props} = this,
             {value} = this.state,
             {onInput, type} = props,
-            typeRenderer = fieldTypes[type];
+            typeRenderer = fieldTypes[type] || fieldTypes.input;
 
         let newProps = props;
         if(formContext) {
