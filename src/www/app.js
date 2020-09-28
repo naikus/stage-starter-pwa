@@ -44,7 +44,7 @@ const {render, Fragment} = require("inferno"),
         clearTimeout(this.timeoutId);
         if(show) {
           this.setPanelVisible();
-          this.timeoutId = setTimeout(this.showSidebar.bind(this), 10);
+          this.timeoutId = setTimeout(this.showSidebar.bind(this), 50);
         }else {
           this.setPanelVisible();
           this.timeoutId = setTimeout(this.hide.bind(this), 500);

@@ -5,9 +5,9 @@ const Inferno = require("inferno"),
     isArray = that => Object.prototype.toString.call(that) === "[object Array]",
 
     TabPanel = props => {
-      const {name, children} = props;
+      const {name, children, className = ""} = props;
       return (
-        <div className="tab-panel">{children}</div>
+        <div className={`tab-panel ${className}`}>{children}</div>
       );
     },
 

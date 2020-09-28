@@ -36,7 +36,7 @@ Stage.defineView({
                       </span>
                     </Touchable>
                   </TabPanel>
-                  <TabPanel key="tab2" icon="icon-clock" title="Tab Two">
+                  <TabPanel key="tab2" className="list-panel" icon="icon-clock" title="Tab Two">
                     <List items={items} 
                         selectedItem={items[1]}
                         onItemSelected={item => console.log(item)} />

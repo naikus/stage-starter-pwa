@@ -21,7 +21,7 @@ const Inferno = require("inferno"),
         const {items,
               comparator = this.comparator,
               renderer = item => item.name,
-              className
+              className = ""
             } = this.props,
             {selectedItem} = this.state,
             renderedItems = items.map(item => {
