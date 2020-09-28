@@ -104,6 +104,7 @@ Stage.defineView({
                       max={100}
                       data-hint="Between 0 and 100"
                       value={range}
+                      step={1}
                       label="Select Range" />
 
                   <Field name="agreeToTerms"
