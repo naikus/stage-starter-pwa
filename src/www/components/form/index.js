@@ -1,4 +1,4 @@
-const {Form, Field} = require("./form"),
+const {Form, Field, fieldRender} = require("./form"),
     SpinButton = require("./spinbutton"),
     {Rules, rb} = require("./rule-builder");
 
@@ -7,5 +7,6 @@ module.exports = {
   Form,
   Field,
   Rules,
-  rb
+  rb,
+  fieldRender
 };

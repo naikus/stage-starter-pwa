@@ -3,7 +3,7 @@ const Stage = require("@naikus/stage"),
     {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Touchable = require("@components/touchable"),
-    {SpinButton, Form, Field, rb} = require("@components/form"),
+    {SpinButton, Form, Field, fieldRender, rb} = require("@components/form"),
     {ActionBar, Action, Spacer} = require("@components/actionbar");
 
 // console.log(Storage, Config, Form, Rules, rb);
@@ -33,25 +33,6 @@ Stage.defineView({
           ]
         },
 
-        fieldRender = (field, fieldModel) => {
-          const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
-              {valid = true, message, pristine = true} = fieldModel,
-              messageContent = valid ? null : (<span class="v-msg hint">{message}</span>),
-              labelContent = !showLabel ? null : (
-                <div class="label">
-                  <span class="title">{label}</span>
-                  {hint ? <span class="hint">{hint}</span> : null}
-                </div>
-              );
-          return (
-            <label class={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
-              {labelContent}
-              {field}
-              {messageContent}
-            </label>
-          );
-        },
-
         Content = createComponent({
           getInitialState() {
             const settings = storage.get("settings") || {};
@@ -63,12 +44,12 @@ Stage.defineView({
                 city: settings.city || "Pune",
                 address: settings.address,
                 agreeToTerms: true,
-                range: settings.range || 30
+                age: settings.age || 30
               }
             };
           },
           render() {
-            const {settings: {fullName, city, address, agreeToTerms, range}, valid, busy} = this.state;
+            const {settings: {fullName, city, address, agreeToTerms, age}, valid, busy} = this.state;
             return (
               <div className="content">
                 <p className="message">
@@ -99,13 +80,13 @@ Stage.defineView({
                       label="Address"
                       data-hint="Your street address" />
 
-                  <Field type="range" name="range"
-                      min={0}
-                      max={100}
-                      data-hint="Between 0 and 100"
-                      value={range}
+                  <Field type="range" name="age"
+                      min={10}
+                      max={150}
+                      data-hint="Between 10 and 150"
+                      value={age}
                       step={1}
-                      label="Select Range" />
+                      label="Your Age" />
 
                   <Field name="agreeToTerms"
                       type="checkbox"

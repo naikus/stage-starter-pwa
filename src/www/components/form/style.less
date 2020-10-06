@@ -220,11 +220,15 @@ input[type=range] {
 
 .field-container {
   padding: 10px 0;
-  .hint {
+  .hint, .value {
     font-size: 0.85em;
     font-weight: 100;
     color: @input-hint-color;
     margin: 4px 4px 4px 0;
+  }
+  .value {
+    float: right;
+    color: @text-color;
   }
   label {
     span {

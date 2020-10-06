@@ -92,6 +92,26 @@ const Inferno = require("inferno"),
 
     },
 
+    fieldRender = (field, fieldModel) => {
+      const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
+          {valid = true, message, pristine = true, value=""} = fieldModel,
+          messageContent = valid ? null : (<span className="v-msg hint">{message}</span>),
+          labelContent = !showLabel ? null : (
+            <div className="label">
+              <span className="title">{label}</span>
+              {hint ? <span className="hint">{hint}</span> : null}
+              {type === "range" ? <span className="value">{value}</span> : null}
+            </div>
+          );
+      return (
+        <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
+          {labelContent}
+          {field}
+          {messageContent}
+        </label>
+      );
+    },
+
     Field = createComponent({
       displayName: "Field",
       propTypes: {
@@ -349,5 +369,5 @@ const Inferno = require("inferno"),
     });
 
 module.exports = {
-  Form, Field
+  Form, Field, fieldRender
 };
