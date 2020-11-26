@@ -1,17 +1,27 @@
 
 const config = {
-  prefetchCacheName: "stage-pwa-1.0.0",
+  prefetchCacheName: "stage-starter-inferno-1.0.0",
   prefetchUrls: [
     "/",
     "/index.html",
 
     "/css/app.css",
 
-    "/js/app.js",
-    "/js/lib.js",
+    "/branding/default/images/favicon.svg",
+    "/branding/default/images/logo.svg",
+    "/branding/night/images/favicon.svg",
+    "/branding/night/images/logo.svg",
 
-    "/views/about.js",
-    "/views/main.html",
-    "/views/main.js"
+    "/font/icons/feather.eot",
+    "/font/icons/feather.svg",
+    "/font/icons/feather.ttf",
+    "/font/icons/feather.woff",
+
+    "/js/app.js",
+    "/js/vendor.js",
+
+    "/views/about/view.js",
+    "/views/main/view.js",
+    "/views/settings/view.js"
   ]
 };

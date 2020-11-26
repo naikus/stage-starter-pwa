@@ -206,12 +206,11 @@ const {render, Fragment} = require("inferno"),
         return {
           pushView(viewId, options) {
             // @todo Check if view is allowed for the current user
-            console.log("[App]: Pushing view", viewId, options);
+            // console.log("[App]: Pushing view", viewId, options);
             return stage.pushView(viewId, options);
           },
           popView(options) {
             // @todo Check if view is allowed for the current user
-            console.log("[App]: Popping view", options);
             return stage.popView(options);
           },
           setNavVisible(show) {
@@ -257,7 +256,6 @@ const {render, Fragment} = require("inferno"),
             controller = this.stageComponent.getViewController(viewId),
             ViewActionBar = typeof controller.getActionBar === "function" ?
               controller.getActionBar() : null;
-        // console.log("View actionbar", ViewActionBar);
         this.setState({
           viewId,
           ViewActionBar
@@ -265,7 +263,6 @@ const {render, Fragment} = require("inferno"),
       },
       onBeforeViewTransitionOut(e) {
         const {viewId} = e;
-        // console.log(e);
       },
       onViewLoadStart(e) {
         this.setState({loading: true});
@@ -288,7 +285,6 @@ const {render, Fragment} = require("inferno"),
       render() {
         const {startView = "settings", transition={defaultTransition}} = this.props,
             {ViewActionBar, loading, showMainNav, viewId} = this.state;
-        // console.log("Render app");
         return (
           <Fragment>
             <StageComponent ref={comp => this.stageComponent = comp}
@@ -320,7 +316,7 @@ const {render, Fragment} = require("inferno"),
 /**
  * Run the app
  */
-function run() {
+function initialize() {
   const activables = Activables(document);
   // Start the activables
   activables.start();
@@ -342,23 +338,24 @@ function run() {
   );
 }
 
-
-// Register the service worker
-/*
-if("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").then(
+function registerServiceWorker() {
+  if("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").then(
       registration => {
-        console.debug("Service worker registration success", registration);
+        console.log("Service worker registered", registration);
       },
       error => {
-        console.debug("Service worker registration failed", error);
+        console.error("Service worker registration failed",)
       }
     );
-  });
+  }
 }
-*/
 
 module.exports = {
-  run: run
+  run() {
+    initialize();
+    if(Config.pwa) {
+      registerServiceWorker();
+    }
+  }
 };

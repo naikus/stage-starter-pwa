@@ -1,8 +1,10 @@
-/* global fetch, caches, importScripts, self, config */
+/* global fetch, caches, importScripts, self, config, URL */
 
 importScripts("sw-config.js");
 
+
 self.addEventListener("install", event => {
+  console.log("Inside install");
   event.waitUntil(
     caches.open(config.prefetchCacheName)
         .then(cache => {
@@ -22,6 +24,7 @@ self.addEventListener("install", event => {
 
 
 self.addEventListener("activate", event => {
+  console.log("Inside activate");
   event.waitUntil(
     caches.keys()
         .then(cacheNames => {
@@ -40,10 +43,11 @@ self.addEventListener("activate", event => {
 
 
 self.addEventListener("fetch", event => {
-  const request = event.request;
+  const {request} = event, url = new URL(request.url);
+  url.search = "";
   if(request.url.startsWith(self.location.origin)) {
     event.respondWith(
-      caches.match(request).then(response => {
+      caches.match(url).then(response => {
         // console.log("Response found", request.url, response);
         if(response) {
           return response;

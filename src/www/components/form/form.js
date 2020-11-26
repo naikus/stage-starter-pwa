@@ -45,7 +45,6 @@ const Inferno = require("inferno"),
       checkbox(props, context) {
         return (
           <input type="checkbox" {...props} checked={props.value === true} onInput={e => {
-            // console.log(props.name, e.target.checked);
             props.onInput && props.onInput({
               target: {
                 value: e.target.checked
@@ -160,7 +159,6 @@ const Inferno = require("inferno"),
             }
           };
         }
-        // console.log(newProps);
         return typeRenderer.call(this, newProps, formContext);
       },
 
@@ -319,7 +317,7 @@ const Inferno = require("inferno"),
         };
       },
       addField(fieldModel) {
-        console.log(fieldModel);
+        // console.log(fieldModel);
         const {fields, mounted} = this.state;
         // This is because set state before the component is mounted does not work with inferno
         if(mounted) {
@@ -360,9 +358,7 @@ const Inferno = require("inferno"),
             f.message = "";
           });
         }
-        // console.log(newState);
         this.setState(newState, _ => {
-          // console.log("Firing onchange");
           onChange && onChange(this.getData());
         });
       }

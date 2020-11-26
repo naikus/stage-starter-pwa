@@ -66,6 +66,7 @@ module.exports = {
         NODE_ENV: cliargs.node_env || process.env.NODE_ENV || "development",
         BRANDING: cliargs.branding || process.env.BRANDING || "default",
         API_SERVER: cliargs.server || process.env.API_SERVER || "http://localhost",
+        PWA: cliargs.pwa === "true" || process.env.PWA === "true",
         APP_VERSION: pkg.version
       }],
       "babelify",

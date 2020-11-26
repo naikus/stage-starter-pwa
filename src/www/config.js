@@ -11,10 +11,11 @@ module.exports = Object.assign({}, {
   appNamespace: "starterapp",
   appVersion: process.env.APP_VERSION,
 
-  apiServerUrl: "",
+  apiServerUrl: process.env.API_SERVER || "",
   apiServerPort: 7001,
   apiBasePath: "/api",
   branding: process.env.BRANDING,
+  pwa: process.env.PWA,
 
   views: {
     "/main": {
