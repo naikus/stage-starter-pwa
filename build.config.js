@@ -40,20 +40,11 @@ module.exports = {
 
     // Services
   ],
-  // /*
+
   serviceworkers: [
     "sw.js",
     "sw-config.js"
   ],
-  // */
-
-  rev: {
-    manifest: "rev-manifest.json",
-    opts: {
-      cwd: builddir,
-      merge: true // merge with the existing manifest if one exists
-    }
-  },
 
   browserify: {
     // prelude: null,
