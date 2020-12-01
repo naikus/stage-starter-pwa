@@ -19,10 +19,35 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="480" />
     <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no" />
+
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#1c1c1c" />
-    <link id="favicon" rel="icon" sizes="192x192" href="" />
+    <link id="favicon" rel="icon" href="data:image/png;base64,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" />
+
+    <!-- App manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Apple/MS related attributes -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="StagePWA">
+    <meta name="apple-mobile-web-app-title" content="StagePWA">
+    <meta name="msapplication-navbutton-color" content="#1c1c1c">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
+
+    <link rel="icon"
+        type="image/svg"
+        sizes="48x48 72x72 96x96 128x128 256x256 512x512 1024x1024"
+        href="/branding/default/images/logo.svg">
+    <link rel="apple-touch-icon"
+        type="image/svg"
+        sizes="48x48 72x72 96x96 128x128 256x256 512x512 1024x1024"
+        href="/branding/default/images/logo.svg">
+
+
     <link rel="stylesheet" type="text/css" href="css/app.css" />
   </head>
 

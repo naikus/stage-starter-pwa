@@ -10,6 +10,7 @@ module.exports = {
   test_output_dir: `${builddir}/test-results`,
 
   assets: [
+    "manifest.json",
     "*.{html, css, png, jpg}",
     "css/**/*",
     "font/**/*",
