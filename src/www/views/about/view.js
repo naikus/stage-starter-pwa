@@ -8,11 +8,13 @@ Stage.defineView({
   template: `<div class="stage-view no-actionbar about"></div>`,
   factory(appContext, viewUi) {
     const goBack = _ => appContext.popView(),
+        config = appContext.getConfig(),
         Content = createComponent({
           render() {
             const {appName, appVersion} = appContext.getConfig();
             return (
               <div className="content text-center">
+                <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
                 <h3>
                   {appName} ({appVersion})
                 </h3>

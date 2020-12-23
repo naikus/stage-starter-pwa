@@ -18,6 +18,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* In cordova apps this will show scrollbars whenever applicable */
+/*
 ::-webkit-scrollbar {
   width: auto;
 }
@@ -25,6 +26,7 @@ h1,h2,h3,h4,h5,h6 {
   background: lighten(@alt-bg-color, 5%);
   border-radius: 4px;
 }
+*/
 
 .stage-viewport {
   background-color: @bg-color;
@@ -165,7 +167,7 @@ h1,h2,h3,h4,h5,h6 {
     > li {
       text-transform: uppercase;
       padding: 16px;
-      color: lighten(@text-color, 20%);
+      color: darken(@alt-text-color, 20%);
       > .icon {
         margin-right: 12px;
       }
