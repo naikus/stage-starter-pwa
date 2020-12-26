@@ -49,60 +49,69 @@ Stage.defineView({
             };
           },
           render() {
-            const {settings: {fullName, city, address, agreeToTerms, age}, valid, busy} = this.state;
+            const {settings: {fullName, city, address, agreeToTerms, age}, valid, busy} = this.state,
+                back = previousView ? (<Action key="back" icon="icon-arrow-left" handler={goBack} />) : null;
             return (
-              <div className="content">
-                <p className="message">
-                  A sample form with validation
-                </p>
-                <Form rules={validationRules}
-                    onChange={this.handleFormChange.bind(this)}
-                    fieldRender={fieldRender}>
-                  <Field type="text"
-                      name="fullName"
-                      value={fullName}
-                      label="Full Name"
-                      data-hint="Your given name and last name" />
+              <Fragment>
+                <ActionBar className="settings" ref={comp => actionbar = comp}>
+                  {back}
+                  <Action key="title" className={previousView ? "" : "first"} text="Settings" />
+                  <Spacer />
+                  <Action key="about" icon="icon-help-circle" handler={showAbout} />
+                </ActionBar>
+                <div className="content">
+                  <p className="message">
+                    A sample form with validation
+                  </p>
+                  <Form rules={validationRules}
+                      onChange={this.handleFormChange.bind(this)}
+                      fieldRender={fieldRender}>
+                    <Field type="text"
+                        name="fullName"
+                        value={fullName}
+                        label="Full Name"
+                        data-hint="Your given name and last name" />
 
-                  <Field type="select"
-                      name="city"
-                      value={city}
-                      label="City"
-                      data-hint="Choose a city">
-                    <option value="Banglore">Banglore</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Pune">Pune</option>
-                  </Field>
+                    <Field type="select"
+                        name="city"
+                        value={city}
+                        label="City"
+                        data-hint="Choose a city">
+                      <option value="Banglore">Banglore</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Pune">Pune</option>
+                    </Field>
 
-                  <Field type="textarea" name="address"
-                      value={address}
-                      label="Address"
-                      data-hint="Your street address" />
+                    <Field type="textarea" name="address"
+                        value={address}
+                        label="Address"
+                        data-hint="Your street address" />
 
-                  <Field type="range" name="age"
-                      min={10}
-                      max={150}
-                      data-hint="Between 10 and 150"
-                      value={age}
-                      step={1}
-                      label="Your Age" />
+                    <Field type="range" name="age"
+                        min={10}
+                        max={150}
+                        data-hint="Between 10 and 150"
+                        value={age}
+                        step={1}
+                        label="Your Age" />
 
-                  <Field name="agreeToTerms"
-                      type="checkbox"
-                      value={agreeToTerms}
-                      label="I agree to terms and conditions"
-                      data-hint="You must agree :D" />
-                </Form>
-                <div className="actions">
-                  <SpinButton onClick={this.saveSettings.bind(this)}
-                      className="_pull-right activable primary inline"
-                      disabled={!valid || busy}
-                      busy={busy}>
-                    Save
-                  </SpinButton>
+                    <Field name="agreeToTerms"
+                        type="checkbox"
+                        value={agreeToTerms}
+                        label="I agree to terms and conditions"
+                        data-hint="You must agree :D" />
+                  </Form>
+                  <div className="actions">
+                    <SpinButton onClick={this.saveSettings.bind(this)}
+                        className="_pull-right activable primary inline"
+                        disabled={!valid || busy}
+                        busy={busy}>
+                      Save
+                    </SpinButton>
+                  </div>
                 </div>
-              </div>
+              </Fragment>
             );
           },
 
@@ -141,18 +150,6 @@ Stage.defineView({
     let actionbar;
 
     return {
-      getActionBar() {
-        // return <ActionBar ref={el => this.actionBar = el} />;
-        const back = previousView ? (<Action key="back" icon="icon-arrow-left" handler={goBack} />) : null;
-        return (
-          <ActionBar className="settings" ref={comp => actionbar = comp}>
-            {back}
-            <Action key="title" className={previousView ? "" : "first"} text="Settings" />
-            <Spacer />
-            <Action key="about" icon="icon-help-circle" handler={showAbout} />
-          </ActionBar>
-        );
-      },
       initialize(viewOpts) {
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },

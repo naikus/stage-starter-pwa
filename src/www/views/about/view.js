@@ -34,6 +34,7 @@ Stage.defineView({
           render(null, viewUi);
         };
     return {
+      actions: false,
       initialize(viewOpts) {
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },

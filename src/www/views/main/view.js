@@ -28,6 +28,14 @@ Stage.defineView({
             const {showModal} = this.props.options;
             return (
               <Fragment>
+                <ActionBar className="main">
+                  <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
+                  <Action key="dashboard" text="Dashboard" />
+                  <Spacer />
+                  <Action key="modal" icon="icon-bell" handler={toggleModal} />
+                  <Action key="settings" icon="icon-settings" handler={showSettings} />
+                  <Action key="about" icon="icon-help-circle" handler={showAbout} />
+                </ActionBar>
                 <TabStrip>
                   <TabPanel key="tab1" icon="icon-calendar" title="Tab One">
                     <Touchable action="tap" onAction={setSidebarVisible}>
@@ -43,8 +51,8 @@ Stage.defineView({
                   </TabPanel>
                 </TabStrip>
                 <Overlay visible={showModal} className="modal hello">
-                  <div className="hello-world" onClick={toggleModal}>
-                    Hello World!!!
+                  <div className="messag" onClick={toggleModal}>
+                    You need to log in to continue
                   </div>
                 </Overlay>
               </Fragment>
@@ -68,18 +76,6 @@ Stage.defineView({
       // Stage app lifecycle functions.
       initialize(viewOpts) {
         viewUi.addEventListener("transitionout", handleTransitionOut);
-      },
-      getActionBar() {
-        return (
-          <ActionBar className="main" ref={comp => actionbar = comp}>
-            <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
-            <Action key="dashboard" text="Dashboard" />
-            <Spacer />
-            <Action key="modal" icon="icon-bell" handler={toggleModal} />
-            <Action key="settings" icon="icon-settings" handler={showSettings} />
-            <Action key="about" icon="icon-help-circle" handler={showAbout} />
-          </ActionBar>
-        );
       },
       onBackButton() {
         if(modalVisible) {
