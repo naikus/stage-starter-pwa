@@ -254,11 +254,11 @@ const {render, Fragment} = require("inferno"),
       onBeforeViewTransitionIn(e) {
         const viewId = e.viewId,
             controller = this.stageComponent.getViewController(viewId),
-            ViewActionBar = typeof controller.getActionBar === "function" ?
-              controller.getActionBar() : null;
+            viewHasActions = controller.actions !== false;
+            // ViewActionBar = typeof controller.getActionBar === "function" ? controller.getActionBar() : null;
         this.setState({
           viewId,
-          ViewActionBar
+          viewHasActions
         });
       },
       onBeforeViewTransitionOut(e) {
@@ -282,9 +282,17 @@ const {render, Fragment} = require("inferno"),
       },
       componentDidMount() {
       },
+      renderActionBar() {
+        const {viewId, viewHasActions} = this.state;
+        return (
+          <div ref={elem => this.appbarContainer = elem}
+              className={"actionbar-container " + (viewHasActions ? (viewId + " show") : "")}>
+          </div>
+        );
+      },
       render() {
         const {startView = "settings", transition={defaultTransition}} = this.props,
-            {ViewActionBar, loading, showMainNav, viewId} = this.state;
+            {loading, showMainNav} = this.state;
         return (
           <Fragment>
             <StageComponent ref={comp => this.stageComponent = comp}
@@ -296,9 +304,7 @@ const {render, Fragment} = require("inferno"),
               onViewLoadEnd={this.onViewLoadEnd.bind(this)}
               onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
             {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
-            <div className={"actionbar-container " + (ViewActionBar ? (viewId + " show") : "")}>
-              {ViewActionBar}
-            </div>
+            {this.renderActionBar()}
             <Sidebar active={showMainNav} onEmptyAction={this.setNavVisible.bind(this, false)}>
               <div className="branding">
                 {/* <img className="logo" src="images/logo.svg" alt="Logo" /> */}

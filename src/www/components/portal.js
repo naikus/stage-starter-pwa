@@ -3,11 +3,16 @@ const {createPortal} = require("inferno"),
     Portal = createComponent({
       displayName: "Portal",
       getInitialState() {
-        const {target = "body"} = this.props,
+        const {target = "body", className = "", replace = ""} = this.props,
             element = this.element = document.createElement("div");
 
-        element.setAttribute("class", "portal");
-        document.querySelector(target).appendChild(element);
+        element.setAttribute("class", className);
+        const targetElem = document.querySelector(target);
+        if(replace) {
+          const existing = targetElem.querySelector(replace);
+          existing && existing.parentNode.removeChild(existing);
+        }
+        targetElem.appendChild(element);
       },
 
       componentDidMount() {
@@ -23,9 +28,9 @@ const {createPortal} = require("inferno"),
       },
 
       componentWillUnmount() {
-        // unmountSync(this.element);
         createPortal(null, this.element);
-        this.element.parentNode.removeChild(this.element);
+        const {parentNode} = this.element;
+        parentNode && parentNode.removeChild(this.element);
       }
     });
 

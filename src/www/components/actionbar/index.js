@@ -1,5 +1,6 @@
 const Inferno = require("inferno"),
     Touchable = require("@components/touchable"),
+    Portal = require("@components/portal"),
 
     Action = (props, context) => {
       const {text, icon, handler, event = "tap", className} = props;
@@ -20,14 +21,17 @@ const Inferno = require("inferno"),
     },
     Spacer = () => (<div className="spacer"></div>),
     ActionBar = props => {
-      let {className = "", children} = props;
+      const {children, target = ".actionbar-container", className = ""} = props;
       return (
-        <div className={`actionbar ${className}`}>
+        <Portal replace=".actionbar" className={`actionbar ${className}`} target={target}>
           {children}
-        </div>
+        </Portal>
       );
     };
 
+ActionBar.displayName = "ActionBar";
+Action.displayName = "Action";
+Spacer.displayName = "Spacer";
 
 module.exports = {
   ActionBar,
