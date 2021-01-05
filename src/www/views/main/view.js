@@ -51,8 +51,13 @@ Stage.defineView({
                   </TabPanel>
                 </TabStrip>
                 <Overlay visible={showModal} className="modal hello">
-                  <div className="messag" onClick={toggleModal}>
-                    You need to log in to continue
+                  <div className="message">
+                    <p>Example overlay</p>
+                    <Touchable action="tap" onAction={toggleModal}>
+                      <span className="button activable inline">
+                        Dismiss
+                      </span>
+                    </Touchable>
                   </div>
                 </Overlay>
               </Fragment>
