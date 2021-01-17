@@ -40,10 +40,9 @@
   },
   "dependencies": {
     "@naikus/stage": "git+https://github.com/naikus/stage.git",
-    "inferno": "~7.4.3",
-    "inferno-create-class": "~7.4.3",
-    "store2": "~2.3.2",
-    "whatwg-fetch": "~2.0.2"
+    "inferno": "~7.4.7",
+    "inferno-create-class": "~7.4.7",
+    "store2": "~2.3.2"
   },
   "browserify-shim": {}
 }

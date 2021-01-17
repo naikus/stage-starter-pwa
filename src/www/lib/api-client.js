@@ -1,6 +1,8 @@
 /* global console, Promise fetch Request */
 /* jshint eqnull:true */
-require("whatwg-fetch");
+
+// Install whatwg-fetch for polyfilling and then uncomment this
+// require("whatwg-fetch");
 
 const ObjectToString = Object.prototype.toString,
     /**
