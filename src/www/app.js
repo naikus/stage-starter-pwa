@@ -225,10 +225,15 @@ const {render, Fragment} = require("inferno"),
         };
       },
       navigateTo(view, transition) {
-        this.setNavVisible(false);
-        setTimeout(_ => {
-          this.stageComponent.getViewContext().pushView(view, {transition});
-        }, 200);
+        const {showMainNav} = this.state;
+        if(showMainNav) {
+          this.setNavVisible(false);
+          setTimeout(_ => {
+            this.stageComponent.getViewContext().pushView(view, {transition});
+          }, 300);
+        }else {
+          his.stageComponent.getViewContext().pushView(view, {transition});
+        }
       },
       renderNavItems() {
         return this.navItems.map(item => {
