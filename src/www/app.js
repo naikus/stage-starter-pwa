@@ -106,6 +106,9 @@ const {render, Fragment} = require("inferno"),
       getViewContext() {
         return this.stageInstance.getViewContext();
       },
+      getViewConfig(viewId) {
+        return this.stageInstance.getViewConfig(viewId);
+      },
       getViewController(viewId) {
         return this.stageInstance.getViewController(viewId);
       },
@@ -259,8 +262,10 @@ const {render, Fragment} = require("inferno"),
       onBeforeViewTransitionIn(e) {
         const viewId = e.viewId,
             controller = this.stageComponent.getViewController(viewId),
-            showActionBar = controller.actions !== false;
+            {actionbar} = this.stageComponent.getViewConfig(viewId),
+            showActionBar = actionbar !== false;
             // ViewActionBar = typeof controller.getActionBar === "function" ? controller.getActionBar() : null;
+        // console.log("Fullscreen?", !!fullscreen);
         this.setState({
           viewId,
           showActionBar

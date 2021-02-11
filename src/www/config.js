@@ -20,10 +20,7 @@ module.exports = Object.assign({}, {
   views: {
     "/main": {
       view: "main",
-      path: "views/main/view.js",
-      config: {
-        hello: "world"
-      }
+      path: "views/main/view.js"
     },
     "/settings": {
       view: "settings",
@@ -31,7 +28,11 @@ module.exports = Object.assign({}, {
     },
     "/about": {
       view: "about",
-      path: "views/about/view.js"
+      path: "views/about/view.js",
+      config: {
+        actionbar: false,
+        fullscreen: true
+      }
     }
   }
 }, brandConfig);
