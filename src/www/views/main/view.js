@@ -10,8 +10,8 @@ const Stage = require("@naikus/stage"),
 Stage.defineView({
   id: "main",
   template: `<div class="stage-view main"></div>`,
-  factory(appContext, viewUi) {
-    const setSidebarVisible = e => appContext.setNavVisible(true),
+  factory(appContext, viewUi, viewConfig) {
+    const setSidebarVisible = e => appContext.setSidebarVisible(true),
         showSettings = e => appContext.pushView("settings", {transition: "slide"}),
         showAbout = e => appContext.pushView("about", {transition: "slide-up"}),
         config = appContext.getConfig(),
@@ -75,11 +75,12 @@ Stage.defineView({
           render(null, viewUi);
         };
 
-    let modalVisible = false, actionbar;
+    let modalVisible = false;
 
     return {
       // Stage app lifecycle functions.
       initialize(viewOpts) {
+        console.log("View configuration", viewConfig);
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },
       onBackButton() {

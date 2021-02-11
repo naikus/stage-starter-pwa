@@ -20,15 +20,18 @@ module.exports = Object.assign({}, {
   views: {
     "/main": {
       view: "main",
-      template: "views/main/view.js"
+      path: "views/main/view.js",
+      config: {
+        hello: "world"
+      }
     },
     "/settings": {
       view: "settings",
-      template: "views/settings/view.js"
+      path: "views/settings/view.js"
     },
     "/about": {
       view: "about",
-      template: "views/about/view.js"
+      path: "views/about/view.js"
     }
   }
 }, brandConfig);

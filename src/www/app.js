@@ -127,9 +127,9 @@ const {render, Fragment} = require("inferno"),
         this.registerListeners();
 
         // Register all the routes
-        Object.keys(viewConfig).forEach(path => {
-          const {view, template} = viewConfig[path];
-          Stage.view(view, template);
+        Object.keys(viewConfig).forEach(rPath => {
+          const {view, path, config} = viewConfig[rPath];
+          Stage.view(view, path, config);
         });
         if(startView) {
           stageInstance.getViewContext().pushView(startView, {});
@@ -213,8 +213,8 @@ const {render, Fragment} = require("inferno"),
             // @todo Check if view is allowed for the current user
             return stage.popView(options);
           },
-          setNavVisible(show) {
-            self.setNavVisible(show);
+          setSidebarVisible(show) {
+            self.setSidebarVisible(show);
           },
           getConfig() {
             return Config
@@ -225,9 +225,9 @@ const {render, Fragment} = require("inferno"),
         };
       },
       navigateTo(view, transition) {
-        const {showMainNav} = this.state;
-        if(showMainNav) {
-          this.setNavVisible(false);
+        const {showSidebar} = this.state;
+        if(showSidebar) {
+          this.setSidebarVisible(false);
           setTimeout(_ => {
             this.stageComponent.getViewContext().pushView(view, {transition});
           }, 300);
@@ -251,19 +251,19 @@ const {render, Fragment} = require("inferno"),
           );
         });
       },
-      setNavVisible(visible) {
-        this.setState({showMainNav: visible === false ? false : true});
+      setSidebarVisible(visible) {
+        this.setState({showSidebar: visible === false ? false : true});
       },
 
       // Stage event listeners
       onBeforeViewTransitionIn(e) {
         const viewId = e.viewId,
             controller = this.stageComponent.getViewController(viewId),
-            viewHasActions = controller.actions !== false;
+            showActionBar = controller.actions !== false;
             // ViewActionBar = typeof controller.getActionBar === "function" ? controller.getActionBar() : null;
         this.setState({
           viewId,
-          viewHasActions
+          showActionBar
         });
       },
       onBeforeViewTransitionOut(e) {
@@ -280,24 +280,24 @@ const {render, Fragment} = require("inferno"),
       // Lifecycle methods
       getInitialState() {
         return {
-          ViewActionBar: null,
           loading: false,
-          showMainNav: false
+          showSidebar: false,
+          showActionBar: true,
         };
       },
       componentDidMount() {
       },
       renderActionBar() {
-        const {viewId, viewHasActions} = this.state;
+        const {viewId, showActionBar} = this.state;
         return (
           <div ref={elem => this.appbarContainer = elem}
-              className={"actionbar-container " + (viewHasActions ? (viewId + " show") : "")}>
+              className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}>
           </div>
         );
       },
       render() {
         const {startView = "settings", transition={defaultTransition}} = this.props,
-            {loading, showMainNav} = this.state;
+            {loading, showSidebar} = this.state;
         return (
           <Fragment>
             <StageComponent ref={comp => this.stageComponent = comp}
@@ -310,7 +310,7 @@ const {render, Fragment} = require("inferno"),
               onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
             {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
             {this.renderActionBar()}
-            <Sidebar active={showMainNav} onEmptyAction={this.setNavVisible.bind(this, false)}>
+            <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
                 {/* <img className="logo" src="images/logo.svg" alt="Logo" /> */}
               </div>
@@ -334,14 +334,13 @@ function initialize() {
   window.addEventListener("unload", event => {
     activables.stop();
   });
-  const settings = Storage.get("settings"),
-      startView = settings ? "main" : "settings";
+  const startView = "main";
 
   // set document title
   document.title = Config.appName;
   // set favicon
   const favElem = document.getElementById("favicon");
-  favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.svg`);
+  favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.png`);
 
   render(
     <App startView={startView} transition="lollipop" />,
