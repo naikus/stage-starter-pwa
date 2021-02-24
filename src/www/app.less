@@ -57,24 +57,81 @@ h1,h2,h3,h4,h5,h6 {
   }
 
   h2 {
-    padding-bottom: 16px;
+    padding: 32px 16px;
     // border-bottom: 1px solid rgba(0,0,0,0.1);
     margin-top: 0;
     font-weight: bold;
     text-transform: uppercase;
+    // background-color: rgba(0,0,0,0.05);
+    border-radius: 16px;
+    // min-height: 300px;
   }
 
   > .content {
-    padding: 16px 32px;
+    padding: 16px;
 
     > .message {
       margin: 4px 0;
+    }
+
+    > .content-empty {
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px;
+      .icon {
+        font-size: 5em;
+        color: fade(@text-color, 50%);
+        padding: 32px;
+        border-radius: 50%;
+        background-color: rgba(0,0,0,0.04);
+        & when (@branding = night) {
+          background-color: rgba(0,0,0,0.3);
+        }
+      }
+      .text {
+        font-size: 1em;
+        text-align: center;
+        color: fade(@text-color, 90%);
+      }
+    }
+
+    > article {
+      padding: 16px;
+      background-color: lighten(@bg-color, 2%);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      box-shadow: 0 0 10px 0 rgba(0,0,0,0.05);
+      /*
+      & when (@branding = night) {
+        background-color: lighten(@bg-color, 2%);
+      }
+      */
     }
   }
 }
 
 @import "components/list/style.less";
+
 @import "components/form/style.less";
+/*
+.field-container {
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background: lighten(@bg-color, 10%);
+  & when (@branding = night) {
+    background: rgba(0,0,0,0.3);
+  }
+  .label {
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+}
+*/
+
 @import "components/tabs/style.less";
 .tab-panel {
   padding: 16px;
@@ -131,14 +188,14 @@ h1,h2,h3,h4,h5,h6 {
     left: 0;
     bottom: 0;
     width: 85%;
-    max-width: 320px;
+    max-width: 250px;
     height: 100%;
     overflow-y: auto;
     .translate(-101%);
     .transition-transform(@easing-duration, @easing-func);
     background-color: @alt-bg-color;
     color: @alt-text-color;
-    // border-right: 1px solid rgba(0,0,0,0.4);
+    // box-shadow: 0px 0 5px 0px rgba(0,0,0,0.2);
   }
 
   &.visible {
@@ -168,9 +225,77 @@ h1,h2,h3,h4,h5,h6 {
     > li {
       text-transform: uppercase;
       padding: 16px;
-      color: darken(@alt-text-color, 20%);
+      // color: darken(@alt-text-color, 20%);
       > .icon {
         margin-right: 12px;
+      }
+    }
+  }
+}
+
+
+/* ---------------------------------------- Bottom Navigation ----------------------------------- */
+@bottombar-height: 64px;
+.stage-view {
+  > .content {
+    padding-bottom: @bottombar-height + 16px;
+
+    .actions {
+      overflow: auto;
+    }
+  }
+}
+.bottom-bar {
+  height: @bottombar-height;
+  position: absolute;
+  bottom: 0;
+  left: 2%;
+  padding: 8px;
+  z-index: @actionbar-zindex;
+  width: 96%;
+  background-color: lighten(@bg-color, 5%);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid darken(@bg-color, 2%);
+  box-shadow: 0 0 10px 2px rgba(0,0,0,0.02);
+
+  & when (@branding = night) {
+    border: none;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,0.08);
+  }
+
+  display: flex;
+  /*
+  -webkit-transition: opacity 500ms ease, -webkit-transform 500ms ease;
+  transition: opacity 500ms ease, transform 500ms ease;
+  */
+  -webkit-transition: -webkit-transform 400ms ease;
+  transition: transform 400ms ease;
+  // opacity: 0;
+  -webkit-transform: translate3d(0, @actionbar-height + 12px, 0);
+  transform: translate3d(0, @actionbar-height + 12px, 0);
+
+  &.show {
+    // opacity: 1; // for android 2.3
+    // display: block;
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  .item {
+    flex: 1;
+    padding: 14px 12px 10px;
+    border-radius: 12px;
+    text-align: center;
+
+    .icon {
+      font-size: 1.3em;
+    }
+
+    &.active {
+      // background-color: transparent;
+      .icon {
+        color: @brand-color;
       }
     }
   }
@@ -206,6 +331,6 @@ h1,h2,h3,h4,h5,h6 {
 
 
 /* ---------------------------------------- Branding ----------------------------------------- */
+// @button-border-radius: 30px;
 // Branding related passed as globalVar through gulp build
 @import "branding/@{branding}/less/index.less";
-// @import "less/color-theme.less";

@@ -86,10 +86,10 @@ const {render, Fragment} = require("inferno"),
 
     StageComponent = createComponent({
       componentDidMount() {
-        this.setupStage();
         document.addEventListener("deviceready", e => {
           this.setupBackButton();
         });
+        this.setupStage();
       },
       render() {
         return (
@@ -131,8 +131,8 @@ const {render, Fragment} = require("inferno"),
 
         // Register all the routes
         Object.keys(viewConfig).forEach(rPath => {
-          const {view, path, config} = viewConfig[rPath];
-          Stage.view(view, path, config);
+          const {view, path: viewPath, config} = viewConfig[rPath];
+          Stage.view(view, viewPath, config);
         });
         if(startView) {
           stageInstance.getViewContext().pushView(startView, {});
@@ -224,6 +224,11 @@ const {render, Fragment} = require("inferno"),
           },
           getLocalStorage() {
             return Storage;
+          },
+          showBottomBar(bShow = true) {
+            self.setState({
+              fullscreen: !bShow
+            });
           }
         };
       },
@@ -235,10 +240,10 @@ const {render, Fragment} = require("inferno"),
             this.stageComponent.getViewContext().pushView(view, {transition});
           }, 300);
         }else {
-          his.stageComponent.getViewContext().pushView(view, {transition});
+          this.stageComponent.getViewContext().pushView(view, {transition});
         }
       },
-      renderNavItems() {
+      renderSidebarItems() {
         return this.navItems.map(item => {
           const {
             icon, title, view, transition = this.defaultTransition,
@@ -262,13 +267,14 @@ const {render, Fragment} = require("inferno"),
       onBeforeViewTransitionIn(e) {
         const viewId = e.viewId,
             controller = this.stageComponent.getViewController(viewId),
-            {actionbar} = this.stageComponent.getViewConfig(viewId),
+            {fullscreen, actionbar} = this.stageComponent.getViewConfig(viewId),
             showActionBar = actionbar !== false;
             // ViewActionBar = typeof controller.getActionBar === "function" ? controller.getActionBar() : null;
         // console.log("Fullscreen?", !!fullscreen);
         this.setState({
           viewId,
-          showActionBar
+          showActionBar,
+          fullscreen
         });
       },
       onBeforeViewTransitionOut(e) {
@@ -288,21 +294,14 @@ const {render, Fragment} = require("inferno"),
           loading: false,
           showSidebar: false,
           showActionBar: true,
+          fullscreen: true
         };
       },
       componentDidMount() {
       },
-      renderActionBar() {
-        const {viewId, showActionBar} = this.state;
-        return (
-          <div ref={elem => this.appbarContainer = elem}
-              className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}>
-          </div>
-        );
-      },
       render() {
         const {startView = "settings", transition={defaultTransition}} = this.props,
-            {loading, showSidebar} = this.state;
+            {loading, showSidebar, viewId, showActionBar, fullscreen} = this.state;
         return (
           <Fragment>
             <StageComponent ref={comp => this.stageComponent = comp}
@@ -314,13 +313,21 @@ const {render, Fragment} = require("inferno"),
               onViewLoadEnd={this.onViewLoadEnd.bind(this)}
               onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
             {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
-            {this.renderActionBar()}
+            <div className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}></div>
+            <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
+              <Touchable action="tap" onAction={this.navigateTo.bind(this, "main", this.defaultTransition)}>
+                <span className="item activable"><i className="icon icon-users" /></span>
+              </Touchable>
+              <Touchable action="tap" onAction={this.navigateTo.bind(this, "settings", this.defaultTransition)}>
+                <span className="item activable"><i className="icon icon-settings" /></span>
+              </Touchable>
+            </div>
             <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
                 {/* <img className="logo" src="images/logo.svg" alt="Logo" /> */}
               </div>
               <ul className="menu">
-                {this.renderNavItems()}
+                {this.renderSidebarItems()}
               </ul>
             </Sidebar>
             {loading ? <LoadingIndicator /> : null}
@@ -339,13 +346,14 @@ function initialize() {
   window.addEventListener("unload", event => {
     activables.stop();
   });
-  const startView = "main";
+  const settings = Storage.get("settings"),
+      startView = settings ? "main" : "settings";
 
   // set document title
   document.title = Config.appName;
   // set favicon
   const favElem = document.getElementById("favicon");
-  favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.png`);
+  favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.svg`);
 
   render(
     <App startView={startView} transition="lollipop" />,

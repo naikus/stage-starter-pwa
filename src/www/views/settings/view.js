@@ -145,13 +145,19 @@ Stage.defineView({
         },
         handleTransitionOut = _ => {
           render(null, viewUi);
-        };
+        },
+        handleBeforeTransitionIn = _ => {
+          if(!previousView) {
+            appContext.showBottomBar(false);
+          }
+        }
 
     let actionbar;
 
     return {
       initialize(viewOpts) {
         viewUi.addEventListener("transitionout", handleTransitionOut);
+        viewUi.addEventListener("beforetransitionin", handleBeforeTransitionIn);
       },
       activate(viewOpts, done) {
         const {fromView, viewAction} = viewOpts;

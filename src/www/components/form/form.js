@@ -91,7 +91,7 @@ const Inferno = require("inferno"),
 
     },
 
-    fieldRender = (field, fieldModel) => {
+    defaultFieldRender = (field, fieldModel) => {
       const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
           {valid = true, message, pristine = true, value=""} = fieldModel,
           messageContent = valid ? null : (<span className="v-msg hint">{message}</span>),
@@ -207,7 +207,7 @@ const Inferno = require("inferno"),
         delete this.fieldModels;
       },
       render() {
-        const {className = "", children, fieldRender} = this.props,
+        const {className = "", children, fieldRender = defaultFieldRender} = this.props,
             fieldMap = this.getFieldsMap(),
             fields = (isArray(children) ? children : [children]).map(child => {
               const {name, render = fieldRender} = child.props;
@@ -365,5 +365,5 @@ const Inferno = require("inferno"),
     });
 
 module.exports = {
-  Form, Field, fieldRender
+  Form, Field, fieldRender: defaultFieldRender
 };

@@ -1,6 +1,7 @@
 @overlay-padding: 16px;
 @overlay-border-radius: 4px;
 @overlay-transform: 150%;
+@overlay-bg-color: lighten(@base-color, 5%);
 
 .overlay-container {
   @bezier-func: cubic-bezier(0.19, 1, 0.22, 1);
@@ -29,7 +30,7 @@
   > .overlay {
     min-height: 200px;
     padding: @overlay-padding;
-    background: @base-color;
+    background-color: @overlay-bg-color;
     color: @text-color;
     // border: 1px solid rgba(0,0,0,0.04);
     // border-radius: @overlay-border-radius;
