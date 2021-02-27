@@ -60,9 +60,7 @@ Stage.defineView({
                   <Action key="about" icon="icon-help-circle" handler={showAbout} />
                 </ActionBar>
                 <div className="content">
-                  <p className="message">
-                    A sample form with validation
-                  </p>
+                  <p>A sample form with validation</p>
                   <Form rules={validationRules}
                       onChange={this.handleFormChange.bind(this)}
                       fieldRender={fieldRender}>

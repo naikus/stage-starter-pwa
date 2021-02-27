@@ -120,7 +120,7 @@ body {
 @import "components/list/style.less";
 
 @import "components/form/style.less";
-/*
+// /*
 .field-container {
   padding: 16px;
   margin-bottom: 16px;
@@ -131,11 +131,29 @@ body {
   }
   .label {
     text-transform: uppercase;
-    font-size: 0.9em;
-    font-weight: bold;
+    .title {
+      font-size: 0.9em;
+      font-weight: bold;
+      display: block;
+      margin: 0 0 4px;
+    }
+    .hint {
+      font-size: 0.75em;
+      margin: 4px 0 4px;
+    }
+  }
+
+  &.checkbox {
+    .label {
+      padding-left: 16px;
+    }
+    input {
+      top: 16px;
+      left: 16px;
+    }
   }
 }
-*/
+// */
 
 @import "components/tabs/style.less";
 .tab-panel {
