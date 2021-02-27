@@ -27,6 +27,10 @@ h1,h2,h3,h4,h5,h6 {
   border-radius: 4px;
 }
 */
+body {
+  // Disable annoying pull-to-refresh
+  overscroll-behavior-y: contain;
+}
 
 .stage-viewport {
   background-color: @bg-color;
@@ -51,6 +55,7 @@ h1,h2,h3,h4,h5,h6 {
   background-color: @bg-color;
   color: @text-color;
   // border: 3px solid rgba(0,0,0,0.15);
+  -webkit-overflow-scrolling: touch;
 
   &.alt-bg {
     .alt-bg;
@@ -287,6 +292,7 @@ h1,h2,h3,h4,h5,h6 {
     padding: 14px 12px 10px;
     border-radius: 12px;
     text-align: center;
+    margin: 0 4px;
 
     .icon {
       font-size: 1.3em;

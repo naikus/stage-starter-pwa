@@ -1,7 +1,7 @@
 /nbproject
 /node_modules
 /cordova-app
-/.DS_Store
+/**/.DS_Store
 /.idea
 /dist
 /build
