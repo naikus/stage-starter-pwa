@@ -37,7 +37,8 @@ module.exports = {
     {name: "@components/overlay", path: "components/overlay"},
     {name: "@components/tabs", path: "components/tabs"},
     {name: "@components/portal", path: "components/portal"},
-    {name: "@components/touchable", path: "components/touchable"}
+    {name: "@components/touchable", path: "components/touchable"},
+    {name: "@components/notification", path: "components/notification"},
 
     // Services
   ],

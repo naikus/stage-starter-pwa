@@ -13,7 +13,15 @@ Stage.defineView({
   factory(appContext, viewUi, viewConfig) {
     const setSidebarVisible = e => appContext.setSidebarVisible(true),
         showSettings = e => appContext.pushView("settings", {transition: "slide"}),
-        showAbout = e => appContext.pushView("about", {transition: "slide-up"}),
+
+        notificationTypes = ["info", "success", "error", "warn"],
+        showNotification = e => {
+          const type = Math.floor(Math.random() * notificationTypes.length)
+          appContext.showNotification({
+            type: notificationTypes[type],
+            content: `This is a example of notification of type ${notificationTypes[type]}`
+          });
+        },
         config = appContext.getConfig(),
         items = [
           {id: "0", name: "Learn Japanese"},
@@ -32,9 +40,9 @@ Stage.defineView({
                   <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
                   <Action key="dashboard" text="Dashboard" />
                   <Spacer />
-                  <Action key="modal" icon="icon-bell" handler={toggleModal} />
+                  <Action key="modal" icon="icon-box" handler={toggleModal} />
                   <Action key="settings" icon="icon-settings" handler={showSettings} />
-                  <Action key="about" icon="icon-help-circle" handler={showAbout} />
+                  <Action key="about" icon="icon-bell" handler={showNotification} />
                 </ActionBar>
                 <TabStrip>
                   <TabPanel key="tab1" icon="icon-calendar" title="Tab One">

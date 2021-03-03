@@ -8,6 +8,7 @@ const {render, Fragment} = require("inferno"),
 
     Touchable = require("@components/touchable"),
     Activables = require("@lib/activables"),
+    {Notifications} = require("@components/notification"),
 
     Sidebar = createComponent({
       displayName: "Sidebar",
@@ -229,6 +230,9 @@ const {render, Fragment} = require("inferno"),
             self.setState({
               fullscreen: !bShow
             });
+          },
+          showNotification(message) {
+            self.notifications.enqueue(message);
           }
         };
       },
@@ -261,6 +265,23 @@ const {render, Fragment} = require("inferno"),
       },
       setSidebarVisible(visible) {
         this.setState({showSidebar: visible === false ? false : true});
+      },
+
+      renderBottombar() {
+        const {fullscreen} = this.state;
+        return (
+          <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
+            <Touchable action="tap" onAction={this.navigateTo.bind(this, "main", this.defaultTransition)}>
+              <span className="item activable"><i className="icon icon-users" /></span>
+            </Touchable>
+            <Touchable action="tap" onAction={this.navigateTo.bind(this, "call", this.defaultTransition)}>
+              <span className="item activable"><i className="icon icon-video" /></span>
+            </Touchable>
+            <Touchable action="tap" onAction={this.navigateTo.bind(this, "settings", this.defaultTransition)}>
+              <span className="item activable"><i className="icon icon-settings" /></span>
+            </Touchable>
+          </div>
+        );
       },
 
       // Stage event listeners
@@ -314,14 +335,7 @@ const {render, Fragment} = require("inferno"),
               onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
             {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
             <div className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}></div>
-            <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
-              <Touchable action="tap" onAction={this.navigateTo.bind(this, "main", this.defaultTransition)}>
-                <span className="item activable"><i className="icon icon-users" /></span>
-              </Touchable>
-              <Touchable action="tap" onAction={this.navigateTo.bind(this, "settings", this.defaultTransition)}>
-                <span className="item activable"><i className="icon icon-settings" /></span>
-              </Touchable>
-            </div>
+            {this.renderBottombar()}
             <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
                 {/* <img className="logo" src="images/logo.svg" alt="Logo" /> */}
@@ -330,6 +344,7 @@ const {render, Fragment} = require("inferno"),
                 {this.renderSidebarItems()}
               </ul>
             </Sidebar>
+            <Notifications ref={comp => this.notifications = comp} />
             {loading ? <LoadingIndicator /> : null}
           </Fragment>
         );

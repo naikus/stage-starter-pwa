@@ -132,6 +132,10 @@ Stage.defineView({
             this.setState({busy: true});
             window.setTimeout(() => {
               this.setState({busy: false});
+              appContext.showNotification({
+                type: "success",
+                content: "Settings saved successfully"
+              });
               storage.set("settings", settings);
               goBack();
             }, 2000);

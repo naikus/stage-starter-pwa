@@ -16,9 +16,9 @@ const {createPortal} = require("inferno"),
       },
 
       componentDidMount() {
-        let {children = []} = this;
+        // let {children = []} = this;
         // console.log(children);
-        createPortal(children, this.element, this.context);
+        // createPortal(children, this.element, this.context);
       },
 
       render() {
