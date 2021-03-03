@@ -19,7 +19,8 @@ Stage.defineView({
           const type = Math.floor(Math.random() * notificationTypes.length)
           appContext.showNotification({
             type: notificationTypes[type],
-            content: `This is a example of notification of type ${notificationTypes[type]}`
+            content: `This is a example of notification of type ${notificationTypes[type]}`,
+            sticky: true
           });
         },
         config = appContext.getConfig(),

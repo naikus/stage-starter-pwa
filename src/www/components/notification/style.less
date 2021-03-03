@@ -4,7 +4,7 @@
     // min-height: 70px;
     width: 90%;
     left: 5%;
-    bottom: 16%;
+    bottom: 8%;
     margin: 1% auto;
     color: #fff;
     position: fixed;
@@ -15,7 +15,7 @@
     transition: transform 300ms ease, opacity 200ms ease;
     // border: 1px solid rgba(255,255,255,0.07);
     border-radius: 4px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    // box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 
     > .icon {
       font-size: 1.5em;
@@ -34,15 +34,15 @@
     }
 
     &.error {
-      background-color: @error-color;
+      background-color: fade(@error-color, 80%);
     }
     &.success {
-      background-color: @success-color;
+      background-color: fade(@success-color, 80%);
     }
     &.info {
-      background-color: @info-color;
+      background-color: fade(@info-color, 80%);
     }
     &.warn {
-      background-color: @warn-color;
+      background-color: fade(@warn-color, 80%);
     }
   }
