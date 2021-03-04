@@ -14,7 +14,7 @@ module.exports = createComponent({
     return {};
   },
   componentDidMount() {
-    const {action = EventTypes.tap, children} = this.props,
+    const {action = "tap", children} = this.props,
         event = EventTypes[action],
         child = children[0] || children;
 
