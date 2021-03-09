@@ -2,13 +2,15 @@
 const {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Stage = require("@naikus/stage"),
-    Config = require("./config"),
-    // Router = require("simple-router").default,
-    Storage = require("store2").namespace(Config.appNamespace),
 
     Touchable = require("@components/touchable"),
     Activables = require("@lib/activables"),
     {Notifications} = require("@components/notification"),
+
+    Config = require("@app/config"),
+    // Router = require("simple-router").default,
+    Storage = require("@services/storage"),
+
 
     Sidebar = createComponent({
       displayName: "Sidebar",
@@ -43,12 +45,15 @@ const {render, Fragment} = require("inferno"),
 
       setVisible(show) {
         clearTimeout(this.timeoutId);
-        if(show) {
-          this.setPanelVisible();
-          this.timeoutId = setTimeout(this.showSidebar.bind(this), 50);
-        }else {
-          this.setPanelVisible();
-          this.timeoutId = setTimeout(this.hide.bind(this), 500);
+        this.setPanelVisible();
+        if (show) {
+          this.timeoutId = setTimeout(_ => {
+            requestAnimationFrame(this.showSidebar.bind(this));
+          }, 30);
+        } else {
+          this.timeoutId = setTimeout(_ => {
+            requestAnimationFrame(this.hide.bind(this));
+          }, 350);
         }
       },
       setPanelVisible() {

@@ -41,6 +41,8 @@ module.exports = {
     {name: "@components/notification", path: "components/notification"},
 
     // Services
+    {name: "@app/config", path: "config"},
+    {name: "@services/storage", path: "services/storage"}
   ],
 
   serviceworkers: [

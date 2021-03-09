@@ -125,7 +125,7 @@ body {
   padding: 16px;
   margin-bottom: 16px;
   border-radius: 8px;
-  background: lighten(@bg-color, 10%);
+  background: lighten(@bg-color, 5%);
   & when (@branding = night) {
     background: rgba(0,0,0,0.3);
   }
@@ -178,8 +178,8 @@ body {
 
 /* ------------------------------------------- Sidebar ------------------------------------------ */
 .sidebar-container {
-  @easing-func:  @bezier-func; //cubic-bezier(.55,0,.1,1);
-  @easing-duration: 500ms;
+  @easing-func: cubic-bezier(0.4, 0.0, 0.2, 1); // cubic-bezier(0.32,0.72,0,1);
+  @easing-duration: 350ms;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -196,11 +196,11 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.3);
     opacity: 0;
-    -webkit-transition: opacity @easing-duration ease;
-    -moz-transition: opacity @easing-duration ease;
-    transition: opacity @easing-duration ease;
+    -webkit-transition: opacity (@easing-duration + 100)  ease;
+    -moz-transition: opacity (@easing-duration + 100) ease;
+    transition: opacity (@easing-duration + 100) ease;
     will-change: opacity;
   }
 
@@ -211,15 +211,15 @@ body {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 85%;
-    max-width: 250px;
+    width: 80%;
+    max-width: 350px;
     height: 100%;
     overflow-y: auto;
-    .translate(-101%);
+    .translate(-110%);
     .transition-transform(@easing-duration, @easing-func);
     background-color: @alt-bg-color;
     color: @alt-text-color;
-    // box-shadow: 0px 0 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0 16px 2px rgba(0,0,0,0.2);
   }
 
   &.visible {
@@ -247,11 +247,13 @@ body {
     margin: 0;
     padding: 0;
     > li {
-      text-transform: uppercase;
+      // text-transform: uppercase;
+      font-weight: 400;
       padding: 16px;
       // color: darken(@alt-text-color, 20%);
       > .icon {
-        margin-right: 12px;
+        margin-right: 16px;
+        font-size: 1.2em;
       }
     }
   }
