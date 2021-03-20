@@ -46,7 +46,7 @@ module.exports = createComponent({
     stopEvent(e);
     const {onAction} = this.props;
     if(!isDisabled(this.elemRef.current) && onAction) {
-      window.setTimeout(_ => onAction(e), 30);
+      window.setTimeout(_ => onAction(e), 50);
     }
   }
 });

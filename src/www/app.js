@@ -343,7 +343,9 @@ const {render, Fragment} = require("inferno"),
             {this.renderBottombar()}
             <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
-                {/* <img className="logo" src="images/logo.svg" alt="Logo" /> */}
+                <img className="profile-image" src={'branding/default/images/logo.svg'} alt={"User"} />
+                <div className="profile-name">John Doe</div>
+                <div className="profile-email">johndoe@example.com</div>
               </div>
               <ul className="menu">
                 {this.renderSidebarItems()}
