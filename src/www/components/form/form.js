@@ -3,6 +3,7 @@ const Inferno = require("inferno"),
     VALID = {valid: true, message: ""},
     objToString = Object.prototype.toString,
     isArray = that => objToString.call(that).slice(8, -1) === "Array",
+    isIos = () => /iPad|iPhone|iPod/.test(navigator.platform),
 
     fieldTypes = {
       input(props, context) {
@@ -43,25 +44,25 @@ const Inferno = require("inferno"),
       },
       */
       checkbox(props, context) {
-        return (
-          <input type="checkbox" {...props} checked={props.value === true} onInput={e => {
-            props.onInput && props.onInput({
+        const handler = e => props.onInput && props.onInput({
               target: {
                 value: e.target.checked
               }
-            });
-          }} />
+            }),
+            events = isIos() ? {onClick: handler} : {onInput: handler};
+        return (
+          <input type="checkbox" {...props} checked={props.value === true} {...events} />
         );
       },
       radio(props, context) {
-        return (
-          <input type="radio" {...props} checked={props.value === true} onInput={e => {
-            props.onInput && props.onInput({
+        const handler = e => props.onInput && props.onInput({
               target: {
                 value: e.target.checked
               }
-            });
-          }} />
+            }),
+            events = isIos() ? {onClick: handler} : {onInput: handler};
+        return (
+          <input type="radio" {...props} checked={props.value === true} {...events} />
         );
       },
       button(props, context) {
@@ -103,7 +104,7 @@ const Inferno = require("inferno"),
             </div>
           );
       return (
-        <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
+        <label for={field.id} className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
           {labelContent}
           {field}
           {messageContent}
