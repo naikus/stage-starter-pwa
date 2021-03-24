@@ -104,7 +104,7 @@ const Inferno = require("inferno"),
             </div>
           );
       return (
-        <label for={field.id} className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
+        <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
           {labelContent}
           {field}
           {messageContent}
