@@ -6,11 +6,13 @@
     xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
   <name>StageStarter</name>
-  <description>A starter app for with stage and vidom</description>
+  <description>A starter app for with stage and infernojs</description>
   <author email="aniketn3@gmail.com" href="https://github.com/naikus">Aniket Naik</author>
 
   <content src="index.html" />
-  <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" />
+  <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" platform="android" />
+  <icon src="res/ios/Assets.xcassets/AppIcon.appiconset/icon.png"
+      platform="ios" width="1024" height="1024" density="xxdhdpi" />
 
   <!-- ========================= Whitelist plugin configuration ================================ -->
   <!-- plugin name="cordova-plugin-whitelist" spec="1" / -->
@@ -42,7 +44,7 @@
   <preference name="BackupWebStorage" value="cloud" />
   <!-- preference name="EnableViewportScale" value="false" / -->
   <preference name="KeyboardDisplayRequiresUserAction" value="true" />
-  <preference name="MediaPlaybackRequiresUserAction" value="false" />
+  <preference name="MediaTypesRequiringUserActionForPlayback" value="false" />
   <!-- preference name="SuppressesIncrementalRendering" value="false" / -->
   <preference name="SuppressesLongPressGesture" value="false" />
   <preference name="Suppresses3DTouchGesture" value="false" />

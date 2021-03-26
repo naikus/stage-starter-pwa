@@ -22,6 +22,10 @@ cp -r src/res cordova-app/
 
 cd cordova-app
 
+if [ "$1" = "ios" ] ; then
+  npm install -D ios-deploy
+fi
+
 if [ "$1" != "browser" ] ; then
   npx cordova plugin add cordova-plugin-inappbrowser
   npx cordova plugin add cordova-plugin-statusbar
