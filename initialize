@@ -11,7 +11,7 @@ fi
 mkdir -p dist
 npx gulp build
 
-npx cordova create cordova-app naikus.github.io.stagestarter StageStarter --link-to=./dist
+npx cordova create cordova-app naikus.github.io.stagestarter StageStarter
 
 # copy the existing config.xml (Note the app id and name in this file will take precedence over the
 # cordova 'create' command above)
@@ -21,6 +21,8 @@ cp src/config.xml cordova-app
 cp -r src/res cordova-app/
 
 cd cordova-app
+rm -rf wwww && ln -s ../build www
+npm install -D cordova
 
 if [ "$1" = "ios" ] ; then
   npm install -D ios-deploy

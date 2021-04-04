@@ -13,9 +13,10 @@
   }
   
 }
-.modal.hello {
-  width: 85%;
-  height: 300px;
+.modal.exit {
+  // width: 85%;
+  max-width: 300px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,6 +25,10 @@
   .message {
     // margin: 20px auto;
     text-align: center;
+  }
+
+  .button {
+    margin-right: 8px;
   }
 
   & when (@branding = night) {

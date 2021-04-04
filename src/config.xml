@@ -12,7 +12,7 @@
   <content src="index.html" />
   <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" platform="android" />
   <icon src="res/ios/Assets.xcassets/AppIcon.appiconset/icon.png"
-      platform="ios" width="1024" height="1024" density="xxdhdpi" />
+      platform="ios" width="1024" height="1024" density="xxxhdpi" />
 
   <!-- ========================= Whitelist plugin configuration ================================ -->
   <!-- plugin name="cordova-plugin-whitelist" spec="1" / -->

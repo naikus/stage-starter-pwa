@@ -34,14 +34,14 @@ Stage.defineView({
             return {};
           },
           render() {
-            const {showModal} = this.props.options;
+            const {confirmExit} = this.props.options;
             return (
               <Fragment>
                 <ActionBar className="main">
                   <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
                   <Action key="dashboard" text="Dashboard" />
                   <Spacer />
-                  <Action key="modal" icon="icon-box" handler={toggleModal} />
+                  <Action key="modal" icon="icon-box" handler={showExitOverlay} />
                   <Action key="settings" icon="icon-settings" handler={showSettings} />
                   <Action key="about" icon="icon-bell" handler={showNotification} />
                 </ActionBar>
@@ -59,12 +59,17 @@ Stage.defineView({
                         onItemSelected={item => console.log(item)} />
                   </TabPanel>
                 </TabStrip>
-                <Overlay visible={showModal} className="modal hello">
+                <Overlay visible={confirmExit} className="modal exit">
                   <div className="message">
-                    <p>Example overlay</p>
-                    <Touchable action="tap" onAction={toggleModal}>
-                      <span className="button activable inline">
+                    <p>Exit Application?</p>
+                    <Touchable action="tap" onAction={closeExitOverlay}>
+                      <span className="button activable primary inline">
                         Dismiss
+                      </span>
+                    </Touchable>
+                    <Touchable action="tap" onAction={exitApp}>
+                      <span className="button activable inline">
+                        Exit
                       </span>
                     </Touchable>
                   </div>
@@ -73,9 +78,20 @@ Stage.defineView({
             );
           }
         }),
-        toggleModal = () => {
-          modalVisible = !modalVisible;
-          renderContent({showModal: modalVisible});
+        closeExitOverlay = () => {
+          overlayVisible = false;
+          renderContent({confirmExit: false});
+        },
+        showExitOverlay = () => {
+          overlayVisible = true;
+          renderContent({confirmExit: true});
+        },
+        exitApp = () => {
+          if(navigator.app) {
+            navigator.app.exitApp();
+          }else {
+            closeExitOverlay();
+          }
         },
         renderContent = (viewOpts, done, context = {}) => {
           render(<Content options={viewOpts} />, viewUi, done, {});
@@ -84,7 +100,7 @@ Stage.defineView({
           render(null, viewUi);
         };
 
-    let modalVisible = false;
+    let overlayVisible = false;
 
     return {
       // Stage app lifecycle functions.
@@ -93,10 +109,10 @@ Stage.defineView({
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },
       onBackButton() {
-        if(modalVisible) {
-          toggleModal();
+        if(overlayVisible) {
+          closeExitOverlay();
         }else {
-          navigator.app.exitApp();
+          showExitOverlay();
         }
       },
       activate(viewOpts, done) {
