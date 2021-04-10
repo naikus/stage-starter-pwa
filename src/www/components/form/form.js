@@ -89,7 +89,7 @@ const Inferno = require("inferno"),
     },
 
     registerFieldType = (type, fieldImpl) => {
-
+      fieldTypes[type] = fieldImpl;
     },
 
     defaultFieldRender = (field, fieldModel) => {
