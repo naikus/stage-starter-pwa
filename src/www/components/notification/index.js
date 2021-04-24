@@ -41,9 +41,9 @@ const Inferno = require("inferno"),
         // console.log("notification", message);
         return (
           <Touchable onAction={this.dismiss.bind(this)}>
-            <div class={`notification ${type} ${show ? " show" : ""}`}>
-              <i class={`icon ${icon}`}></i>
-              <span class="data">{content}</span>
+            <div className={`notification ${type} ${show ? " show" : ""}`}>
+              <i className={`icon ${icon}`}></i>
+              <span className="data">{content}</span>
             </div>
           </Touchable>
         );
