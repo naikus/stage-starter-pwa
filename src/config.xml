@@ -11,7 +11,7 @@
 
   <content src="index.html" />
   <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" platform="android" />
-  <icon src="res/ios/Assets.xcassets/AppIcon.appiconset/icon.png"
+  <icon src="res/ios/Images.xcassets/AppIcon.appiconset/icon-1024.png"
       platform="ios" width="1024" height="1024" density="xxxhdpi" />
 
   <!-- ========================= Whitelist plugin configuration ================================ -->
