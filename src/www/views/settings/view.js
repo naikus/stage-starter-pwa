@@ -53,7 +53,7 @@ Stage.defineView({
                 back = previousView ? (<Action key="back" icon="icon-arrow-left" handler={goBack} />) : null;
             return (
               <Fragment>
-                <ActionBar className="settings" ref={comp => actionbar = comp}>
+                <ActionBar className="settings">
                   {back}
                   <Action key="title" className={previousView ? "" : "first"} text="Settings" />
                   <Spacer />
@@ -152,19 +152,17 @@ Stage.defineView({
           if(!previousView) {
             appContext.showBottomBar(false);
           }
-        }
-
-    let actionbar;
+        };
 
     return {
       initialize(viewOpts) {
-        viewUi.addEventListener("transitionout", handleTransitionOut);
         viewUi.addEventListener("beforetransitionin", handleBeforeTransitionIn);
+        viewUi.addEventListener("transitionout", handleTransitionOut);
       },
       activate(viewOpts, done) {
         const {fromView, viewAction} = viewOpts;
         previousView = appContext.previousView();
-        renderContent(viewOpts, done, {});
+        renderContent(viewOpts, done);
       },
       update(viewOpts) {
         renderContent(viewOpts, null, {});

@@ -3,7 +3,7 @@ const Inferno = require("inferno"),
     Portal = require("@components/portal"),
 
     Action = (props, context) => {
-      const {text, icon, handler, event = "tap", className} = props;
+      const {text, icon, handler, event = "tap", className = ""} = props;
       let item = (
         <div className={`action ${className} ${handler ? "activable" : ""}`}>
           {text ? (<span className="text">{text}</span>) : null}

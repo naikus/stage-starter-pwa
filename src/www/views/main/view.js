@@ -105,7 +105,7 @@ Stage.defineView({
     return {
       // Stage app lifecycle functions.
       initialize(viewOpts) {
-        console.log("View configuration", viewConfig);
+        // console.log("View configuration", viewConfig);
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },
       onBackButton() {
@@ -116,7 +116,7 @@ Stage.defineView({
         }
       },
       activate(viewOpts, done) {
-        renderContent(viewOpts, done, {});
+        renderContent(viewOpts, done);
       },
       update(viewOpts) {
         renderContent(viewOpts);
