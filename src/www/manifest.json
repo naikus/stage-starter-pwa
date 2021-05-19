@@ -8,8 +8,13 @@
   "background_color": "#1c1c1c",
   "icons": [
     {
-      "src": "/branding/default/logo.svg",
-      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512 1024x1024",
+      "src": "/branding/app-icon.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/branding/app-icon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512 1024x1024",
       "type": "image/svg"
     }
   ]

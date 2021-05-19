@@ -100,11 +100,13 @@ Stage.defineView({
           render(null, viewUi);
         };
 
-    let overlayVisible = false;
+    let overlayVisible = false, logo;
 
     return {
       // Stage app lifecycle functions.
       initialize(viewOpts) {
+        logo = new Image(32, 32);
+        logo.src = `branding/${config.branding}/images/logo.svg`;
         // console.log("View configuration", viewConfig);
         viewUi.addEventListener("transitionout", handleTransitionOut);
       },

@@ -8,7 +8,7 @@ if [ "$1" = "clean" ] ; then
    exit
 fi
 
-mkdir -p dist
+mkdir -p build
 npx gulp build
 
 npx cordova create cordova-app naikus.github.io.stagestarter StageStarter
