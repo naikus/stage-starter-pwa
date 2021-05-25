@@ -20,15 +20,15 @@ module.exports = Object.assign({}, {
   views: {
     "/main": {
       view: "main",
-      path: "views/main/view.js"
+      path: "views/main/index.js"
     },
     "/settings": {
       view: "settings",
-      path: "views/settings/view.js"
+      path: "views/settings/index.js"
     },
     "/about": {
       view: "about",
-      path: "views/about/view.js",
+      path: "views/about/index.js",
       config: {
         actionbar: false,
         fullscreen: true

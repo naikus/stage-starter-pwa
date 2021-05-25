@@ -5,7 +5,9 @@ const Stage = require("@naikus/stage"),
     List = require("@components/list"),
     Overlay = require("@components/overlay"),
     {TabStrip, TabPanel} = require("@components/tabs"),
-    {ActionBar, Action, Spacer} = require("@components/actionbar");
+    {ActionBar, Action, Spacer} = require("@components/actionbar"),
+
+    items = require("./items");
 
 Stage.defineView({
   id: "main",
@@ -24,11 +26,6 @@ Stage.defineView({
           });
         },
         config = appContext.getConfig(),
-        items = [
-          {id: "0", name: "Learn Japanese"},
-          {id: "1", name: "Play guitar"},
-          {id: "2", name: "Practice LD"}
-        ],
         Content = createComponent({
           getInitialState() {
             return {};

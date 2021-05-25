@@ -187,7 +187,7 @@ gulp.task("build:app", () => {
   // babel transform view js files
   let externals = config.libs.map(l => l.name).concat(packageDeps);
   // console.log(externals);
-  modStream = gulp.src(`${src}/${viewsdir}/**/*.js`)
+  modStream = gulp.src(`${src}/${viewsdir}/*/index.js`)
       .pipe(tap(file => {
         // console.log(file.contents);
         const b = browserify(file.path, Object.assign({}, config.browserify, {builtins: false}));
