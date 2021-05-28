@@ -1,4 +1,4 @@
-const Inferno = require("inferno"),
+const {Fragment, render} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     VALID = {valid: true, message: ""},
     objToString = Object.prototype.toString,
@@ -51,7 +51,10 @@ const Inferno = require("inferno"),
             }),
             events = isIos() ? {onClick: handler} : {onInput: handler};
         return (
-          <input type="checkbox" {...props} checked={props.value === true} {...events} />
+          <Fragment>
+            <input type="checkbox" {...props} checked={props.value === true} {...events} />
+            <div class="indicator"></div>
+          </Fragment>
         );
       },
       radio(props, context) {
@@ -62,7 +65,10 @@ const Inferno = require("inferno"),
             }),
             events = isIos() ? {onClick: handler} : {onInput: handler};
         return (
-          <input type="radio" {...props} checked={props.value === true} {...events} />
+          <Fragment>
+            <input type="radio" {...props} checked={props.value === true} {...events} />
+            <div class="indicator"></div>
+          </Fragment>
         );
       },
       button(props, context) {

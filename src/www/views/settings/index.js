@@ -99,6 +99,14 @@ Stage.defineView({
                         value={agreeToTerms}
                         label="I agree to terms and conditions"
                         data-hint="You must agree :D" />
+                    {/*
+                    <Field name="myRadio"
+                      type="radio"
+                      label="Option 1" />
+                    <Field name="myRadio"
+                      type="radio"
+                      label="Option 2" />
+                    */}
                   </Form>
                   <div className="actions">
                     <SpinButton onClick={this.saveSettings.bind(this)}

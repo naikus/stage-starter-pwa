@@ -143,7 +143,7 @@ body {
     }
   }
 
-  &.checkbox {
+  &.checkbox, &.radio {
     .label {
       padding-left: 16px;
     }
@@ -283,6 +283,7 @@ body {
 
 /* ---------------------------------------- Bottom Navigation ----------------------------------- */
 @bottombar-height: 64px;
+@bottombar-transition-duration: 200ms;
 .stage-view {
   > .content {
     padding-bottom: @bottombar-height + 16px;
@@ -316,8 +317,8 @@ body {
   -webkit-transition: opacity 500ms ease, -webkit-transform 500ms ease;
   transition: opacity 500ms ease, transform 500ms ease;
   */
-  -webkit-transition: -webkit-transform 300ms ease;
-  transition: transform 300ms ease;
+  -webkit-transition: -webkit-transform @bottombar-transition-duration ease;
+  transition: transform @bottombar-transition-duration ease;
   // opacity: 0;
   -webkit-transform: translate3d(0, @actionbar-height + 12px, 0);
   transform: translate3d(0, @actionbar-height + 12px, 0);

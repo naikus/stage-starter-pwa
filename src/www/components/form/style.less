@@ -248,9 +248,64 @@ input[type=range] {
       width: auto;
       height: auto;
       margin-right: 10px;
+      opacity: 0;
+      z-index: -1;
       position: absolute;
-      top: 12px;
-      left: 0;
+      // top: 12px;
+      // left: 0;
+    }
+    .indicator {
+      position: absolute;
+      cursor: pointer;
+      top: 16px;
+      left: 16px;
+      border-radius: @input-border-radius - 2;
+      width: 20px;
+      height: 20px;
+      background-color: @input-bg-color;
+      border: 1px solid rgba(0,0,0,0.07);
+
+      &::after {
+        content: "";
+        position: absolute;        
+        display: none;
+      }
+    }
+
+    input:checked ~ .indicator {
+      background-color: @primary-action-bg-color;
+      &::after {
+        display: block;
+      }
+    }
+  }
+
+  &.checkbox {
+    .indicator {
+      &::after {
+        width: 4px;
+        height: 9px;
+        border: solid @primary-action-text-color;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        top: 2px;
+        left: 6px;
+      }
+    }
+  }
+
+  &.radio {
+    .indicator {
+      border-radius: 50%;
+      &::after {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: @primary-action-text-color;
+        border-width: 0;
+        top: 5px;
+        left: 5px;
+      }
     }
   }
 
