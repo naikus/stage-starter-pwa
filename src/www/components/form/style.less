@@ -2,6 +2,7 @@
 @input-padding: 12px;
 @input-border-radius: 4px;
 @button-border-radius: @input-border-radius;
+@input-disabled-color: desaturate(lighten(@bg-color, 5%), 5%) !important;
 
 a {
   color: @link-color;
@@ -39,7 +40,7 @@ input,
    }
 
    &[disabled], &.disabled {
-      background-color: desaturate(lighten(@bg-color, 5%), 5%) !important;
+      background-color: @input-disabled-color;
    }
 
    &.inline {
@@ -272,11 +273,20 @@ input[type=range] {
       }
     }
 
+    input:focus ~ .indicator {
+      border: 1px solid @selected-bg-color-alt;
+    }
+
     input:checked ~ .indicator {
       background-color: @primary-action-bg-color;
       &::after {
         display: block;
       }
+    }
+    input:disabled ~ .indicator {
+      pointer-events: none;
+      background-color: @input-disabled-color;
+      cursor: not-allowed;
     }
   }
 
@@ -292,6 +302,11 @@ input[type=range] {
         left: 6px;
       }
     }
+    input:disabled ~ .indicator {
+      &::after {
+        border-color: darken(@input-disabled-color, 5%);
+      }
+    }
   }
 
   &.radio {
@@ -305,6 +320,11 @@ input[type=range] {
         border-width: 0;
         top: 5px;
         left: 5px;
+      }
+    }
+    input:disabled ~ .indicator {
+      &::after {
+        background-color: darken(@input-disabled-color, 7%);
       }
     }
   }
