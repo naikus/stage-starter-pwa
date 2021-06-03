@@ -19,8 +19,8 @@ const branding = "default",
         "/js/app.js",
         "/js/vendor.js",
 
-        "/views/about/view.js",
-        "/views/main/view.js",
-        "/views/settings/view.js"
+        "/views/about/index.js",
+        "/views/main/index.js",
+        "/views/settings/index.js"
       ]
     };

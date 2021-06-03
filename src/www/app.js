@@ -399,6 +399,7 @@ function registerServiceWorker() {
 module.exports = {
   run() {
     initialize();
+    console.log(Config);
     if(Config.pwa) {
       registerServiceWorker();
     }
