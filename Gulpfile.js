@@ -13,7 +13,7 @@ const gulp = require("gulp"),
     babel = require("gulp-babel"),
     pkg = require("./package.json"),
     mergeStream = require("merge-stream"),
-    connectGzip = require("connect-gzip"),
+    compression = require("compression"),
     // workbox = require("workbox-build"),
     config = require("./build.config"),
     testConfig = require("./jest.config"),
@@ -222,7 +222,7 @@ gulp.task("dev:server", gulp.series("build", "build:service-worker", () => {
     port: 8080,
     middleware() {
       return [
-        connectGzip.gzip()
+        compression()
       ];
     }
   });
@@ -236,7 +236,7 @@ gulp.task("prod:server", gulp.series("env:production", "build", "build:service-w
     port: 8080,
     middleware() {
       return [
-        connectGzip.gzip()
+        compression()
       ];
     }
   });
