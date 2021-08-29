@@ -2,6 +2,7 @@ const {Fragment, createRef} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     {EventTypes, stopEvent, setup} = require("@lib/touch"),
 
+    FIRE_DELAY = 100,
     isDisabled = target => {
       const disabled = target.getAttribute("disabled");
       return disabled === "" || disabled === "true";
@@ -46,7 +47,7 @@ module.exports = createComponent({
     stopEvent(e);
     const {onAction} = this.props;
     if(!isDisabled(this.elemRef.current) && onAction) {
-      window.setTimeout(_ => onAction(e), 50);
+      window.setTimeout(_ => onAction(e), FIRE_DELAY);
     }
   }
 });
