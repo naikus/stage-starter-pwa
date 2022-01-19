@@ -372,5 +372,5 @@ const {Fragment, render} = require("inferno"),
     });
 
 module.exports = {
-  Form, Field, fieldRender: defaultFieldRender
+  Form, Field, registerFieldType, fieldRender: defaultFieldRender
 };

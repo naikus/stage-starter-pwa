@@ -14,6 +14,7 @@ module.exports = createComponent({
     this.elemRef = createRef();
     return {};
   },
+
   componentDidMount() {
     const {action = "tap", children} = this.props,
         event = EventTypes[action],
@@ -27,6 +28,10 @@ module.exports = createComponent({
         node.addEventListener(event, this.dispatcher);
       }
     }
+  },
+
+  shouldComponentUpdate() {
+    return true;
   },
 
   componentWillUnmount() {

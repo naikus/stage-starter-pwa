@@ -23,6 +23,7 @@ const {createPortal} = require("inferno"),
 
       render() {
         let {children} = this.props;
+        // console.log(children);
         return createPortal(children, this.element, this.context);
       },
 
