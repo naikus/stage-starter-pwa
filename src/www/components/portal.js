@@ -2,12 +2,11 @@ const {createPortal} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Portal = createComponent({
       displayName: "Portal",
-      getInitialState() {
-        const {target = "body", className = "", replace = ""} = this.props,
-            element = this.element = document.createElement("div");
+      prepDom() {
+        const {target = "body", replace = ""} = this.props,
+            {element} = this,
+            targetElem = document.querySelector(target);
 
-        element.setAttribute("class", className);
-        const targetElem = document.querySelector(target);
         if(replace) {
           const existing = targetElem.querySelector(replace);
           existing && existing.parentNode.removeChild(existing);
@@ -15,10 +14,22 @@ const {createPortal} = require("inferno"),
         targetElem.appendChild(element);
       },
 
+      getInitialState() {
+        const {className = ""} = this.props,
+            element = this.element = document.createElement("div");
+        element.setAttribute("class", className);
+        this.prepDom();
+        return {};
+      },
+
       componentDidMount() {
         // let {children = []} = this;
         // console.log(children);
         // createPortal(children, this.element, this.context);
+      },
+
+      componentWillUpdate(nextProps) {
+        this.prepDom();
       },
 
       render() {
