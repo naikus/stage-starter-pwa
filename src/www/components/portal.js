@@ -30,7 +30,7 @@ const {createPortal} = require("inferno"),
       },
 
       componentWillUpdate(nextProps) {
-        // this.prepDom();
+        this.prepDom();
       },
 
       render() {
