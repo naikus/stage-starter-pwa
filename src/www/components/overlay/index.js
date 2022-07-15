@@ -13,7 +13,7 @@ const {createPortal} = require("inferno"),
           if(visible || wasVisible) {
             return (
               <Portal target={target}>
-                <div className={`overlay-container ${visible ? "__visible": ""}`}>
+                <div ref={el => this.overlayEl = el} className={`overlay-container ${visible ? "__visible": ""}`}>
                   <div className={`overlay ${clazz}`}>
                     {children}
                   </div>
@@ -24,12 +24,19 @@ const {createPortal} = require("inferno"),
           return null;
         },
         componentDidUpdate(lastProps, lastState, snapshot) {
+          // console.log(lastProps, lastState, snapshot);
           const {visible: prevVisible} = lastProps,
               {visible} = this.props,
               {wasVisible} = this.state;
 
           if(visible && !wasVisible) {
             this.setState({wasVisible: true});
+          }else if(prevVisible && !visible) {
+            const listener = () => {
+              this.overlayEl.removeEventListener("animationend", listener);
+              this.setState({wasVisible: false});
+            };
+            this.overlayEl.addEventListener("animationend", listener);
           }
         },
         componentDidMount() {

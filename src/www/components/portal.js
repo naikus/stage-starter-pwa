@@ -15,21 +15,22 @@ const {createPortal} = require("inferno"),
       },
 
       getInitialState() {
-        const {className = ""} = this.props,
+        const {className = "portal"} = this.props,
             element = this.element = document.createElement("div");
+
         element.setAttribute("class", className);
-        this.prepDom();
         return {};
       },
 
       componentDidMount() {
+        this.prepDom();
         // let {children = []} = this;
         // console.log(children);
         // createPortal(children, this.element, this.context);
       },
 
       componentWillUpdate(nextProps) {
-        this.prepDom();
+        // this.prepDom();
       },
 
       render() {
