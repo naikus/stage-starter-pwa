@@ -241,7 +241,7 @@ const {render, Fragment} = require("inferno"),
           }
         };
       },
-      navigateTo(view, transition) {
+      navigateTo(view, transition = this.defaultTransition) {
         const {showSidebar} = this.state;
         if(showSidebar) {
           this.setSidebarVisible(false);
@@ -276,14 +276,17 @@ const {render, Fragment} = require("inferno"),
         const {fullscreen} = this.state;
         return (
           <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
-            <Touchable action="tap" onAction={this.navigateTo.bind(this, "main", this.defaultTransition)}>
+            <Touchable action="tap" onAction={() => this.navigateTo("main")}>
               <span className="item activable"><i className="icon icon-users" /></span>
             </Touchable>
-            <Touchable action="tap" onAction={this.navigateTo.bind(this, "call", this.defaultTransition)}>
-              <span className="item activable"><i className="icon icon-video" /></span>
+            <Touchable action="tap" onAction={() => this.navigateTo("about")}>
+              <span className="item activable"><i className="icon icon-heart" /></span>
             </Touchable>
-            <Touchable action="tap" onAction={this.navigateTo.bind(this, "settings", this.defaultTransition)}>
+            <Touchable action="tap" onAction={() => this.navigateTo("settings")}>
               <span className="item activable"><i className="icon icon-settings" /></span>
+            </Touchable>
+            <Touchable action="tap" onAction={() => this.setSidebarVisible(true)}>
+              <span className="item activable"><i className="icon icon-menu" /></span>
             </Touchable>
           </div>
         );
