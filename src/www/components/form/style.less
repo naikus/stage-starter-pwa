@@ -3,6 +3,7 @@
 @input-border-radius: 4px;
 @button-border-radius: @input-border-radius;
 @input-disabled-color: desaturate(lighten(@bg-color, 5%), 5%) !important;
+@field-container-padding: 12px;
 
 a {
   color: @link-color;
@@ -221,10 +222,10 @@ input[type=range] {
 
 
 .field-container {
-  padding: 10px 0;
+  padding: @field-container-padding;
   .hint, .value {
     font-size: 0.85em;
-    font-weight: 100;
+    // ont-weight: 100;
     color: @input-hint-color;
     margin: 4px 4px 4px 0;
   }
@@ -232,9 +233,9 @@ input[type=range] {
     float: right;
     color: @text-color;
   }
-  label {
+  .label {
     span {
-      display: block;
+      // display: block;
     }
   }
   input, textarea, select, button {
@@ -243,24 +244,28 @@ input[type=range] {
 
   &.checkbox, &.radio {
     position: relative;
-    padding-left: 32px;
+    // padding-left: 32px;
+
+    .label {
+      padding-left: @field-container-padding * 2;
+    }
 
     input {
       width: auto;
       height: auto;
-      margin-right: 10px;
+      margin-right: 8px;
       opacity: 0;
       // z-index: -1;
       position: absolute;
-      // top: 12px;
-      // left: 0;
+      top: @field-container-padding;
+      left: @field-container-padding;
     }
     .indicator {
       position: absolute;
       cursor: pointer;
-      top: 16px;
-      left: 16px;
-      border-radius: @input-border-radius - 2;
+      top: @field-container-padding;
+      left: @field-container-padding;
+      border-radius: @input-border-radius;
       width: 20px;
       height: 20px;
       background-color: @input-bg-color;

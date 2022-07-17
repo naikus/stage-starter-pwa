@@ -276,6 +276,9 @@ const {render, Fragment} = require("inferno"),
         const {fullscreen} = this.state;
         return (
           <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
+            <Touchable action="tap" onAction={() => this.setSidebarVisible(true)}>
+              <span className="item activable"><i className="icon icon-menu" /></span>
+            </Touchable>
             <Touchable action="tap" onAction={() => this.navigateTo("main")}>
               <span className="item activable"><i className="icon icon-users" /></span>
             </Touchable>
@@ -284,9 +287,6 @@ const {render, Fragment} = require("inferno"),
             </Touchable>
             <Touchable action="tap" onAction={() => this.navigateTo("settings")}>
               <span className="item activable"><i className="icon icon-settings" /></span>
-            </Touchable>
-            <Touchable action="tap" onAction={() => this.setSidebarVisible(true)}>
-              <span className="item activable"><i className="icon icon-menu" /></span>
             </Touchable>
           </div>
         );
