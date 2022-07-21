@@ -17,15 +17,20 @@
     border-radius: @base-border-radius;
     // box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 
+    > .icon, > .data {
+      display: flex;
+      align-items: center;
+    }
+
     > .icon {
-      font-size: 1.5em;
+      font-size: 1.3rem;
       padding: @base-unit + @base-unit;
       background: rgba(0,0,0,0.1);
     }
 
     > .data {
       flex: 1;
-      padding: @base-unit;
+      padding: @base-padding;
     }
 
     &.show {

@@ -1,7 +1,7 @@
 
 const branding = "default",
     config = {
-      prefetchCacheName: "stage-starter-inferno-1.0.0",
+      prefetchCacheName: "stage-starter-inferno-1.0.0-b1",
       prefetchUrls: [
         "/",
         "/index.html",

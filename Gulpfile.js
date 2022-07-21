@@ -233,6 +233,7 @@ gulp.task("dev:server", gulp.series("build", "build:service-worker", () => {
 gulp.task("prod:server", gulp.series("env:production", "build", "build:service-worker", () => {
   return connect.server({
     root: config.build_dir,
+    host: "0.0.0.0",
     port: 8080,
     middleware() {
       return [

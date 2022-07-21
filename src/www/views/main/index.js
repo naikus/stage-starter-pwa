@@ -35,7 +35,11 @@ Stage.defineView({
             return (
               <Fragment>
                 <ActionBar className="main">
-                  <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
+                  <img width="24" 
+                      height="24"
+                      className="logo"
+                      alt="logo"
+                      src={`branding/${config.branding}/images/logo.svg`} />
                   <Action key="dashboard" text="Dashboard" />
                   <Spacer />
                   <Action key="modal" icon="icon-box" handler={showExitOverlay} />

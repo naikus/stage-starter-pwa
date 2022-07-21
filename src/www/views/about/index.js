@@ -14,7 +14,10 @@ Stage.defineView({
             const {appName, appVersion} = appContext.getConfig();
             return (
               <div className="content text-center">
-                <img className="logo" alt="logo" src={`branding/${config.branding}/images/logo.svg`} />
+                <img width="130" height="130"
+                    className="logo"
+                    alt="logo"
+                    src={`branding/${config.branding}/images/logo.svg`} />
                 <h3>
                   {appName} ({appVersion})
                 </h3>
