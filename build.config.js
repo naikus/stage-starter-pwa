@@ -39,6 +39,7 @@ module.exports = {
     {name: "@components/portal", path: "components/portal"},
     {name: "@components/touchable", path: "components/touchable"},
     {name: "@components/notification", path: "components/notification"},
+    {name: "@components/loading-indicator", path: "components/loading-indicator"},
 
     // Services
     {name: "@app/config", path: "config"},

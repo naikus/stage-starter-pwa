@@ -6,6 +6,7 @@ const {render, Fragment} = require("inferno"),
     Touchable = require("@components/touchable"),
     Activables = require("@lib/activables"),
     {Notifications} = require("@components/notification"),
+    LoadingIndicator = require("@components/loading-indicator"),
 
     Config = require("@app/config"),
     // Router = require("simple-router").default,
@@ -76,17 +77,6 @@ const {render, Fragment} = require("inferno"),
         if(onEmptyAction) {
           onEmptyAction();
         }
-      }
-    }),
-
-    LoadingIndicator = createComponent({
-      displayName: "LoadingIndicator",
-      render() {
-        return (
-          <div className="loading-indicator">
-            <div className="slider"></div>
-          </div>
-        );
       }
     }),
 
