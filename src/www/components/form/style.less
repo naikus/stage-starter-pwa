@@ -9,45 +9,41 @@ a {
   color: @link-color;
 }
 
-input,
-      button,
-      select,
-      textarea,
-      .button {
-   padding: @input-padding;
-   font-size: 1rem;
-   border: 1px solid rgba(0,0,0,0.07);
-   border-radius: @input-border-radius;
-   display: block;
-   position: relative;
-   width: 100%;
-   margin: 0;
-   margin-bottom: 12px;
-   background-color: @input-bg-color;
-   color: @input-text-color;
+input, button, select, textarea, .button {
+  padding: @input-padding;
+  font-size: 1rem;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: @input-border-radius;
+  display: block;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 12px;
+  background-color: @input-bg-color;
+  color: @input-text-color;
 
-   // -webkit-appearance: caret;
-   .border-box;
+  // -webkit-appearance: caret;
+  .border-box;
 
-   &::-moz-focus-inner {
-      outline: 0;
-      border: 0;
-   }
+  &::-moz-focus-inner {
+    outline: 0;
+    border: 0;
+  }
 
-   &:focus {
-      border-bottom-color: @selected-bg-color-alt;
-      // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
-      outline: 0;
-   }
+  &:focus {
+    border-bottom-color: @selected-bg-color-alt;
+    // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
+    outline: 0;
+  }
 
-   &[disabled], &.disabled {
-      background-color: @input-disabled-color;
-   }
+  &[disabled], &.disabled {
+    background-color: @input-disabled-color;
+  }
 
-   &.inline {
-      display: inline-block;
-      width: auto;
-   }
+  &.inline {
+    display: inline-block;
+    width: auto;
+  }
 }
 a.button {
    text-decoration: none;
@@ -63,76 +59,77 @@ select {
   }
 }
 textarea {
-   min-height: 100px;
+  min-height: 100px;
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
-   background-color: @button-bg-color;
-   color: @button-text-color;
-   border: 1px solid rgba(0,0,0,0.07);
-   border-radius: @button-border-radius;
-   // text-transform: uppercase;
-   font-weight: 500;
-   // border-bottom-width: 1px;
-   cursor: pointer;
-   text-align: center;
+  background-color: @button-bg-color;
+  color: @button-text-color;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: @button-border-radius;
+  // text-transform: uppercase;
+  font-weight: 500;
+  // border-bottom-width: 1px;
+  cursor: pointer;
+  text-align: center;
+  min-width: 100px;
 
-   .no-select;
+  .no-select;
 
 
-   &:hover {
-      background-color: darken(@button-bg-color, 5%);
-      color: @button-text-color;
-   }
-   &:focus {
-      // box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-      border-color: rgba(0, 0, 0, 0.15);
-      outline: 0;
-   }
+  &:hover {
+    background-color: darken(@button-bg-color, 5%);
+    color: @button-text-color;
+  }
+  &:focus {
+    // box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 0, 0, 0.15);
+    outline: 0;
+  }
 
-   &.primary {
-     background-color: @primary-action-bg-color;
-     color: @primary-action-text-color;
-   }
-   &.primary:hover {
-     background-color: darken(@primary-action-bg-color, 5%);
-   }
-   &.primary:focus {
-     // box-shadow: 0 0 2px lighten(@primary-action-bg-color, 10%);
-     background-color: darken(@primary-action-bg-color, 5%);
-     outline: none;
-   }
-   &.primary:active, &.primary.active {
-     // border-color: darken(@primary-action-bg-color, 10%);
-     // box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
-     background-color: darken(@primary-action-bg-color, 8%);
-     color: @primary-action-text-color;
-   }
+  &.primary {
+    background-color: @primary-action-bg-color;
+    color: @primary-action-text-color;
+  }
+  &.primary:hover {
+    background-color: darken(@primary-action-bg-color, 5%);
+  }
+  &.primary:focus {
+    // box-shadow: 0 0 2px lighten(@primary-action-bg-color, 10%);
+    background-color: darken(@primary-action-bg-color, 5%);
+    outline: none;
+  }
+  &.primary:active, &.primary.active {
+    // border-color: darken(@primary-action-bg-color, 10%);
+    // box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
+    background-color: darken(@primary-action-bg-color, 8%);
+    color: @primary-action-text-color;
+  }
 
-   &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
-     box-shadow: none !important;
-     border-color: rgba(0,0,0,0.1) !important;
-     color: darken(@button-text-color, 45%) !important;
-     cursor: not-allowed;
-   }
+  &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
+    box-shadow: none !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: darken(@button-text-color, 45%) !important;
+    cursor: not-allowed;
+  }
 
-   /*
-   &.secondary {
-     background-color: @secondary-action-color;
-     color: @secondary-text-color;
-   }
-   &.secondary:hover {
-     background-color: darken(@secondary-action-color, 5%);
-   }
-   &.secondary:focus {
-     box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
-     outline: none;
-   }
-   &.secondary:active, &.secondary.active {
-     border-color: darken(@secondary-action-color, 15%);
-     box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
-     background-color: darken(@secondary-action-color, 5%);
-   }
-   */
+  /*
+  &.secondary {
+    background-color: @secondary-action-color;
+    color: @secondary-text-color;
+  }
+  &.secondary:hover {
+    background-color: darken(@secondary-action-color, 5%);
+  }
+  &.secondary:focus {
+    box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
+    outline: none;
+  }
+  &.secondary:active, &.secondary.active {
+    border-color: darken(@secondary-action-color, 15%);
+    box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
+    background-color: darken(@secondary-action-color, 5%);
+  }
+  */
 
 }
 label {
