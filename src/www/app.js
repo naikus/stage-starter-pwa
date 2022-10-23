@@ -203,6 +203,9 @@ const {render, Fragment} = require("inferno"),
       contextFactory(stage, stageOpts) {
         const self = this;
         return {
+          // "Override" these functions if you'd like to do anything additional things
+          // before pushing views. e.g. check user permissions
+          /*
           pushView(viewId, options) {
             // @todo Check if view is allowed for the current user
             // console.log("[App]: Pushing view", viewId, options);
@@ -212,6 +215,7 @@ const {render, Fragment} = require("inferno"),
             // @todo Check if view is allowed for the current user
             return stage.popView(options);
           },
+          */
           setSidebarVisible(show) {
             self.setSidebarVisible(show);
           },
