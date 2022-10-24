@@ -1,7 +1,14 @@
 /* global module process require */
 const cliargs = require("yargs").argv,
     builddir = cliargs.builddir || "./build",
-    pkg = require("./package.json");
+    pkg = require("./package.json"),
+    env = {
+      NODE_ENV: cliargs.node_env || process.env.NODE_ENV || "development",
+      BRANDING: cliargs.branding || process.env.BRANDING || "default",
+      API_SERVER: cliargs.server || process.env.API_SERVER || "http://localhost",
+      PWA: cliargs.pwa === "true" || process.env.PWA === "true",
+      APP_VERSION: pkg.version
+    };
 
 module.exports = {
   src_dir: "./src/www",
@@ -51,6 +58,8 @@ module.exports = {
     "sw-config.js"
   ],
 
+  env: env,
+
   browserify: {
     // prelude: null,
     debug: true,
@@ -59,11 +68,7 @@ module.exports = {
       ["envify", {
         global: true,
         _: "purge",
-        NODE_ENV: cliargs.node_env || process.env.NODE_ENV || "development",
-        BRANDING: cliargs.branding || process.env.BRANDING || "default",
-        API_SERVER: cliargs.server || process.env.API_SERVER || "http://localhost",
-        PWA: cliargs.pwa === "true" || process.env.PWA === "true",
-        APP_VERSION: pkg.version
+        ...env
       }],
       "babelify",
       "browserify-shim"
