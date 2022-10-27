@@ -44,12 +44,16 @@ const {Fragment, render} = require("inferno"),
       },
       */
       checkbox(props, context) {
-        const handler = e => props.onInput && props.onInput({
-              target: {
-                value: e.target.checked
-              }
-            }),
-            events = isIos() ? {onClick: handler} : {onInput: handler};
+        const onInput = props.onInput,
+            handler = e => {
+              onInput && onInput({
+                target: {
+                  srcElement: e.target,
+                  value: e.target.checked
+                }
+              });
+            },
+            events = isIos() ? {onChange: handler, onInput: null} : {onInput: handler};
         return (
           <Fragment>
             <input type="checkbox" {...props} checked={props.value === true} {...events} />
