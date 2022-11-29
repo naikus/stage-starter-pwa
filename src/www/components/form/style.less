@@ -80,10 +80,36 @@ textarea {
     background-color: darken(@button-bg-color, 5%);
     color: @button-text-color;
   }
+
   &:focus {
     // box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     border-color: rgba(0, 0, 0, 0.15);
     outline: 0;
+  }
+
+  &:active, &.active {
+    border-color: rgba(0, 0, 0, 0.1);
+    // box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+    color: @active-text-color;
+    background-color: darken(@bg-color, 8%);
+    box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
+  }
+
+  &.danger {
+    background-color: @error-color;
+    color: #fff;
+    &:hover {
+      background-color: darken(@error-color, 5%);
+    }
+    &:focus {
+      box-shadow: 0 0 2px lighten(@error-color, 10%);
+      outline: none;
+    }
+    &:active, &.active {
+      border-color: darken(@error-color, 5%);
+      background-color: darken(@error-color, 8%);
+      color: #fff;
+    }
   }
 
   &.primary {
@@ -105,32 +131,18 @@ textarea {
     color: @primary-action-text-color;
   }
 
-  &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
+  &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active, &.disabled {
     box-shadow: none !important;
     border-color: rgba(0,0,0,0.1) !important;
-    color: darken(@button-text-color, 45%) !important;
+    color: fade(@button-text-color, 30%) !important;
     cursor: not-allowed;
   }
 
-  /*
-  &.secondary {
-    background-color: @secondary-action-color;
-    color: @secondary-text-color;
+  > .icon {
+    display: inline-block;
+    margin-right: 7px;
   }
-  &.secondary:hover {
-    background-color: darken(@secondary-action-color, 5%);
-  }
-  &.secondary:focus {
-    box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
-    outline: none;
-  }
-  &.secondary:active, &.secondary.active {
-    border-color: darken(@secondary-action-color, 15%);
-    box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
-    background-color: darken(@secondary-action-color, 5%);
-  }
-  */
-
+   
 }
 label {
   display: block;
