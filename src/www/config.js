@@ -17,22 +17,40 @@ module.exports = Object.assign({}, {
   branding: process.env.BRANDING,
   pwa: process.env.PWA,
 
-  views: {
-    "/main": {
-      view: "main",
-      path: "views/main/index.js"
+  routes: [
+    {
+      path: "/",
+      controller() {
+        return {
+          redirect: "/main"
+        };
+      }
     },
-    "/settings": {
-      view: "settings",
-      path: "views/settings/index.js"
+    {
+      path: "/main",
+      view: {
+        id: "main",
+        src: "views/main/index.js",
+        config: {}
+      }
     },
-    "/about": {
-      view: "about",
-      path: "views/about/index.js",
-      config: {
-        actionbar: false,
-        fullscreen: true
+    {
+      path: "/settings",
+      view: {
+        id: "settings",
+        src: "views/settings/index.js"
+      }
+    },
+    {
+      path: "/about",
+      view: {
+        id: "about",
+        src: "views/about/index.js",
+        config: {
+          actionbar: false,
+          fullscreen: true
+        }
       }
     }
-  }
+  ]
 }, brandConfig);

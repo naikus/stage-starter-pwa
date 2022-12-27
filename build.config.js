@@ -36,6 +36,7 @@ module.exports = {
     {name: "@lib/clazz", path: "lib/clazz"},
     {name: "@lib/touch", path: "lib/touch"},
     {name: "@lib/api-client", path: "lib/api-client"},
+    {name: "@lib/router", path: "lib/router"},
 
     // Components
     {name: "@components/actionbar", path: "components/actionbar"},

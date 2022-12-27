@@ -14,8 +14,8 @@ Stage.defineView({
   template: `<div class="stage-view settings"></div>`,
   factory(appContext, viewUi) {
     let previousView = null;
-    const goBack = () => previousView ? appContext.popView() : location.reload(),
-        showAbout = e => appContext.pushView("about", {transition: "slide-up"}),
+    const goBack = () => previousView ? appContext.router.back() : location.replace("/"),
+        showAbout = e => appContext.router.route("/about", {transition: "slide-up"}),
         storage = appContext.getLocalStorage(),
         validationRules = {
           fullName: [

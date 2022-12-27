@@ -14,7 +14,8 @@ Stage.defineView({
   template: `<div class="stage-view main"></div>`,
   factory(appContext, viewUi, viewConfig) {
     const setSidebarVisible = e => appContext.setSidebarVisible(true),
-        showSettings = e => appContext.pushView("settings", {transition: "slide"}),
+        {router} = appContext,
+        showSettings = e => router.route("/settings", {transition: "slide"}),
 
         notificationTypes = ["info", "success", "error", "warn"],
         showNotification = e => {
