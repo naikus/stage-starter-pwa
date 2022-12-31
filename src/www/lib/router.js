@@ -1,7 +1,6 @@
 /* global setTimeout console */
-import pathToRegexp from "path-to-regexp";
-
-const isPromise = type => type && (typeof type.then) === "function",
+const pathToRegexp = require("path-to-regexp"),
+    isPromise = type => type && (typeof type.then) === "function",
     identity = arg => arg,
     EventEmitterProto = {
       on(event, handler) {
@@ -185,6 +184,7 @@ const isPromise = type => type && (typeof type.then) === "function",
                 state: this.state,
                 ...retVal
               });
+              this.clearState();
               return retVal;
             }
           });
@@ -207,13 +207,19 @@ const isPromise = type => type && (typeof type.then) === "function",
           path
         });
       },
+      setState(state) {
+        this.state = state;
+      },
+      clearState() {
+        this.state = {};
+      },
       route(path, state = {}) {
         // console.log(this.history.getSize());
-        this.state = state;
+        this.setState(state);
         this.history.push(path, state);
       },
       back(toRoute, state = {}) {
-        this.state = state;
+        this.setState(state);
         this.history.pop(toRoute);
       },
       getBrowserRoute() {

@@ -320,13 +320,8 @@ const {render, Fragment} = require("inferno"),
       getInitialState() {
         this.viewConfig = Config.routes.map(route => route.view);
         const routeController = context => {
-              return context.route;
-            }, 
-            redirectController = context => {
-              return {
-                redirect: context.route.redirect
-              };
-            };
+          return context.route;
+        };
         Config.routes.forEach(route => {
           if(!route.controller) {
             route.controller = routeController;
@@ -340,6 +335,7 @@ const {render, Fragment} = require("inferno"),
             currentView = viewContext.currentView(),
             viewOptions = Object.assign({}, state, {params: params});
 
+          // console.log(view.id, state);
           if((currentView === view.id) || action !== "POP") {
             stageComponent.getViewContext().pushView(view.id, viewOptions);
           }else {

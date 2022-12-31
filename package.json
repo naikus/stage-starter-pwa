@@ -43,6 +43,7 @@
     "@naikus/stage": "^1.0.2-beta",
     "inferno": "~7.4.7",
     "inferno-create-class": "~7.4.7",
+    "path-to-regexp": "^6.2.1",
     "store2": "~2.3.2"
   },
   "browserify-shim": {}
