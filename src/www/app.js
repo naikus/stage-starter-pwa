@@ -339,7 +339,7 @@ const {render, Fragment} = require("inferno"),
           if((currentView === view.id) || action !== "POP") {
             stageComponent.getViewContext().pushView(view.id, viewOptions);
           }else {
-            stageComponent.getViewContext().popView(view.id, viewOptions);  
+            stageComponent.getViewContext().popView(viewOptions);  
           }
         });
         this.router.start();

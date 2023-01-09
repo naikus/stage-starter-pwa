@@ -1,5 +1,5 @@
 /* global setTimeout console */
-const pathToRegexp = require("path-to-regexp"),
+const {pathToRegexp} = require("path-to-regexp"),
     isPromise = type => type && (typeof type.then) === "function",
     identity = arg => arg,
     EventEmitterProto = {
