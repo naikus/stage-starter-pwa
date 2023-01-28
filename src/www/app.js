@@ -363,7 +363,8 @@ const {render, Fragment} = require("inferno"),
         */
       },
       render() {
-        const {transition={defaultTransition}} = this.props,
+        const {defaultTransition} = this,
+            {transition=defaultTransition} = this.props,
             {loading, showSidebar, viewId, showActionBar, fullscreen} = this.state;
         return (
           <Fragment>
