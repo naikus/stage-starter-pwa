@@ -127,7 +127,7 @@ const {render, Fragment} = require("inferno"),
 
         // Register all the routes
         viewConfig.forEach(vc => {
-          console.log(vc);
+          // console.log(vc);
           if(!vc) {return;}
           const {id, src, config} = vc;
           Stage.view(id, src, config);
@@ -334,13 +334,21 @@ const {render, Fragment} = require("inferno"),
             viewContext = stageComponent.getViewContext(),
             currentView = viewContext.currentView(),
             viewOptions = Object.assign({}, state, {params: params});
-
-          // console.log(view.id, state);
-          if((currentView === view.id) || action !== "POP") {
-            stageComponent.getViewContext().pushView(view.id, viewOptions);
-          }else {
-            stageComponent.getViewContext().popView(viewOptions);  
+          // console.log(data);
+          if(view) {
+            if((currentView === view.id) || action !== "POP") {
+              stageComponent.getViewContext().pushView(view.id, viewOptions);
+            }else {
+              stageComponent.getViewContext().popView(viewOptions);  
+            }
           }
+        });
+        this.router.on("route-error", (event, error) => {
+          this.notifications.enqueue({
+            type: "error",
+            content: error.message,
+            sticky: true
+          });
         });
         this.router.start();
 

@@ -23,7 +23,7 @@ Stage.defineView({
           appContext.showNotification({
             type: notificationTypes[type],
             content: `This is a example of notification of type ${notificationTypes[type]}`,
-            sticky: true
+            sticky: false
           });
         },
         config = appContext.getConfig(),

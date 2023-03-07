@@ -240,7 +240,7 @@ const {pathToRegexp} = require("path-to-regexp"),
             const path = location.route || errorRoute,
                 ret = this.resolve(path, action);
             ret.catch(rErr => {
-              console.log(rErr);
+              // console.log(rErr);
               this.emitter.emit("route-error", rErr);
             });
           });
