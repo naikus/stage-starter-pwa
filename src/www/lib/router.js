@@ -104,7 +104,12 @@ const {pathToRegexp} = require("path-to-regexp"),
             return;
           }
           const path = toPath || stack[stack.length - 2];
-          window.location.hash = path;
+          // Correctly maintain backstack. This is not possible if toPath is provided.
+          if(toPath) {
+            window.location.hash = path;
+          }else {
+            window.history.go(-1);
+          }
         }
       };
     },
