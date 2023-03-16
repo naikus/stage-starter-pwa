@@ -155,7 +155,6 @@ const {pathToRegexp} = require("path-to-regexp"),
           // console.log("Found routeInfo", path, routeInfo);
           const route = {
                 action,
-                // redirect: origRoute.redirect,
                 from: origRoute.from,
                 path: routeInfo.path,
                 params: routeInfo.params,
@@ -173,11 +172,11 @@ const {pathToRegexp} = require("path-to-regexp"),
             ret = Promise.resolve(ret);
           }
           return ret.then((retVal = {}) => {
-            if(retVal.redirect) {
-              console.debug(`Redirecting from ${routeInfo.path} to ${retVal.redirect}`);
-              return this.resolve(retVal.redirect, action, {
+            if(retVal.forward) {
+              console.debug(`Forwarding from ${routeInfo.path} to ${retVal.forward}`);
+              return this.resolve(retVal.forward, action, {
                 route: {
-                  // redirect: true,
+                  // forward: true,
                   from: routeInfo.path
                 }
               });
@@ -234,6 +233,9 @@ const {pathToRegexp} = require("path-to-regexp"),
         }
         return null;
       },
+      getCurrentRoute() {
+        return this.current;
+      },
       start() {
         if(!this.history) {
           const {options} = this, history = this.history = createHistoryX(options.history),
@@ -265,6 +267,7 @@ const {pathToRegexp} = require("path-to-regexp"),
       },
       addRoute(r) {
         this.routes.push(makeRoute(r));
+        console.log(this.routes);
       }
     },
 

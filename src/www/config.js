@@ -22,7 +22,7 @@ module.exports = Object.assign({}, {
       path: "/",
       controller() {
         return {
-          redirect: "/main"
+          forward: "/main"
         };
       }
     },

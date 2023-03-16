@@ -319,18 +319,11 @@ const {render, Fragment} = require("inferno"),
       // Lifecycle methods
       getInitialState() {
         this.viewConfig = Config.routes.map(route => route.view);
-        const routeController = context => {
-          return context.route;
-        };
-        Config.routes.forEach(route => {
-          if(!route.controller) {
-            route.controller = routeController;
-          }
-        });
-
         this.router = createRouter(Config.routes);
         this.router.on("route", (event, data) => {
-          const {view, action, params, state} = data, {stageComponent} = this,
+          const {route, state, ...addnlData} = data, 
+            {view, action, params, handler} = route,
+            {stageComponent} = this,
             viewContext = stageComponent.getViewContext(),
             currentView = viewContext.currentView(),
             viewOptions = Object.assign({}, state, {params: params});
@@ -341,6 +334,8 @@ const {render, Fragment} = require("inferno"),
             }else {
               stageComponent.getViewContext().popView(viewOptions);  
             }
+          }else if(typeof handler === "function") {
+            handler(data);
           }
         });
         this.router.on("route-error", (event, error) => {
@@ -349,6 +344,14 @@ const {render, Fragment} = require("inferno"),
             content: error.message,
             sticky: true
           });
+        });
+
+        // Add other custom routes
+        this.router.addRoute({
+          path: "/__drawer",
+          handler: data => {
+            window.alert(JSON.stringify(this.router.getCurrentRoute()));
+          }
         });
         this.router.start();
 
