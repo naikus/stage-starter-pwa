@@ -3,6 +3,18 @@
     
   }
 
+  .main-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+
+    > img {
+      animation-duration: 10000ms;
+      animation-delay: 1000ms;
+    }
+  }
+
   .list-panel {
     padding: 0;
     .selectable-list {
@@ -18,19 +30,33 @@
   max-width: 300px;
   // margin: 0;
   // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
-  height: 200px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  .message {
-    // margin: 20px auto;
-    text-align: center;
+  .title, .message, .actions {
+    padding: @container-padding;
   }
 
-  .button {
-    margin-right: 8px;
+  .title {
+    font-size: 0.9rem;
+    font-weight: bolder;
+  }
+
+  .message {
+    font-size: 0.96rem;
+    padding: @container-padding @container-padding*2;
+    color: fade(@text-color, 80%);
+    // background-color: rgba(0,0,0,0.03);
+  }
+
+  .actions {
+    .button, button {
+      margin-right: 8px;
+
+    }
   }
 
   & when (@branding = night) {

@@ -41,6 +41,17 @@ module.exports = Object.assign({}, {
         src: "views/settings/index.js"
       }
     },
+
+    // This will generate a error notification as the view does not exist
+    /*
+    {
+      path: "/foo",
+      view: {
+        id: "foo",
+        src: "views/foo/index.js"
+      }
+    },
+    */
     {
       path: "/about",
       view: {

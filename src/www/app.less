@@ -309,7 +309,7 @@ body {
 .bottom-bar {
   height: @bottombar-height;
   position: fixed;
-  bottom: 0;
+  bottom: -1px;
   left: 5%;
   padding: @base-padding;
   z-index: @actionbar-zindex;
@@ -317,7 +317,7 @@ body {
   background-color: lighten(@bg-color, 5%);
   border-bottom: none;
   border-radius: @base-border-radius @base-border-radius 0 0;
-  border: 1px solid darken(@bg-color, 2%);
+  border: 1px solid darken(@bg-color, 3%);
   box-shadow: 0 0 10px 2px rgba(0,0,0,0.02);
 
   & when (@branding = night) {

@@ -195,6 +195,20 @@ const {render, Fragment} = require("inferno"),
       }
     }),
 
+    BottomBar = createComponent({
+      render() {
+        const {visible = true, children} = this.props;
+        return (
+          <div className={"bottom-bar " + (visible ? "show" : "")}>
+            {children}
+          </div>
+        );
+      },
+      shouldComponentUpdate(nextProps) {
+        return nextProps.visible !== this.props.visible;
+      }
+    }),
+
     App = createComponent({
       displayName: "App",
       defaultTransition: "lollipop",
@@ -271,10 +285,9 @@ const {render, Fragment} = require("inferno"),
         this.setState({showSidebar: visible === false ? false : true});
       },
 
-      renderBottombar() {
-        const {fullscreen} = this.state;
+      renderBottombarItems() {
         return (
-          <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
+          <Fragment>
             <Touchable action="tap" onAction={() => this.setSidebarVisible(true)}>
               <span className="item activable"><i className="icon icon-menu" /></span>
             </Touchable>
@@ -287,7 +300,7 @@ const {render, Fragment} = require("inferno"),
             <Touchable action="tap" onAction={() => this.navigateTo("/settings")}>
               <span className="item activable"><i className="icon icon-settings" /></span>
             </Touchable>
-          </div>
+          </Fragment>
         );
       },
 
@@ -306,7 +319,7 @@ const {render, Fragment} = require("inferno"),
         });
       },
       onBeforeViewTransitionOut(e) {
-        const {viewId} = e;
+        // const {viewId} = e;
       },
       onViewLoadStart(e) {
         this.setState({loading: true});
@@ -314,11 +327,15 @@ const {render, Fragment} = require("inferno"),
       onViewLoadEnd(e) {
         const {viewId, error} = e;
         this.setState({loading: false});
+        if(error) {
+          this.notifications.enqueue({
+            type: "error",
+            content: `Error loading veiew: ${viewId}`,
+            sticky: true
+          });
+        }
       },
-
-      // Lifecycle methods
-      getInitialState() {
-        this.viewConfig = Config.routes.map(route => route.view);
+      setupRouter() {
         this.router = createRouter(Config.routes);
         this.router.on("route", (event, data) => {
           const {route, state, ...addnlData} = data, 
@@ -354,6 +371,12 @@ const {render, Fragment} = require("inferno"),
           }
         });
         this.router.start();
+      },
+
+      // Lifecycle methods
+      getInitialState() {
+        this.viewConfig = Config.routes.map(route => route.view);
+        this.setupRouter();
 
         return {
           loading: false,
@@ -385,10 +408,16 @@ const {render, Fragment} = require("inferno"),
               contextFactory={this.contextFactory.bind(this)}
               onViewLoadStart={this.onViewLoadStart.bind(this)}
               onViewLoadEnd={this.onViewLoadEnd.bind(this)}
-              onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
-            {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
+              onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)}
+              onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} />
+
+            {/* This acts as a portal to view actions */}
             <div className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}></div>
-            {this.renderBottombar()}
+
+            <BottomBar visible={!fullscreen}>
+              {this.renderBottombarItems()}
+            </BottomBar>
+
             <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
                 <img className="profile-image" src={'branding/default/images/logo.svg'} alt={"User"} />
@@ -399,7 +428,9 @@ const {render, Fragment} = require("inferno"),
                 {this.renderSidebarItems()}
               </ul>
             </Sidebar>
+
             <Notifications ref={comp => this.notifications = comp} />
+
             {loading ? <LoadingIndicator /> : null}
           </Fragment>
         );

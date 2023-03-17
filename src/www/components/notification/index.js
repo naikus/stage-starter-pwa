@@ -43,7 +43,9 @@ const Inferno = require("inferno"),
           <Touchable onAction={this.dismiss.bind(this)}>
             <div className={`notification ${type} ${show ? " show" : ""}`}>
               <i className={`icon ${icon}`}></i>
-              <span className="data">{content}</span>
+              <span className="data">
+                {typeof (content) === "function" ? content(message) : content}
+              </span>
             </div>
           </Touchable>
         );

@@ -91,10 +91,10 @@ const {pathToRegexp} = require("path-to-regexp"),
         },
         push(path) {
           const currentPath = window.location.hash.substring(1);
+          linkClicked = "__PUSH";
           if(currentPath === path) {
             hashListener({});
           }else {
-            linkClicked = "__PUSH";
             window.location.hash = path;
           }
         },

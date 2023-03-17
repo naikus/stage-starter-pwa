@@ -16,6 +16,7 @@ Stage.defineView({
     const setSidebarVisible = e => appContext.setSidebarVisible(true),
         {router} = appContext,
         showSettings = e => router.route("/settings", {transition: "slide"}),
+        // loadNonExistingView = e => router.route("/foo", {transition: "slide"}),
 
         notificationTypes = ["info", "success", "error", "warn"],
         showNotification = e => {
@@ -23,7 +24,8 @@ Stage.defineView({
           appContext.showNotification({
             type: notificationTypes[type],
             content: `This is a example of notification of type ${notificationTypes[type]}`,
-            sticky: false
+            // content: function(messageAsProps) {return <span>some notification</span>}
+            sticky: true
           });
         },
         config = appContext.getConfig(),
@@ -43,28 +45,34 @@ Stage.defineView({
                       src={`branding/${config.branding}/images/logo.svg`} />
                   <Action key="dashboard" text="Dashboard" />
                   <Spacer />
-                  <Action key="modal" icon="icon-box" handler={showExitOverlay} />
                   <Action key="settings" icon="icon-settings" handler={showSettings} />
                   <Action key="about" icon="icon-bell" handler={showNotification} />
+                  <Action key="modal" icon="icon-log-out" handler={showExitOverlay} />
                 </ActionBar>
                 <TabStrip>
-                  <TabPanel key="tab1" icon="icon-calendar" title="Tab One">
-                    <Touchable action="tap" onAction={setSidebarVisible}>
-                      <span className="button activable inline primary">
-                        Show/Hide Sidebar
-                      </span>
-                    </Touchable>
+                  <TabPanel key="tab1" icon="icon-tag" title="Tab One">
+                    <div className="main-logo anim">
+                      <img width="200" height="200"
+                          className="spin" 
+                          src={`branding/${config.branding}/images/logo.svg`} />
+                    </div>
                   </TabPanel>
-                  <TabPanel key="tab2" className="list-panel" icon="icon-clock" title="Tab Two">
+                  <TabPanel key="tab2" className="list-panel" icon="icon-tag" title="Tab Two">
                     <List items={items} 
                         selectedItem={items[1]}
                         onItemSelected={item => console.log(item)} />
                   </TabPanel>
                 </TabStrip>
                 <Overlay visible={confirmExit} className="modal exit">
+                  <div className="title">
+                    Exit application?
+                  </div>
                   <div className="message">
-                    <p>Exit Application?</p>
-                    <Touchable action="tap" onAction={closeExitOverlay}>
+                      Note that exit only works on Cordova or Capacitor
+                      based app.
+                  </div>
+                  <div className="actions">
+                  <Touchable action="tap" onAction={closeExitOverlay}>
                       <span className="button activable primary inline">
                         Dismiss
                       </span>
