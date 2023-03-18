@@ -49,20 +49,11 @@ Stage.defineView({
                   <Action key="about" icon="icon-bell" handler={showNotification} />
                   <Action key="modal" icon="icon-log-out" handler={showExitOverlay} />
                 </ActionBar>
-                <TabStrip>
-                  <TabPanel key="tab1" icon="icon-tag" title="Tab One">
-                    <div className="main-logo anim">
-                      <img width="200" height="200"
-                          className="spin" 
-                          src={`branding/${config.branding}/images/logo.svg`} />
-                    </div>
-                  </TabPanel>
-                  <TabPanel key="tab2" className="list-panel" icon="icon-tag" title="Tab Two">
-                    <List items={items} 
-                        selectedItem={items[1]}
-                        onItemSelected={item => console.log(item)} />
-                  </TabPanel>
-                </TabStrip>
+                <div className="main-logo anim">
+                  <img width="200" height="200"
+                      className="spin" 
+                      src={`branding/${config.branding}/images/logo.svg`} />
+                </div>
                 <Overlay visible={confirmExit} className="modal exit">
                   <div className="title">
                     Exit application?
