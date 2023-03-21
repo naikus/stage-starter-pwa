@@ -25,48 +25,6 @@
   }
   
 }
-.overlay-container > .modal.exit {
-  // width: 85%;
-  max-width: 300px;
-  // margin: 0;
-  // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-
-  .title, .message, .actions {
-    display: flex;
-    justify-content: center;
-  }
-
-  .title {
-    padding: @container-padding;
-    font-weight: 500;
-    background-color: rgba(0,0,0,0.05);
-    & when (@branding = night) {
-      background-color: rgba(0,0,0,0.1);
-    }
-  }
-
-  .message {
-    padding: @container-padding @container-padding*2;
-    color: fade(@text-color, 80%);
-    // background-color: rgba(0,0,0,0.03);
-  }
-
-  .actions {
-    padding: @container-padding;
-    .button, button {
-      margin-right: 8px;
-    }
-  }
-
-  & when (@branding = night) {
-    background-color: @alt-bg-color;
-  }
-}
 
 .actionbar.main > .logo {
   // width: 24px;

@@ -3,6 +3,7 @@ const Stage = require("@naikus/stage"),
     {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Touchable = require("@components/touchable"),
+    Overlay = require("@components/overlay"),
     {SpinButton, Form, Field, fieldRender, rb} = require("@components/form"),
     {ActionBar, Action, Spacer} = require("@components/actionbar");
 
@@ -39,6 +40,7 @@ Stage.defineView({
             return {
               valid: false,
               busy: false,
+              showOverlay: false,
               settings: {
                 fullName: settings.fullName,
                 city: settings.city || "Pune",
@@ -48,8 +50,15 @@ Stage.defineView({
               }
             };
           },
+          componentDidMount() {
+            const {options: {hasPreviousView}} = this.props, {settings} = this.state;
+            setTimeout(() => this.setState({showOverlay: !hasPreviousView && !settings.fullName}), 500);
+          },
+          closeOverlay() {
+            this.setState({showOverlay: false});
+          },
           render() {
-            const {settings: {fullName, city, address, agreeToTerms, age}, valid, busy} = this.state,
+            const {settings: {fullName, city, address, agreeToTerms, age}, valid, busy, showOverlay} = this.state,
                 back = previousView ? (<Action key="back" icon="icon-arrow-left" handler={goBack} />) : null;
             return (
               <Fragment>
@@ -117,6 +126,23 @@ Stage.defineView({
                     </SpinButton>
                   </div>
                 </div>
+                <Overlay visible={showOverlay} className="modal">
+                  <div className="title">
+                    Welcome to Stage
+                  </div>
+                  <div className="message">
+                    Please fill in the details (any dummy data) below to browse the entire app. This view
+                    acts the initial setup page for the app. This data is stored in localstorage and not
+                    sent to any server.
+                  </div>
+                  <div className="actions">
+                  <Touchable action="tap" onAction={this.closeOverlay}>
+                      <span className="button activable primary inline">
+                        Dismiss
+                      </span>
+                    </Touchable>
+                  </div>
+                </Overlay>
               </Fragment>
             );
           },
@@ -146,7 +172,7 @@ Stage.defineView({
               });
               storage.set("settings", settings);
               goBack();
-            }, 2000);
+            }, 1000);
           }
         }),
 
@@ -170,7 +196,8 @@ Stage.defineView({
       activate(viewOpts, done) {
         const {fromView, viewAction} = viewOpts;
         previousView = appContext.previousView();
-        renderContent(viewOpts, done);
+        const options = Object.assign({}, viewOpts, {hasPreviousView: !!previousView});
+        renderContent(options, done);
       },
       update(viewOpts) {
         renderContent(viewOpts, null, {});

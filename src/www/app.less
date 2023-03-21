@@ -95,7 +95,7 @@ body {
         padding: 32px;
         border-radius: 50%;
         background-color: rgba(0,0,0,0.04);
-        & when (@branding = night) {
+        & when (@dark-theme = "true") {
           background-color: rgba(0,0,0,0.3);
         }
       }
@@ -130,7 +130,7 @@ body {
   margin-bottom: @container-padding;
   border-radius: @base-border-radius;
   background: lighten(@bg-color, 5%);
-  & when (@branding = night) {
+  & when (@dark-theme = "true") {
     background: rgba(0,0,0,0.15);
   }
   .label {
@@ -320,7 +320,7 @@ body {
   border: 1px solid darken(@bg-color, 3%);
   box-shadow: 0 0 10px 2px rgba(0,0,0,0.02);
 
-  & when (@branding = night) {
+  & when (@dark-theme = "true") {
     border: none;
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.08);
   }

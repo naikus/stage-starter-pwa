@@ -59,7 +59,7 @@ Stage.defineView({
                     Exit application?
                   </div>
                   <div className="message">
-                      Note that exit only works on Cordova or Capacitor
+                      Note that exit only works in Cordova or Capacitor
                       based app.
                   </div>
                   <div className="actions">
