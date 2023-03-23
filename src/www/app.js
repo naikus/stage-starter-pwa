@@ -82,9 +82,6 @@ const {render, Fragment} = require("inferno"),
 
     StageComponent = createComponent({
       componentDidMount() {
-        document.addEventListener("deviceready", e => {
-          this.setupBackButton();
-        });
         this.setupStage();
       },
       render() {
@@ -107,6 +104,9 @@ const {render, Fragment} = require("inferno"),
       },
       getViewController(viewId) {
         return this.stageInstance.getViewController(viewId);
+      },
+      getCurrentView() {
+        return this.stageInstance.currentView();
       },
       setupStage() {
         const {viewport, props: {
@@ -136,21 +136,6 @@ const {render, Fragment} = require("inferno"),
         if(startView) {
           stageInstance.getViewContext().pushView(startView, {});
         }
-      },
-      setupBackButton() {
-        document.addEventListener("backbutton", e => {
-          const {stageInstance} = this,
-              controller = stageInstance.getViewController(stageInstance.currentView());
-          if(typeof controller.onBackButton === "function") {
-            controller.onBackButton();
-          }else {
-            try {
-              stageInstance.popView();
-            }catch(e) {
-              navigator.app.exitApp();
-            }
-          }
-        }, false);
       },
       registerListeners() {
         const {viewport, props: {
@@ -364,13 +349,31 @@ const {render, Fragment} = require("inferno"),
         });
 
         // Add other custom routes
+        /*
         this.router.addRoute({
           path: "/__drawer",
           handler: data => {
             window.alert(JSON.stringify(this.router.getCurrentRoute()));
           }
         });
+        */
         this.router.start();
+      },
+      setupBackButton() {
+        document.addEventListener("backbutton", e => {
+          const {stageComponent} = this,
+              controller = stageComponent.getViewController(stageComponent.getCurrentView());
+          if(typeof controller.onBackButton === "function") {
+            controller.onBackButton();
+          }else {
+            try {
+              // stageComponent.popView();
+              this.router.back();
+            }catch(e) {
+              navigator.app.exitApp();
+            }
+          }
+        }, false);
       },
 
       // Lifecycle methods
@@ -386,6 +389,10 @@ const {render, Fragment} = require("inferno"),
         };
       },
       componentDidMount() {
+        // For Cordova/Capacitor based apps on android, set up the back button handler
+        document.addEventListener("deviceready", e => {
+          this.setupBackButton();
+        });
         const {startRoute = "/settings"} = this.props;
         this.router.route(startRoute);
         /*
@@ -449,7 +456,7 @@ function initialize() {
   });
   const settings = Storage.get("settings"),
       browserRoute = window.location.hash.substring(1),
-      startRoute = settings ? browserRoute || "/" : "/settings";
+      startRoute = settings ? (browserRoute || "/") : "/settings";
 
   // set document title
   document.title = Config.appName;
