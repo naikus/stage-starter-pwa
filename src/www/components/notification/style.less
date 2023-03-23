@@ -6,16 +6,22 @@
     left: 5%;
     bottom: 16%;
     margin: 1% auto;
-    color: #fff;
     position: fixed;
     z-index: 110;
-    background-color: fade(@info-color, 80%);
+    // background-color: fade(@info-color, 80%);
+    background-color: lighten(@base-color, 5%);
     transform: translate3d(0, 50%, 0);
     opacity: 0;
     transition: transform 200ms ease, opacity 200ms ease;
-    // border: 1px solid rgba(255,255,255,0.07);
     border-radius: @base-border-radius;
-    // box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.03);
+    // border: 1px solid rgba(0,0,0,0.06);
+    /*
+    & when (@dark-theme = "true") {
+      
+    }
+    */
 
     > .icon, > .data {
       display: flex;
@@ -23,14 +29,17 @@
     }
 
     > .icon {
+      border-radius: @base-border-radius 0 0 @base-border-radius;
       font-size: 1.3rem;
-      padding: @base-unit + @base-unit;
-      background: rgba(0,0,0,0.1);
+      font-weight: bold;
+      padding: @container-padding;
+      // background: rgba(0,0,0,0.1);
+      color: #fff;
     }
 
     > .data {
       flex: 1;
-      padding: @base-padding;
+      padding: @container-padding;
     }
 
     &.show {
@@ -38,16 +47,16 @@
       opacity: 1;
     }
 
-    &.error {
+    &.error > .icon {
       background-color: @error-color;
     }
-    &.success {
+    &.success > .icon {
       background-color: @success-color;
     }
-    &.info {
+    &.info > .icon {
       background-color: @info-color;
     }
-    &.warn {
+    &.warn > .icon {
       background-color: @warn-color;
     }
   }
