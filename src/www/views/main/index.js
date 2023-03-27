@@ -54,7 +54,7 @@ Stage.defineView({
                       className="spin" 
                       src={`branding/${config.branding}/images/logo.svg`} />
                 </div>
-                <Overlay visible={confirmExit} className="modal exit">
+                <Overlay visible={confirmExit} className="modal bottom exit">
                   <div className="title">
                     Exit application?
                   </div>

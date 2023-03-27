@@ -200,7 +200,7 @@ const {render, Fragment} = require("inferno"),
       navItems: [
         {view: "/main", title: "Home", icon: "icon-home"},
         {view: "/settings", title: "Settings", icon: "icon-settings", transition: "lollipop"},
-        {view: "/about", title: "About", icon: "icon-help-circle", transition: "slide-up"}
+        {view: "/about", title: "About", icon: "icon-help-circle", transition: "pop-out"}
       ],
       contextFactory(stage, stageOpts) {
         const self = this;
