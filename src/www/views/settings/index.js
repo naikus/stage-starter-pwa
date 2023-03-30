@@ -126,7 +126,7 @@ Stage.defineView({
                     </SpinButton>
                   </div>
                 </div>
-                <Overlay visible={showOverlay} className="modal">
+                <Overlay visible={showOverlay} className="modal bottom">
                   <div className="title">
                     Welcome to Stage
                   </div>
