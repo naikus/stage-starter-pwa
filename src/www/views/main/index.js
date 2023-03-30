@@ -51,7 +51,8 @@ Stage.defineView({
                 </ActionBar>
                 <div className="main-logo anim">
                   <img width="200" height="200"
-                      className="spin" 
+                      className="spin"
+                      alt="Spinning Logo" 
                       src={`branding/${config.branding}/images/logo.svg`} />
                 </div>
                 <Overlay visible={confirmExit} className="modal bottom exit">

@@ -1,6 +1,6 @@
 
 const config = {
-  prefetchCacheName: "stage-starter-inferno-1.0.0-b2",
+  prefetchCacheName: "stage-starter-inferno-1.0.0-b3",
   prefetchUrls: [
     "/",
     "/index.html",
