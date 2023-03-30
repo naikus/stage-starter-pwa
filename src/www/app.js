@@ -9,7 +9,7 @@ const {render, Fragment} = require("inferno"),
     LoadingIndicator = require("@components/loading-indicator"),
 
     Config = require("@app/config"),
-    // Router = require("simple-router").default,
+    createRouter = require("@lib/router"),
     Storage = require("@services/storage"),
 
 
@@ -82,9 +82,6 @@ const {render, Fragment} = require("inferno"),
 
     StageComponent = createComponent({
       componentDidMount() {
-        document.addEventListener("deviceready", e => {
-          this.setupBackButton();
-        });
         this.setupStage();
       },
       render() {
@@ -108,6 +105,9 @@ const {render, Fragment} = require("inferno"),
       getViewController(viewId) {
         return this.stageInstance.getViewController(viewId);
       },
+      getCurrentView() {
+        return this.stageInstance.currentView();
+      },
       setupStage() {
         const {viewport, props: {
           startView, viewConfig,
@@ -126,28 +126,16 @@ const {render, Fragment} = require("inferno"),
         this.registerListeners();
 
         // Register all the routes
-        Object.keys(viewConfig).forEach(rPath => {
-          const {view, path: viewPath, config} = viewConfig[rPath];
-          Stage.view(view, viewPath, config);
+        viewConfig.forEach(vc => {
+          // console.log(vc);
+          if(!vc) {return;}
+          const {id, src, config} = vc;
+          Stage.view(id, src, config);
         });
+
         if(startView) {
           stageInstance.getViewContext().pushView(startView, {});
         }
-      },
-      setupBackButton() {
-        document.addEventListener("backbutton", e => {
-          const {stageInstance} = this,
-              controller = stageInstance.getViewController(stageInstance.currentView());
-          if(typeof controller.onBackButton === "function") {
-            controller.onBackButton();
-          }else {
-            try {
-              stageInstance.popView();
-            }catch(e) {
-              navigator.app.exitApp();
-            }
-          }
-        }, false);
       },
       registerListeners() {
         const {viewport, props: {
@@ -192,20 +180,35 @@ const {render, Fragment} = require("inferno"),
       }
     }),
 
+    BottomBar = createComponent({
+      render() {
+        const {visible = true, children} = this.props;
+        return (
+          <div className={"bottom-bar " + (visible ? "show" : "")}>
+            {children}
+          </div>
+        );
+      },
+      shouldComponentUpdate(nextProps) {
+        return nextProps.visible !== this.props.visible;
+      }
+    }),
+
     App = createComponent({
       displayName: "App",
       defaultTransition: "lollipop",
       navItems: [
-        {view: "main", title: "Home", icon: "icon-home"},
-        {view: "settings", title: "Settings", icon: "icon-settings", transition: "lollipop"},
-        {view: "about", title: "About", icon: "icon-help-circle", transition: "slide-up"}
+        {view: "/main", title: "Home", icon: "icon-home"},
+        {view: "/settings", title: "Settings", icon: "icon-settings", transition: "lollipop"},
+        {view: "/about", title: "About", icon: "icon-help-circle", transition: "pop-out"}
       ],
       contextFactory(stage, stageOpts) {
         const self = this;
         return {
+          router: self.router,
           // "Override" these functions if you'd like to do anything additional things
           // before pushing views. e.g. check user permissions
-          /*
+          // /*
           pushView(viewId, options) {
             // @todo Check if view is allowed for the current user
             // console.log("[App]: Pushing view", viewId, options);
@@ -215,7 +218,7 @@ const {render, Fragment} = require("inferno"),
             // @todo Check if view is allowed for the current user
             return stage.popView(options);
           },
-          */
+          // */
           setSidebarVisible(show) {
             self.setSidebarVisible(show);
           },
@@ -240,10 +243,11 @@ const {render, Fragment} = require("inferno"),
         if(showSidebar) {
           this.setSidebarVisible(false);
           setTimeout(_ => {
-            this.stageComponent.getViewContext().pushView(view, {transition});
+            // this.stageComponent.getViewContext().pushView(view, {transition});
+            this.router.route(view, {transition})
           }, 300);
         }else {
-          this.stageComponent.getViewContext().pushView(view, {transition});
+          this.router.route(view, {transition});
         }
       },
       renderSidebarItems() {
@@ -266,23 +270,22 @@ const {render, Fragment} = require("inferno"),
         this.setState({showSidebar: visible === false ? false : true});
       },
 
-      renderBottombar() {
-        const {fullscreen} = this.state;
+      renderBottombarItems() {
         return (
-          <div className={"bottom-bar " + (fullscreen ? "" : "show")}>
+          <Fragment>
             <Touchable action="tap" onAction={() => this.setSidebarVisible(true)}>
               <span className="item activable"><i className="icon icon-menu" /></span>
             </Touchable>
-            <Touchable action="tap" onAction={() => this.navigateTo("main")}>
+            <Touchable action="tap" onAction={() => this.navigateTo("/main")}>
               <span className="item activable"><i className="icon icon-users" /></span>
             </Touchable>
-            <Touchable action="tap" onAction={() => this.navigateTo("about")}>
+            <Touchable action="tap" onAction={() => this.navigateTo("/about")}>
               <span className="item activable"><i className="icon icon-heart" /></span>
             </Touchable>
-            <Touchable action="tap" onAction={() => this.navigateTo("settings")}>
+            <Touchable action="tap" onAction={() => this.navigateTo("/settings")}>
               <span className="item activable"><i className="icon icon-settings" /></span>
             </Touchable>
-          </div>
+          </Fragment>
         );
       },
 
@@ -301,7 +304,7 @@ const {render, Fragment} = require("inferno"),
         });
       },
       onBeforeViewTransitionOut(e) {
-        const {viewId} = e;
+        // const {viewId} = e;
       },
       onViewLoadStart(e) {
         this.setState({loading: true});
@@ -309,10 +312,75 @@ const {render, Fragment} = require("inferno"),
       onViewLoadEnd(e) {
         const {viewId, error} = e;
         this.setState({loading: false});
+        if(error) {
+          this.notifications.enqueue({
+            type: "error",
+            content: `Error loading veiew: ${viewId}`,
+            sticky: true
+          });
+        }
+      },
+      setupRouter() {
+        this.router = createRouter(Config.routes);
+        this.router.on("route", (event, data) => {
+          const {route, state, ...addnlData} = data, 
+            {view, action, params, handler} = route,
+            {stageComponent} = this,
+            viewContext = stageComponent.getViewContext(),
+            currentView = viewContext.currentView(),
+            viewOptions = Object.assign({}, state, {params: params});
+          // console.log(data);
+          if(view) {
+            if((currentView === view.id) || action !== "POP") {
+              stageComponent.getViewContext().pushView(view.id, viewOptions);
+            }else {
+              stageComponent.getViewContext().popView(viewOptions);  
+            }
+          }else if(typeof handler === "function") {
+            handler(data);
+          }
+        });
+        this.router.on("route-error", (event, error) => {
+          this.notifications.enqueue({
+            type: "error",
+            content: error.message,
+            sticky: true
+          });
+        });
+
+        // Add other custom routes
+        /*
+        this.router.addRoute({
+          path: "/__drawer",
+          handler: data => {
+            window.alert(JSON.stringify(this.router.getCurrentRoute()));
+          }
+        });
+        */
+        this.router.start();
+      },
+      setupBackButton() {
+        document.addEventListener("backbutton", e => {
+          const {stageComponent} = this,
+              controller = stageComponent.getViewController(stageComponent.getCurrentView());
+          if(typeof controller.onBackButton === "function") {
+            controller.onBackButton();
+          }else {
+            try {
+              // stageComponent.popView();
+              this.router.back();
+            }catch(e) {
+              navigator.app.exitApp();
+            }
+          }
+        }, false);
       },
 
       // Lifecycle methods
       getInitialState() {
+        this.viewConfig = Config.routes.map(route => route.view);
+        this.setupRouter();
+
         return {
           loading: false,
           showSidebar: false,
@@ -321,23 +389,42 @@ const {render, Fragment} = require("inferno"),
         };
       },
       componentDidMount() {
+        // For Cordova/Capacitor based apps on android, set up the back button handler
+        document.addEventListener("deviceready", e => {
+          this.setupBackButton();
+        });
+        const {startRoute = "/settings"} = this.props;
+        this.router.route(startRoute);
+        /*
+        let route = this.router.getBrowserRoute();
+        if(!route) {
+          route = this.router.options.defaultRoute;
+        }
+        this.router.route(route);
+        */
       },
       render() {
-        const {startView = "settings", transition={defaultTransition}} = this.props,
+        const {defaultTransition} = this,
+            {transition=defaultTransition} = this.props,
             {loading, showSidebar, viewId, showActionBar, fullscreen} = this.state;
         return (
           <Fragment>
             <StageComponent ref={comp => this.stageComponent = comp}
-              viewConfig={Config.views}
-              startView={startView}
+              viewConfig={this.viewConfig}
               transition={transition}
               contextFactory={this.contextFactory.bind(this)}
               onViewLoadStart={this.onViewLoadStart.bind(this)}
               onViewLoadEnd={this.onViewLoadEnd.bind(this)}
-              onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)} />
-            {/* onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} /> */}
+              onBeforeViewTransitionIn={this.onBeforeViewTransitionIn.bind(this)}
+              onBeforeViewTransitionOut={this.onBeforeViewTransitionOut.bind(this)} />
+
+            {/* This acts as a portal to view actions */}
             <div className={"actionbar-container " + (showActionBar ? (viewId + " show") : "")}></div>
-            {this.renderBottombar()}
+
+            <BottomBar visible={!fullscreen}>
+              {this.renderBottombarItems()}
+            </BottomBar>
+
             <Sidebar active={showSidebar} onEmptyAction={this.setSidebarVisible.bind(this, false)}>
               <div className="branding">
                 <img className="profile-image" src={'branding/default/images/logo.svg'} alt={"User"} />
@@ -348,7 +435,9 @@ const {render, Fragment} = require("inferno"),
                 {this.renderSidebarItems()}
               </ul>
             </Sidebar>
+
             <Notifications ref={comp => this.notifications = comp} />
+
             {loading ? <LoadingIndicator /> : null}
           </Fragment>
         );
@@ -366,7 +455,8 @@ function initialize() {
     activables.stop();
   });
   const settings = Storage.get("settings"),
-      startView = settings ? "main" : "settings";
+      browserRoute = window.location.hash.substring(1),
+      startRoute = settings ? (browserRoute || "/") : "/settings";
 
   // set document title
   document.title = Config.appName;
@@ -375,7 +465,7 @@ function initialize() {
   favElem && favElem.setAttribute("href", `branding/${Config.branding}/images/favicon.svg`);
 
   render(
-    <App startView={startView} transition="lollipop" />,
+    <App startRoute={startRoute} transition="lollipop" />,
     document.getElementById("shell")
   );
 }

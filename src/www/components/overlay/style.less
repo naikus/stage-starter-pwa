@@ -29,7 +29,7 @@
 
   > .overlay {
     min-height: 200px;
-    padding: @overlay-padding;
+    // padding: @overlay-padding;
     background-color: @overlay-bg-color;
     color: @text-color;
     // border: 1px solid rgba(0,0,0,0.04);
@@ -71,6 +71,50 @@
     }
   }
 }
+
+.overlay-container > .modal {
+  // width: 85%;
+  max-width: 300px;
+  // margin: 0;
+  // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  .title, .message, .actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .title {
+    padding: @container-padding;
+    font-weight: 500;
+    background-color: rgba(0,0,0,0.05);
+    & when (@dark-theme = "true") {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  .message {
+    padding: @container-padding @container-padding*2;
+    color: fade(@text-color, 80%);
+    // background-color: rgba(0,0,0,0.03);
+  }
+
+  .actions {
+    padding: @container-padding;
+    .button, button {
+      margin-right: 8px;
+    }
+  }
+
+  & when (@dark-theme = "true") {
+    background-color: @alt-bg-color;
+  }
+}
+
 
 @keyframes overlay_close {
   0% {

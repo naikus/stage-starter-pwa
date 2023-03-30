@@ -1,12 +1,14 @@
 
-  @tab-padding: @container-padding;
+  @tab-padding: @base-padding @container-padding;
+  @tabbar-bg-color: @bg-color;
+
   .tabs-nav {
     list-style-type: none;
     margin: 0;
-    padding: 0px 0px 0;
+    padding: 0px 0px;
     overflow: auto;
 
-    background-color: @bg-color;
+    background-color: @tabbar-bg-color;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
     > .tab-item {

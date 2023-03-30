@@ -1,5 +1,5 @@
 @error-color: #e46a68;
-@success-color: #93b450;
+@success-color: #a6bd7a;
 @warn-color: #d89a58;
 @info-color: #62b0dc;
 @invalid-color: #f38989;
@@ -33,14 +33,15 @@
 @button-text-color: @text-color;
 */
 // /*
-@brand-color: #3ebce6;
-@brand-color-alt: #8dc9d7;
+@dark-theme: "true";
+@brand-color: #21b9ff;
+@brand-color-alt: #9ed1e2;
 @base-color: #1e2635;
 @bg-color: #171d28;
 @alt-bg-color: #1e2839; // #314458; // #d4e3e0;
 @text-color: #ced3e7;
 @alt-text-color: @text-color;
-@selected-bg-color:  #4bc5e029;
+@selected-bg-color:  rgba(75, 197, 224, 0.161);
 @selected-bg-color-alt: @selected-bg-color;
 @selected-text-color: #fff;
 @active-bg-color: #2d364e;
@@ -50,7 +51,7 @@
 @primary-action-bg-color: @primary-color;
 @primary-action-text-color: @primary-text-color;
 @link-color: #5990f7;
-@toolbar-bg-color: lighten(@bg-color, 1%);
+@toolbar-bg-color: @bg-color; // lighten(@bg-color, 1%);
 @toolbar-text-color: @text-color;
 @input-bg-color: rgba(0, 0, 0, 0.13);
 @input-text-color: @text-color;
@@ -59,3 +60,45 @@
 @button-bg-color: lighten(@base-color, 4%);
 @button-text-color: @text-color;
 // */
+
+/*
+@dark-theme: "true";
+@brand-color: #e7c52c;
+@brand-color-alt: #c35885;
+@base-color: #171e27;
+// Background color for viewport views and other boxes
+@bg-color: #1d2630;
+// Background color for overlays, inlays etc.
+@alt-bg-color: rgb(37, 50, 66);
+// Text color to complement the background color
+@text-color: rgb(215, 225, 230);
+// Text color to complement alternate background color
+@alt-text-color: @text-color;
+// Default selected background color
+@selected-bg-color: fade(@brand-color, 35%);
+// @selected-bg-color: rgba(245, 117, 117, 0.911);
+@selected-bg-color-alt: darken(@selected-bg-color, 5%); // darken(#fc3b6b, 5%);
+// Default selected text color
+@selected-text-color: @text-color;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 3%); // lighten(#f34277, 10%);
+@active-text-color: lighten(@text-color, 10%);
+
+// @primary-action-bg-color: rgba(245, 117, 117, 0.911);
+@primary-action-bg-color: desaturate(@brand-color, 15%);
+@primary-action-text-color: #fff;
+
+@secondary-action-bg-color: lighten(@bg-color, 10%); // darken(#4cc3ff, 0%);
+@secondary-action-text-color: @text-color; // #fff;
+
+@toolbar-bg-color: @bg-color;
+@toolbar-text-color: @text-color;
+
+@link-color: lighten(#4590e4, 10%);
+@input-bg-color: rgba(24, 24, 24, 0.08);
+@input-text-color: @text-color;
+@input-hint-color: darken(@text-color, 10%);
+@input-label-color: @text-color;
+@button-bg-color: rgba(150, 150, 190, 0.3);
+@button-text-color: #fff;
+*/

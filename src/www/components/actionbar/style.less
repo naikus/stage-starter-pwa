@@ -1,5 +1,6 @@
 @actionbar-height: 56px;
 @actionbar-zindex: 110;
+@actionbar-transition-duration: 200ms;
 
 .stage-view {
   padding-top: @actionbar-height;
@@ -37,10 +38,10 @@
   -webkit-transition: background-color 200ms ease, -webkit-transform 200ms ease;
   transition: background-color 200ms ease, transform 200ms ease;
   */
-  -webkit-transition: -webkit-transform 200ms ease;
-  transition: transform 200ms ease;
-  -webkit-transform: translate3d(0, -@actionbar-height, 0);
-  transform: translate3d(0, -@actionbar-height, 0);
+  -webkit-transition: -webkit-transform @actionbar-transition-duration ease;
+  transition: transform @actionbar-transition-duration ease;
+  -webkit-transform: translate3d(0, -(@actionbar-height + 10), 0);
+  transform: translate3d(0, -(@actionbar-height + 10), 0);
   // opacity: 0; // for android 2.3
 
   &.show {

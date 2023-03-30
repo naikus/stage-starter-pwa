@@ -7,7 +7,7 @@ Stage.defineView({
   id: "about",
   template: `<div class="stage-view no-actionbar about"></div>`,
   factory(appContext, viewUi) {
-    const goBack = _ => appContext.popView(),
+    const goBack = _ => appContext.router.back(),
         config = appContext.getConfig(),
         Content = createComponent({
           render() {
