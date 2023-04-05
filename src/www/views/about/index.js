@@ -15,9 +15,9 @@ Stage.defineView({
             return (
               <div className="content text-center">
                 <img width="130" height="130"
-                    className="logo"
-                    alt="logo"
-                    src={`branding/${config.branding}/images/logo.svg`} />
+                  className="logo"
+                  alt="logo"
+                  src={`branding/${config.branding}/images/logo.svg`} />
                 <h3>
                   {appName} ({appVersion})
                 </h3>

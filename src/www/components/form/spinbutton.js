@@ -1,14 +1,14 @@
-const Inferno = require("inferno"), 
+const Inferno = require("inferno"),
     Touchable = require("@components/touchable"),
 
     SpinButton = props => {
       const {
-          onClick,
-          disabled,
-          icon = "icon-check",
-          busy,
-          className = ""
-        } = props, buttonClass = `spin-button ${className} ${busy ? " busy anim" : ""}`;
+            onClick,
+            disabled,
+            icon = "icon-check",
+            busy,
+            className = ""
+          } = props, buttonClass = `spin-button ${className} ${busy ? " busy anim" : ""}`;
 
       return (
         <Touchable action="tap" onAction={onClick}>

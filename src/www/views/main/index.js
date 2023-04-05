@@ -1,3 +1,4 @@
+/* global Image */
 const Stage = require("@naikus/stage"),
     {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
@@ -20,7 +21,7 @@ Stage.defineView({
 
         notificationTypes = ["info", "success", "error", "warn"],
         showNotification = e => {
-          const type = Math.floor(Math.random() * notificationTypes.length)
+          const type = Math.floor(Math.random() * notificationTypes.length);
           appContext.showNotification({
             type: notificationTypes[type],
             content: `This is a example of notification of type ${notificationTypes[type]}`,
@@ -38,11 +39,11 @@ Stage.defineView({
             return (
               <Fragment>
                 <ActionBar className="main">
-                  <img width="24" 
-                      height="24"
-                      className="logo"
-                      alt="logo"
-                      src={`branding/${config.branding}/images/logo.svg`} />
+                  <img width="24"
+                    height="24"
+                    className="logo"
+                    alt="logo"
+                    src={`branding/${config.branding}/images/logo.svg`} />
                   <Action key="dashboard" text="Dashboard" />
                   <Spacer />
                   <Action key="settings" icon="icon-settings" handler={showSettings} />
@@ -51,9 +52,9 @@ Stage.defineView({
                 </ActionBar>
                 <div className="main-logo anim">
                   <img width="200" height="200"
-                      className="spin"
-                      alt="Spinning Logo" 
-                      src={`branding/${config.branding}/images/logo.svg`} />
+                    className="spin"
+                    alt="Spinning Logo" 
+                    src={`branding/${config.branding}/images/logo.svg`} />
                 </div>
                 <Overlay visible={confirmExit} className="modal bottom exit">
                   <div className="title">
@@ -64,7 +65,7 @@ Stage.defineView({
                       based app.
                   </div>
                   <div className="actions">
-                  <Touchable action="tap" onAction={closeExitOverlay}>
+                    <Touchable action="tap" onAction={closeExitOverlay}>
                       <span className="button activable primary inline">
                         Dismiss
                       </span>

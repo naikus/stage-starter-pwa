@@ -1,5 +1,7 @@
 {
-  "extends": ["eslint:recommended", "google"],
+  "extends": [
+    "eslint:recommended"
+  ],
   "plugins": [
     "standard",
     "promise"
@@ -17,7 +19,7 @@
   },
 
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -59,12 +61,7 @@
       "let": "consecutive",
       "const": "consecutive"
     }],
-    "keyword-spacing": ["warn", {"overrides": {
-      "if": {"after": false},
-      "else": {"before": false},
-      "catch": {"before": false, "after": false},
-      "for": {"after": false}
-    }}],
+    
     "no-unused-vars": [1, {"args": "none"}],
     "no-trailing-spaces": 1,
     "new-cap": 1

@@ -1,8 +1,8 @@
-const {Fragment, createRef} = require("inferno"),
+const {createRef} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     {EventTypes, stopEvent, setup} = require("@lib/touch"),
 
-    FIRE_DELAY = 100,
+    FIRE_DELAY = 50,
     isDisabled = target => {
       const disabled = target.getAttribute("disabled");
       return disabled === "" || disabled === "true";

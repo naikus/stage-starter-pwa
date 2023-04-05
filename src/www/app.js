@@ -1,4 +1,4 @@
-/* global setTimeout, clearTimeout */
+/* global setTimeout, clearTimeout requestAnimationFrame */
 const {render, Fragment} = require("inferno"),
     {createClass: createComponent} = require("inferno-create-class"),
     Stage = require("@naikus/stage"),
@@ -128,7 +128,9 @@ const {render, Fragment} = require("inferno"),
         // Register all the routes
         viewConfig.forEach(vc => {
           // console.log(vc);
-          if(!vc) {return;}
+          if(!vc) {
+            return;
+          }
           const {id, src, config} = vc;
           Stage.view(id, src, config);
         });
@@ -324,11 +326,11 @@ const {render, Fragment} = require("inferno"),
         this.router = createRouter(Config.routes);
         this.router.on("route", (event, data) => {
           const {route, state, ...addnlData} = data, 
-            {view, action, params, handler} = route,
-            {stageComponent} = this,
-            viewContext = stageComponent.getViewContext(),
-            currentView = viewContext.currentView(),
-            viewOptions = Object.assign({}, state, {params: params});
+              {view, action, params, handler} = route,
+              {stageComponent} = this,
+              viewContext = stageComponent.getViewContext(),
+              currentView = viewContext.currentView(),
+              viewOptions = Object.assign({}, state, {params: params});
           // console.log(data);
           if(view) {
             if((currentView === view.id) || action !== "POP") {
@@ -470,6 +472,9 @@ function initialize() {
   );
 }
 
+/**
+ * Registers a service worker for PWA
+ */
 function registerServiceWorker() {
   if("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then(
@@ -477,7 +482,7 @@ function registerServiceWorker() {
         console.log("Service worker registered", registration);
       },
       error => {
-        console.error("Service worker registration failed",)
+        console.error("Service worker registration failed");
       }
     );
   }
