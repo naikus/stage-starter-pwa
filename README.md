@@ -1,4 +1,4 @@
-stage-inferno
+Stage.js PWA Starter App
 =====
 
 A starter progressive web app (PWA) mobile/web template that uses [stagejs](https://naikus.github.io/stage)
