@@ -102,10 +102,11 @@ const {Fragment, render} = require("inferno"),
       fieldTypes[type] = fieldImpl;
     },
 
-    defaultFieldRender = (field, fieldModel) => {
+    defaultFieldRender = (field, fieldModel, formContext) => {
       const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
           {valid = true, message, pristine = true, value=""} = fieldModel,
           messageContent = valid ? null : (<span className="v-msg hint">{message}</span>),
+          typeRenderer = fieldTypes[type] || fieldTypes.input,
           labelContent = !showLabel ? null : (
             <div className="label">
               <span className="title">{label}</span>
@@ -116,7 +117,7 @@ const {Fragment, render} = require("inferno"),
       return (
         <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
           {labelContent}
-          {field}
+          {typeRenderer.call(field, field.props, formContext)}
           {messageContent}
         </label>
       );
@@ -125,6 +126,7 @@ const {Fragment, render} = require("inferno"),
     Field = createComponent({
       displayName: "Field",
       propTypes: {
+        name: "string",
         type: "string",
         render: "func"
       },
@@ -150,7 +152,7 @@ const {Fragment, render} = require("inferno"),
         const formContext = this.getFormContext(),
             {props} = this,
             {value} = this.state,
-            {onInput, type} = props,
+            {onInput, type, name} = props,
             typeRenderer = fieldTypes[type] || fieldTypes.input;
 
         let newProps = props;
@@ -169,7 +171,12 @@ const {Fragment, render} = require("inferno"),
               onInput && onInput(e);
             }
           };
+
+          const render = formContext.getFieldRender(),
+              fm = formContext.getFieldModel(name);
+          return render(this, fm, formContext);
         }
+
         return typeRenderer.call(this, newProps, formContext);
       },
 
@@ -218,6 +225,13 @@ const {Fragment, render} = require("inferno"),
         delete this.fieldModels;
       },
       render() {
+        return (
+          <form onSubmit={this.handleSubmit} className={`form`}>
+            {this.props.children}
+          </form>
+        );
+      },
+      _render() {
         const {className = "", children, fieldRender = defaultFieldRender} = this.props,
             fieldMap = this.getFieldsMap(),
             fields = (isArray(children) ? children : [children]).map(child => {
@@ -233,6 +247,17 @@ const {Fragment, render} = require("inferno"),
           </form>
         );
       },
+      getFieldModel(name) {
+        let fm = {};
+        this.state.fields.some(f => {
+          if(f.name === name) {
+            fm = f;
+            return true;
+          }
+          return false;
+        });
+        return fm;
+      },
       getChildContext() {
         const {context} = this,
             formContext = {
@@ -245,11 +270,14 @@ const {Fragment, render} = require("inferno"),
                   this.addField(fieldModel);
                 },
                 getValidationInfo: name => {
-                  const fm = this.state.fields[name];
+                  const fm = this.getFieldModel(name);
                   if(fm) {
                     return {valid: fm.valid, message: fm.message};
                   }
                   return null;
+                },
+                getFieldModel: name => {
+                  return this.getFieldModel(name);
                 },
                 getData: _ => this.getData(),
                 getFieldRender: _ => this.props.fieldRender
@@ -279,6 +307,7 @@ const {Fragment, render} = require("inferno"),
         }, {});
       },
       validate(fields) {
+        if(!fields) return;
         let valid = true;
         fields.some(f => {
           const v = this.validateField(f);
@@ -346,7 +375,7 @@ const {Fragment, render} = require("inferno"),
         const {onChange} = this.props,
             {name, value} = fieldModel,
             {fields} = this.state,
-            {valid, message} = this.validateField(fieldModel, this.getFieldsMap()),
+            {valid, message} = this.validateField(fieldModel),
             newFields = fields.map(f => {
               if(f.name === name) {
                 return Object.assign({}, f, {
