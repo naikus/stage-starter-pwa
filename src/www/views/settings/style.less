@@ -1,14 +1,24 @@
 @media only screen and (min-width: 600px) {
-  /*
   .stage-view.settings {
     form {
       width: 70%;
       margin: 0 auto;
 
+      .section {
+        display: flex;
+      }
+
       .field-container {
-        background-color: transparent;
+        &.fullName, &.age {
+          flex: 1;
+        }
+        &.fullName {
+          margin-right: @base-unit;
+        }
+        &.age {
+          margin-left: @base-unit;
+        }
       }
     }
   }
-  */
 }
