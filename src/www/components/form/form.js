@@ -11,38 +11,6 @@ const {Fragment, render} = require("inferno"),
           <input type={props.type} {...props} />
         );
       },
-      /*
-      text(props, context) {
-        return (
-          <input type="text" {...props} />
-        );
-      },
-      password(props, context) {
-        return (
-          <input type="password" {...props} />
-        );
-      },
-      file(props, context) {
-        return (
-          <input type="file" {...props} />
-        );
-      },
-      range(props, context) {
-        return (
-          <input type="range" {...props} />
-        );
-      },
-      number(props, context) {
-        return (
-          <input type="number" {...props} />
-        );
-      },
-      date(props, context) {
-        return (
-          <input type="date" {...props} />
-        );
-      },
-      */
       checkbox(props, context) {
         const onInput = props.onInput,
             handler = e => {
@@ -53,10 +21,16 @@ const {Fragment, render} = require("inferno"),
                 }
               });
             },
-            events = isIos() ? {onChange: handler, onInput: null} : {onInput: handler};
+            events = isIos() ? {onChange: handler, onInput: null} : {onInput: handler},
+            newProps = {
+              ...props,
+              ...events,
+              // checked: props.value,
+              value: `${props.value}`
+            };
         return (
           <Fragment>
-            <input type="checkbox" {...props} checked={props.value === true} {...events} />
+            <input type="checkbox" {...newProps} />
             <div class="indicator"></div>
           </Fragment>
         );
@@ -67,10 +41,16 @@ const {Fragment, render} = require("inferno"),
                 value: e.target.checked
               }
             }),
-            events = isIos() ? {onClick: handler} : {onInput: handler};
+            events = isIos() ? {onClick: handler} : {onInput: handler},
+            newProps = {
+              ...props,
+              ...events,
+              checked: props.value,
+              value: `${props.value}`
+            };
         return (
           <Fragment>
-            <input type="radio" {...props} checked={props.value === true} {...events} />
+            <input type="radio" {...newProps} />
             <div class="indicator"></div>
           </Fragment>
         );
@@ -102,8 +82,8 @@ const {Fragment, render} = require("inferno"),
       fieldTypes[type] = fieldImpl;
     },
 
-    defaultFieldRender = (field, fieldModel) => {
-      const {showLabel = true, "data-hint": hint, type, name, label} = field.props,
+    defaultFieldRender = (fieldComp, fieldModel, fieldProps, formContext) => {
+      const {showLabel = true, hint, type, name, label, className} = fieldProps,
           {valid = true, message, pristine = true, value=""} = fieldModel,
           messageContent = valid ? null : (<span className="v-msg hint">{message}</span>),
           labelContent = !showLabel ? null : (
@@ -114,9 +94,9 @@ const {Fragment, render} = require("inferno"),
             </div>
           );
       return (
-        <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid}`}>
+        <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid} ${className}`}>
           {labelContent}
-          {field}
+          {fieldComp}
           {messageContent}
         </label>
       );
@@ -125,16 +105,18 @@ const {Fragment, render} = require("inferno"),
     Field = createComponent({
       displayName: "Field",
       propTypes: {
+        name: "string",
         type: "string",
         render: "func"
       },
       getInitialState() {
-        const {name, value, defaultValue, label} = this.props;
+        const {name, value, label, defaultValue, defaultChecked} = this.props;
         return {
           name,
-          value: value,
-          defaultValue,
           label,
+          value: value || defaultValue || defaultChecked,
+          defaultValue,
+          defaultChecked,
           pristine: true
         };
       },
@@ -150,14 +132,14 @@ const {Fragment, render} = require("inferno"),
         const formContext = this.getFormContext(),
             {props} = this,
             {value} = this.state,
-            {onInput, type} = props,
+            {onInput, type, name} = props,
             typeRenderer = fieldTypes[type] || fieldTypes.input;
 
         let newProps = props;
         if(formContext) {
           newProps = {
             ...props,
-            value,
+            // value,
             /*
             onChange: e => {
               this.handleChange(e);
@@ -169,7 +151,13 @@ const {Fragment, render} = require("inferno"),
               onInput && onInput(e);
             }
           };
+
+          const render = formContext.getFieldRender(),
+              fm = formContext.getFieldModel(name),
+              comp = typeRenderer.call(this, newProps, formContext);
+          return render(comp, fm, newProps, formContext);
         }
+
         return typeRenderer.call(this, newProps, formContext);
       },
 
@@ -208,7 +196,7 @@ const {Fragment, render} = require("inferno"),
         };
       },
       componentDidMount() {
-        const {mounted} = this.state, {onChange} = this.props;
+        const {onChange} = this.props;
         // console.debug("Form mounted", mounted, this.fieldModels);
         this.setState({
           fields: this.fieldModels || [],
@@ -218,20 +206,23 @@ const {Fragment, render} = require("inferno"),
         delete this.fieldModels;
       },
       render() {
-        const {className = "", children, fieldRender = defaultFieldRender} = this.props,
-            fieldMap = this.getFieldsMap(),
-            fields = (isArray(children) ? children : [children]).map(child => {
-              const {name, render = fieldRender} = child.props;
-              if(render) {
-                return render(child, fieldMap[name] || {}); // On first render fieldmodels can be null
-              }
-              return child;
-            });
+        const {className} = this.props;
         return (
           <form onSubmit={this.handleSubmit} className={`form ${className}`}>
-            {fields}
+            {this.props.children}
           </form>
         );
+      },
+      getFieldModel(name) {
+        let fm = {};
+        this.state.fields.some(f => {
+          if(f.name === name) {
+            fm = f;
+            return true;
+          }
+          return false;
+        });
+        return fm;
       },
       getChildContext() {
         const {context} = this,
@@ -244,12 +235,17 @@ const {Fragment, render} = require("inferno"),
                 addField: fieldModel => {
                   this.addField(fieldModel);
                 },
+                /*
                 getValidationInfo: name => {
-                  const fm = this.state.fields[name];
+                  const fm = this.getFieldModel(name);
                   if(fm) {
                     return {valid: fm.valid, message: fm.message};
                   }
                   return null;
+                },
+                */
+                getFieldModel: name => {
+                  return this.getFieldModel(name);
                 },
                 getData: _ => this.getData(),
                 getFieldRender: _ => this.props.fieldRender
@@ -279,6 +275,7 @@ const {Fragment, render} = require("inferno"),
         }, {});
       },
       validate(fields) {
+        if(!fields) return;
         let valid = true;
         fields.some(f => {
           const v = this.validateField(f);
@@ -328,7 +325,6 @@ const {Fragment, render} = require("inferno"),
         };
       },
       addField(fieldModel) {
-        // console.log(fieldModel);
         const {fields, mounted} = this.state;
         // This is because set state before the component is mounted does not work with inferno
         if(mounted) {
@@ -346,7 +342,7 @@ const {Fragment, render} = require("inferno"),
         const {onChange} = this.props,
             {name, value} = fieldModel,
             {fields} = this.state,
-            {valid, message} = this.validateField(fieldModel, this.getFieldsMap()),
+            {valid, message} = this.validateField(fieldModel),
             newFields = fields.map(f => {
               if(f.name === name) {
                 return Object.assign({}, f, {

@@ -73,17 +73,27 @@ Stage.defineView({
                   <Form rules={validationRules}
                     onChange={this.handleFormChange.bind(this)}
                     fieldRender={fieldRender}>
-                    <Field type="text"
-                      name="fullName"
-                      value={fullName}
-                      label="Full Name"
-                      data-hint="Your given name and last name" />
+                    <div className="section">
+                      <Field type="text"
+                        name="fullName"
+                        defaultValue={fullName}
+                        label="Full Name"
+                        hint="Your given name and last name" />
+
+                      <Field type="range" name="age"
+                        min={10}
+                        max={150}
+                        hint="Between 10 and 150"
+                        defaultValue={age}
+                        step={1}
+                        label="Your Age" />
+                    </div>
 
                     <Field type="select"
                       name="city"
-                      value={city}
+                      defaultValue={city}
                       label="City"
-                      data-hint="Choose a city">
+                      hint="Choose a city">
                       <option value="Banglore">Banglore</option>
                       <option value="Delhi">Delhi</option>
                       <option value="Mumbai">Mumbai</option>
@@ -91,31 +101,16 @@ Stage.defineView({
                     </Field>
 
                     <Field type="textarea" name="address"
-                      value={address}
+                      defaultValue={address}
                       label="Address"
-                      data-hint="Your street address" />
-
-                    <Field type="range" name="age"
-                      min={10}
-                      max={150}
-                      data-hint="Between 10 and 150"
-                      value={age}
-                      step={1}
-                      label="Your Age" />
+                      hint="Your street address" />
 
                     <Field name="agreeToTerms"
                       type="checkbox"
-                      value={agreeToTerms}
+                      className="activable"
+                      defaultChecked={agreeToTerms}
                       label="I agree to terms and conditions"
-                      data-hint="You must agree :D" />
-                    {/*
-                    <Field name="myRadio"
-                      type="radio"
-                      label="Option 1" />
-                    <Field name="myRadio"
-                      type="radio"
-                      label="Option 2" />
-                    */}
+                      hint="You must agree :D" />
                   </Form>
                   <div className="actions">
                     <SpinButton onClick={this.saveSettings.bind(this)}
