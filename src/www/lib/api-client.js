@@ -1,4 +1,4 @@
-/* global console, Promise fetch Request */
+/* global fetch, Request */
 /* jshint eqnull:true */
 
 // Install whatwg-fetch for polyfilling and then uncomment this
@@ -83,13 +83,21 @@ const ObjectToString = Object.prototype.toString,
      * @return {Array} The array representation of query parameters that can be then
      *                 joined by join("&")
      */
-    asQueryParameters = (objParams = {}) => {
+    toQueryParams = (objParams = {}) => {
       if(!objParams) {
         return "";
       }
       const collector = [];
       collectParams(null, objParams, collector);
       return collector.join("&");
+    },
+
+    callInterceptor = (interceptor, context) => {
+      const ret = interceptor(context);
+      if(ret && typeof ret.then === "function") {
+        return ret;
+      }
+      return Promise.resolve();
     },
 
 
@@ -119,39 +127,34 @@ const ObjectToString = Object.prototype.toString,
         }
         const request = new Request(url, options), context = {path, options, request, response: null};
 
-        let promise = Promise.resolve(context);
+        let promise = Promise.resolve();
         promise.catch(err => {
           console.log(err);
           throw err;
         });
-        this.interceptors.reduce((promise, interceptor) => {
+        promise = this.interceptors.reduce((promise, interceptor) => {
           // here interceptors can modify request headers, etc.
-          return promise.then(ctx => {
-            const ret = interceptor(ctx) || ctx;
-            return (typeof ret.then === "function") ? ret : Promise.resolve(ret);
-          });
+          return promise.then(callInterceptor.bind(null, interceptor, context));
         }, promise);
 
-        return promise.then(ctx => {
-          ctx = ctx || context;
+        return promise.then(() => {
+          // ctx = ctx || context;
           return fetch(request)
               .then(response => {
-                let resPromise = Promise.resolve(response);
+                context.response = response;
+                let resPromise = Promise.resolve();
                 resPromise.catch(err => {
                   console.log(err);
                   throw err;
                 });
-
                 // const context = {path, options, request, response: resPromise};
-                ctx.response = resPromise;
-                this.interceptors.forEach(interceptor => {
-                  const promise = interceptor(ctx);
-                  // console.log("Interceptor returned", promise);
-                  if(promise) {
-                    ctx.response = promise;
-                  }
+                resPromise = this.interceptors.reduce((promise, interceptor) => {
+                  return promise.then(callInterceptor.bind(null, interceptor, context));
+                }, resPromise);
+
+                return resPromise.then(() => {
+                  return context.response;
                 });
-                return ctx.response;
               });
         });
       },
@@ -206,32 +209,47 @@ const ObjectToString = Object.prototype.toString,
  * @return {ApiClient} and instance of ApiClient
  */
 const createApiClient = opts => {
-  return Object.create(ApiClientProto, {
-    options: {
-      value: Object.assign(
-        {
-          apiUrl: "",
-          redirect: "follow"
+      return Object.create(ApiClientProto, {
+        options: {
+          value: Object.assign(
+            {
+              apiUrl: "",
+              redirect: "follow"
+            },
+            {headers: {"Content-Type": "application/json"}},
+            opts
+          )
         },
-        {headers: {"Content-Type": "application/json"}},
-        opts
-      )
+        interceptors: {
+          value: []
+        }
+      });
     },
-    interceptors: {
-      value: []
-    }
-  });
-};
+    responseAsJson = async (response) => {
+      if(response.status >= 200 && response.status < 400) {
+        return response.json();
+      }else {
+        return new Promise((_, reject) => {
+          response.json().then(json => {
+            const err = new Error(json.message);
+            err.code = json.code || json.statusCode;
+            err.status = response.status;
+            reject(err);
+          }).catch(error => {
+            return response.text().then(text => {
+              const err = new Error(text);
+              error.code = response.code || response.statusCode;
+              error.status = response.status;
+              reject(err);
+            });
+          });
+        });
+      }
+    };
 
-module.exports = {
-  create: createApiClient,
-  asQueryParameters,
-  asJson(response) {
-    if(response.status >= 200 && response.status < 400) {
-      return response.json();
-    }else {
-      return Promise.reject(response);
-    }
-  }
-};
+export default createApiClient;
 
+export {
+  toQueryParams,
+  responseAsJson
+};

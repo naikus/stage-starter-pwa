@@ -37,7 +37,7 @@ const Inferno = require("inferno"),
         const {show} = this.state, 
             {message} = this.props,
             {type, content} = message,
-            icon = ICONS[type] || message.icon;
+            icon =  message.icon || ICONS[type];
         // console.log("notification", message);
         return (
           <Touchable onAction={this.dismiss.bind(this)}>
@@ -63,7 +63,7 @@ const Inferno = require("inferno"),
       getInitialState() {
         return {
           messages: this.props.messages || [],
-          current: {}        
+          current: {}
         };
       },
       enqueue(notification) {

@@ -9,7 +9,7 @@ const {render, Fragment} = require("inferno"),
     LoadingIndicator = require("@components/loading-indicator"),
 
     Config = require("@app/config"),
-    createRouter = require("@lib/router"),
+    createRouter = require("simple-router"),
     Storage = require("@services/storage"),
 
 
