@@ -325,8 +325,8 @@ const {render, Fragment} = require("inferno"),
       setupRouter() {
         this.router = createRouter(Config.routes);
         this.router.on("route", (event, data) => {
-          const {route, state, ...addnlData} = data, 
-              {view, action, params, handler} = route,
+          const {route} = data,
+              {view, state, action, params, handler} = route,
               {stageComponent} = this,
               viewContext = stageComponent.getViewContext(),
               currentView = viewContext.currentView(),

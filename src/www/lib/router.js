@@ -1,4 +1,4 @@
-/* global setTimeout console */
+/* global URL */
 const {pathToRegexp} = require("path-to-regexp"),
     isPromise = type => type && (typeof type.then) === "function",
     identity = arg => arg,
@@ -36,21 +36,27 @@ const {pathToRegexp} = require("path-to-regexp"),
       });
     },
 
-    createHistoryX = options => {
+    createHistory = options => {
       const noop = () => {};
       let linkClicked = null,
           listener = noop,
           // running = true,
-          stack = [];
+          stack = [],
+          ignoreHashChange = false;
 
       const hashListener = event => {
-            const hash = window.location.hash;
-            if(!hash) {
+            if(ignoreHashChange) {
+              console.debug("ignoring hash change", event);
+              ignoreHashChange = false;
+              return;
+            }
+            const hash = event ? new URL(event.newURL).hash : window.location.hash;
+            // Only handle hash changes that start with #/
+            if(!hash || hash.indexOf("#/") !== 0) {
               return;
             }
             const route = hash.substring(1);
             if(linkClicked) {
-              // console.log("Link was clicked", linkClicked);
               linkClicked = null;
               stack.push(hash);
               listener({route}, "PUSH");
@@ -93,10 +99,20 @@ const {pathToRegexp} = require("path-to-regexp"),
           const currentPath = window.location.hash.substring(1);
           linkClicked = "__PUSH";
           if(currentPath === path) {
-            hashListener({});
-          }else {
-            window.location.hash = path;
+            hashListener();
+            return;
           }
+          window.location.hash = path;
+        },
+        replace(path) {
+          linkClicked = "__REPLACE";
+          window.location.replace(`#${path}`);
+        },
+        /* Set the path without calling the hash listener */
+        set(path) {
+          // console.log("Setting path", path);
+          ignoreHashChange = true;
+          window.location.hash = path;
         },
         pop(toPath) {
           linkClicked = null;
@@ -143,6 +159,7 @@ const {pathToRegexp} = require("path-to-regexp"),
         if(matchedRoute) {
           return {
             ...matchedRoute,
+            runtimePath: path,
             params: params
           };
         }
@@ -150,15 +167,31 @@ const {pathToRegexp} = require("path-to-regexp"),
       },
       resolve(path, action, context = {}) {
         // console.log("Resolving ", path);
-        const routeInfo = this.match(path), origRoute = context.route || {};
+        const {current = {}} = this, routeInfo = this.match(path),
+            origRoute = context.route || {
+              path: current.path,
+              params: current.params,
+              runtimePath: current.runtimePath
+            };
+
+        // Check if we have a current route and it's same as the one we are trying to resolve
+        if(this.current) {
+          // console.log("Current route", this.current);
+          const {runtimePath} = this.current;
+          if(runtimePath === path) {
+            return Promise.resolve();
+          }
+        }
+
         if(routeInfo) {
           // console.log("Found routeInfo", path, routeInfo);
           const route = {
+                ...routeInfo,
                 action,
-                from: origRoute.from,
+                from: origRoute,
                 path: routeInfo.path,
-                params: routeInfo.params,
-                ...routeInfo
+                runtimePath: routeInfo.runtimePath,
+                params: routeInfo.params
               },
               ctx = {
                 ...context,
@@ -176,16 +209,23 @@ const {pathToRegexp} = require("path-to-regexp"),
               console.debug(`Forwarding from ${routeInfo.path} to ${retVal.forward}`);
               return this.resolve(retVal.forward, action, {
                 route: {
-                  // forward: true,
-                  from: routeInfo.path
+                  forwarded: true,
+                  path: routeInfo.path,
+                  params: routeInfo.params
                 }
+              }).then(fRoute => {
+                // set the browser hash to correct value for forwarded route
+                // without invoking the hashchange listener
+                this.history.set(retVal.forward);
+                return fRoute;
               });
             }else {
-              this.current = routeInfo;
+              route.state = this.state;
+              this.current = route;
               // console.log("Returning", retVal);
               this.emitter.emit("route", {
                 route,
-                state: this.state,
+                // state: this.state,
                 ...retVal
               });
               this.clearState();
@@ -217,14 +257,24 @@ const {pathToRegexp} = require("path-to-regexp"),
       clearState() {
         this.state = {};
       },
-      route(path, state = {}) {
+      route(path, state = {}, replace = false) {
         // console.log(this.history.getSize());
         this.setState(state);
-        this.history.push(path, state);
+        if(replace) {
+          this.history.replace(path);
+        }else {
+          this.history.push(path, state);
+        }
       },
       back(toRoute, state = {}) {
         this.setState(state);
         this.history.pop(toRoute);
+      },
+      set(path, state) {
+        if(state) {
+          this.setState(state);
+        }
+        this.history.set(path);
       },
       getBrowserRoute() {
         const hash = window.location.hash;
@@ -238,7 +288,7 @@ const {pathToRegexp} = require("path-to-regexp"),
       },
       start() {
         if(!this.history) {
-          const {options} = this, history = this.history = createHistoryX(options.history),
+          const {options} = this, history = this.history = createHistory(options.history),
               {defaultRoute = "/", errorRoute = "/~error"} = options;
 
           // history.block(options.block);
@@ -282,8 +332,19 @@ const {pathToRegexp} = require("path-to-regexp"),
       };
     };
 
+/**
+ * @typedef {Object} Route
+ * @property {string} path
+ * @property {function} controller
+ */
 
-module.exports = (routes = [], options = {}) => {
+/**
+ * Create a new Router instance
+ * @param {Array<Route>} routes An array of routes
+ * @param {Object} options Router options
+ * @return {Router} A newly created Router instance
+ */
+function createRouter(routes = [], options = {}) {
   return Object.create(RouterProto, {
     state: {
       value: {},
@@ -300,4 +361,6 @@ module.exports = (routes = [], options = {}) => {
       value: createEventEmitter()
     }
   });
-};
+}
+
+module.exports = createRouter;
